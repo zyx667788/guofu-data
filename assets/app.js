@@ -5,7 +5,7 @@ const NAV=[
  {href:'contractors.html',label:'承包商',key:'contractors'},
  {href:'countries.html',label:'国别',key:'countries'},
  {href:'reports.html',label:'出海必备报告',key:'library',hot:true},
- {href:'news.html',label:'News',key:'news'}
+ {href:'news.html',label:'资讯',key:'news'}
 ];
 function renderHeader(active){
   const el=document.getElementById('topnav');
@@ -73,8 +73,17 @@ function infoIcon(dim,explainMap){
   return `<i class="info-i" onclick="event.stopPropagation();showModal('${dim} · 指标解释','${explainMap[dim]}')">i</i>`;
 }
 
+/* ---------- 智库评分格式化（热力胶囊） ---------- */
+function formatScore(s){
+  const num=Number(s);
+  let cls='sp-mid';
+  if(num>=8.5) cls='sp-hi';
+  else if(num<7.0) cls='sp-low';
+  return `<span class="score-pill ${cls}">${s}</span>`;
+}
+
 /* ---------- SVG 雷达图（支持多主体对比） ---------- */
-const RADAR_COLORS=['#16324F','#A8894F','#3C6E5B','#6C8399'];
+const RADAR_COLORS=['#16324F','#A8894F','#3C6E5B','#8A939E'];
 function radarSVG(container,labels,series){ // series:[{name,values}]
   const size=340,cx=size/2,cy=size/2,R=size/2-56,n=labels.length;
   const pt=(i,v)=>{const ang=-Math.PI/2+i*2*Math.PI/n;const r=R*v/10;return[cx+r*Math.cos(ang),cy+r*Math.sin(ang)]};
@@ -352,3 +361,33 @@ document.addEventListener('click',function(e){
   e.preventDefault();
   window.open(a.href,'_blank');
 },true);
+
+/* ---------- 视觉增强：导航滚动态 / 回到顶部 / 入场动效 ---------- */
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function initNav(){
+    var nav=document.querySelector('.topnav'); if(!nav) return;
+    var onScroll=function(){ nav.classList.toggle('scrolled', window.scrollY>8); };
+    onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+  }
+  function initTop(){
+    if(document.getElementById('toTop')) return;
+    var b=document.createElement('button');
+    b.id='toTop'; b.className='to-top'; b.setAttribute('aria-label','回到顶部');
+    b.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+    b.onclick=function(){ window.scrollTo({top:0,behavior:reduce?'auto':'smooth'}); };
+    document.body.appendChild(b);
+    var onScroll=function(){ b.classList.toggle('show', window.scrollY>640); };
+    window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  }
+  function initReveal(){
+    if(reduce || !('IntersectionObserver' in window)) return;
+    var els=document.querySelectorAll('.sec,.today-grid,.hotsec,.dbox,.tool-strip,.bookfeed,.rep-ad,.rank-banner,.tcards,.tcard-grid,.rep-grid,.lib-grid');
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{rootMargin:'0px 0px -6% 0px',threshold:0.05});
+    els.forEach(function(el){ el.classList.add('reveal'); io.observe(el); });
+  }
+  function run(){ initNav(); initTop(); initReveal(); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+})();

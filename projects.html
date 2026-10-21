@@ -163,7 +163,7 @@ document.querySelectorAll('#hotWords a').forEach(a=>a.onclick=()=>{const q=docum
 })();
 
 /* ---- 完整榜单 ---- */
-const ST_C={在建:['#e8f7ee','#3C6E5B'],已签约:['#e8f0fe','#16324F'],已完工:['#eef1f5','#5a7184'],规划中:['#faf3e0','#A8894F']};
+const ST_C={在建:['#EDF3EF','#3C6E5B'],已签约:['#EDF1F5','#16324F'],已完工:['#F6F5F2','#46505C'],规划中:['#F7F2E8','#A8894F']};
 const HEADS=[['rank','序号'],['name','项目名称'],['czh','国别'],['industry','行业'],['sub','二级行业'],['mode','模式'],['status','状态']];
 document.getElementById('theadRow').innerHTML=HEADS.map(h=>`<th data-k="${h[0]}">${h[1]}<span class="sort-mk">⇅</span></th>`).join('');
 document.querySelectorAll('#theadRow th').forEach(th=>th.onclick=()=>{

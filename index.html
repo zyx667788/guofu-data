@@ -14,10 +14,19 @@
     <div class="hero-eyebrow">Global Engineering Intelligence</div>
     <h1>洞察全球市场<br>连接出海机遇</h1>
     <p class="hero-sub">国别 · 业主 · 承包商 · 项目 · 报告，一站式发现海外工程与投资机会</p>
+    <div class="hero-cat-tabs" id="heroCatTabs">
+      <button class="hcat-btn on" data-type="" data-ph="搜索国别 / 业主 / 承包商 / 项目 / 报告，如：沙特 NEOM 光伏">全部情报</button>
+      <button class="hcat-btn" data-type="country" data-ph="输入国别名称或区域，如：沙特阿拉伯、印度尼西亚、阿联酋">查国别市场</button>
+      <button class="hcat-btn" data-type="owner" data-ph="输入海外业主名称，如：NEOM、沙特电力SEC、ACWA Power">查海外业主</button>
+      <button class="hcat-btn" data-type="contractor" data-ph="输入承包商名称，如：中国中铁、中国交建、Arab Contractors">查国际承包商</button>
+      <button class="hcat-btn" data-type="project" data-ph="输入项目名称或行业领域，如：沙特光伏、铁路工程、海水淡化">查海外项目</button>
+      <button class="hcat-btn" data-type="report" data-ph="输入研报关键词或国别，如：金皮书、白皮书、风险防控">搜彩虹研报</button>
+    </div>
     <div class="hero-search">
-      <span class="hs-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5 21 21"></path></svg></span>
-      <input id="heroSearch" type="text" placeholder="搜索国别 / 业主 / 承包商 / 项目 / 报告，如：沙特 NEOM 光伏" onkeydown="if(event.key===&#39;Enter&#39;)location.href=&#39;search.html?q=&#39;+encodeURIComponent(this.value)"/>
-      <button class="hero-btn" onclick="location.href=&#39;search.html?q=&#39;+encodeURIComponent(document.getElementById(&#39;heroSearch&#39;).value)">全站搜索</button>
+      <span class="hs-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5 21 21"></path></svg></span>
+      <input id="heroSearch" type="text" placeholder="搜索国别 / 业主 / 承包商 / 项目 / 报告，如：沙特 NEOM 光伏" onkeydown="if(event.key===&#39;Enter&#39;)doHeroSearch()"/>
+      <span class="hs-k">↵ Enter</span>
+      <button class="hero-btn" onclick="doHeroSearch()">检索情报</button>
     </div>
     <div class="hero-hot">热门搜索：<a href="search.html?q=沙特">沙特</a><a href="search.html?q=ACWA Power">ACWA Power</a><a href="search.html?q=光伏">光伏</a><a href="search.html?q=沙特业主画像">沙特业主画像</a><a href="search.html?q=东南亚高铁">东南亚高铁</a></div>
     <div class="hero-rail">
@@ -124,7 +133,7 @@
 <!-- 国别新闻滚动条（只显示国别类新闻） -->
 <div class="wrap">
   <div class="ticker">
-    <span class="t-label" style="background:#4A5A6E">国别动态</span>
+    <span class="t-label">国别动态</span>
     <div class="t-track"><div class="t-inner" id="tickerCountry"></div></div>
   </div>
 </div>
@@ -158,21 +167,32 @@
 <!-- 承包商新闻滚动条（只显示承包商类新闻） -->
 <div class="wrap">
   <div class="ticker">
-    <span class="t-label" style="background:#3C6E5B">承包商动态</span>
+    <span class="t-label">承包商动态</span>
     <div class="t-track"><div class="t-inner" id="tickerContractor"></div></div>
   </div>
 </div>
 
-<!-- 底部Banner（与顶部相同，无搜索栏） -->
+<!-- 底部智库定制咨询与出海赋能 CTA -->
 <div class="wrap">
-  <div class="hero-band">
-    <div class="hb-hot">热门搜索：<a href="search.html?q=沙特">沙特</a><a href="search.html?q=ACWA Power">ACWA Power</a><a href="search.html?q=光伏">光伏</a><a href="search.html?q=沙特业主画像">沙特业主画像</a><a href="search.html?q=东南亚高铁">东南亚高铁</a></div>
-    <div class="hb-stats">
-      <a class="hbs" href="contractors.html"><div class="hbs-top"><div class="zi" style="background:#3C6E5B">承</div><b>查承包商</b></div><div class="hbs-stat"><b>200+</b> 国际承包商</div></a>
-      <a class="hbs" href="countries.html"><div class="hbs-top"><div class="zi" style="background:#4A5A6E">国</div><b>查国别</b></div><div class="hbs-stat"><b>188+</b> 国别市场</div></a>
-      <a class="hbs" href="owners.html"><div class="hbs-top"><div class="zi" style="background:#16324F">业</div><b>查业主</b></div><div class="hbs-stat"><b>400+</b> 海外业主</div></a>
-      <a class="hbs" href="projects.html"><div class="hbs-top"><div class="zi" style="background:#8C6F3C">项</div><b>查项目</b></div><div class="hbs-stat"><b>2000+</b> 海外项目</div></a>
-      <a class="hbs" href="reports.html"><div class="hbs-top"><div class="zi" style="background:#A8894F">报</div><b>查报告</b></div><div class="hbs-stat"><b>5000+</b> 境外开发履约经营报告</div></a>
+  <div class="advisory-cta">
+    <div class="advisory-cta-in">
+      <div class="advisory-info">
+        <span class="advisory-tag">GUOFU CONSULTING · 战略智库赋能</span>
+        <h3>定制化海外工程智库洞察与标前投决辅导</h3>
+        <p>国复咨询依托覆盖全球 188 国别与 400+ 核心业主的独家数据库，为央国企及出海联合体提供全生命周期市场准入评估、外方业主资信尽调、商务合规及标前风险规避辅导。</p>
+        <div class="advisory-pills">
+          <span>✓ 180+ 权威国别全景白皮书</span>
+          <span>✓ 400+ 核心海外业主资信画像</span>
+          <span>✓ 跨国联营体与标前履约风控</span>
+        </div>
+      </div>
+      <div class="advisory-action">
+        <div class="advisory-contact">
+          <div class="ac-item"><span>智库咨询热线</span><b>+86 10-84351696</b></div>
+          <div class="ac-item"><span>企业专席客服</span><span class="ac-wechat">微信扫码即时咨询 →</span></div>
+        </div>
+        <a class="btn-advisory" href="about.html">查看会员权益与智库服务清单</a>
+      </div>
     </div>
   </div>
 </div>
@@ -183,6 +203,23 @@
 <script src="assets/app.js"></script>
 <script>
 renderHeader('home');renderFooter();
+
+/* 复合搜索舱：分类切换与检索 */
+let currentHeroType='';
+function setHeroCat(btn){
+  document.querySelectorAll('.hcat-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  currentHeroType=btn.dataset.type;
+  document.getElementById('heroSearch').placeholder=btn.dataset.ph;
+  document.getElementById('heroSearch').focus();
+}
+function doHeroSearch(){
+  const q=document.getElementById('heroSearch').value.trim();
+  if(!q){location.href='search.html';return}
+  const typeParam=currentHeroType?`&type=${encodeURIComponent(currentHeroType)}`:'';
+  location.href=`search.html?q=${encodeURIComponent(q)}${typeParam}`;
+}
+document.querySelectorAll('.hcat-btn').forEach(b=>b.onclick=()=>setHeroCat(b));
 
 /* 滚动新闻：业主栏只显示业主相关新闻 */
 const ownerFlash=FLASH.filter(f=>{const n=newsById(f.news);return n&&n.owner}).slice(0,10);

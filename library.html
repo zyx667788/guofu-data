@@ -51,14 +51,14 @@ document.getElementById('libGrid').innerHTML=LIB_COLS.map(col=>{
     <div class="lib-links">${rest.map(a=>`<a href="article.html?i=${a.idx}">${a.title}</a>`).join('')}</div>
   </section>`;
 }).join('');
-if(q){const t=document.getElementById('col-'+q);if(t){t.scrollIntoView({behavior:'smooth'});t.style.background='#fdf8e3';setTimeout(()=>t.style.background='',1800)}}
+if(q){const t=document.getElementById('col-'+q);if(t){t.scrollIntoView({behavior:'smooth'});t.style.background='#F7F2E8';setTimeout(()=>t.style.background='',1800)}}
 
 /* ---- 今日阅读榜单：按日期随机抽取 10 篇，每日更新 ---- */
 (function(){
   const seed=new Date().toISOString().slice(0,10);
   const top10=ARTICLES.map(a=>[gfH(seed+a.title),a]).sort((x,y)=>x[0]-y[0]).slice(0,10).map(x=>x[1]);
   document.getElementById('readRank').innerHTML=top10.map((a,i)=>`
-    <div class="learn-item"><span class="no" style="color:${i<3?'#d93025':'#8A939E'};font-weight:800">${String(i+1).padStart(2,'0')}</span><div class="li-txt"><a href="article.html?i=${a.idx}">${a.title}</a><span>${a.colName} · 出海知识库</span></div></div>`).join('');
+    <div class="learn-item"><span class="no" style="color:${i<3?'#8C4A42':'#8A939E'};font-weight:800">${String(i+1).padStart(2,'0')}</span><div class="li-txt"><a href="article.html?i=${a.idx}">${a.title}</a><span>${a.colName} · 出海知识库</span></div></div>`).join('');
 })();
 </script>
 

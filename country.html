@@ -31,9 +31,9 @@
       <!-- 国别画像（六维评分 / 对比评价 / 可视化 / 基本信息） -->
       <div class="card" style="padding:20px 24px;margin-bottom:18px">
         <!-- 国别六维评分（细分维度点击展开按钮才显示） -->
-        <div style="margin-bottom:16px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#f8fbff">
+        <div style="margin-bottom:16px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#FFFFFF">
           <div style="display:flex;align-items:center;margin-bottom:10px">
-            <span style="font-size:13.5px;font-weight:700;color:#123f86">国别六维评分</span>
+            <span style="font-size:13.5px;font-weight:700;color:#16324F">国别六维评分</span>
             <span style="font-size:12.5px;color:#46505C;margin-left:10px">综合评分：<b id="dimTotal" style="color:#A8894F;font-size:16px"></b></span>
             <span style="font-size:11px;color:#8A939E;margin-left:8px">点击维度查看说明</span>
             <span style="background:var(--yellow);color:#4a3800;font-size:10px;font-weight:700;border-radius:8px;padding:0 6px;margin-left:6px">VIP</span>
@@ -45,7 +45,7 @@
         <!-- 国别对比评价（属于国别评价板块：左 同区域 / 右 同类型） -->
         <div style="margin-bottom:16px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff">
           <div style="display:flex;align-items:center;margin-bottom:10px">
-            <span style="font-size:13.5px;font-weight:700;color:#123f86">国别对比评价</span>
+            <span style="font-size:13.5px;font-weight:700;color:#16324F">国别对比评价</span>
             <span style="font-size:11px;color:#8A939E;margin-left:8px">左侧对比同区域国别 · 右侧对比同类型国别</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
@@ -62,7 +62,7 @@
         <!-- 国别可视化分析：8 组图表，每行 2 个，初始展示 2 行 -->
         <div style="margin-bottom:16px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff">
           <div style="display:flex;align-items:center;margin-bottom:10px">
-            <span style="font-size:13.5px;font-weight:700;color:#123f86">国别可视化分析</span>
+            <span style="font-size:13.5px;font-weight:700;color:#16324F">国别可视化分析</span>
             <span style="font-size:11px;color:#8A939E;margin-left:8px">8 组图表 · 默认显示 4 组 · 点击下方「展开全部图表」查看全部</span>
           </div>
           <div id="vizGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px"></div>
@@ -70,7 +70,7 @@
         </div>
         <!-- 国别基本信息 -->
         <div style="display:flex;align-items:center;margin:18px 0 10px">
-          <span style="font-size:13.5px;font-weight:700;color:#123f86">国别基本信息</span>
+          <span style="font-size:13.5px;font-weight:700;color:#16324F">国别基本信息</span>
           <span style="font-size:11px;color:#8A939E;margin-left:8px">宏观 · 财政 · 汇率 · 人口</span>
         </div>
         <div class="macro-grid" id="macroGrid"></div>
@@ -124,7 +124,7 @@
         <div class="pt-block pt-orange"><div class="pt-sub">施工总包</div><div class="chip-wrap" id="keySubs"></div></div>
       </div></div>
       <div class="side-card"><div class="pad">
-        <div class="sc-t">国别风险 <span style="font-size:10px;color:#b0bccb">分值越高风险越大</span></div>
+        <div class="sc-t">国别风险 <span style="font-size:10px;color:#CFCBC2">分值越高风险越大</span></div>
         <div id="riskList"></div>
         <div style="font-size:11px;color:#8A939E;margin-top:10px">深绿→深红：由稳定到高风险 · 详见《风控红皮书》</div>
       </div></div>
@@ -209,7 +209,7 @@ function renderProj(){
   document.getElementById('projBody').innerHTML=list.length?list.map(p=>`
   <tr onclick="location.href='project.html?id=${p.id}'">
     <td class="name">${p.name}</td><td>${p.industry}</td><td>${subInd(p)}</td><td>${updTime(p)}</td>
-    <td><span class="tpill" style="color:${p.status==='在建'?'#3C6E5B':p.status==='已签约'?'#16324F':p.status==='已完工'?'#5a7184':'#A8894F'};border-color:currentColor">${p.status}</span></td>
+    <td><span class="tpill" style="color:${p.status==='在建'?'#3C6E5B':p.status==='已签约'?'#16324F':p.status==='已完工'?'#46505C':'#A8894F'};border-color:currentColor">${p.status}</span></td>
   </tr>`).join(''):`<tr><td colspan="5" style="text-align:center;color:#8A939E;padding:20px">${projTab==='bid'?'该国别暂无中标签约项目收录':'该国别暂无机会项目收录'}</td></tr>`;
 }
 renderProj();
@@ -237,11 +237,11 @@ renderProj();
     {t:'人口十年走势（万人）',h:areaChartSVG(YEARS.map(String),popA,'#3C6E5B')},
     {t:'通胀十年走势（%）',h:lineChartSVG(YEARS.map(String),gr2.b,'#8C6F3C','%')},
     {t:'政府负债率十年走势（%）',h:hBarChartSVG(YEARS.map(String),debtA,'#A8894F','%')},
-    {t:'清廉指数十年走势',h:lineChartSVG(YEARS.map(String),trA,'#6b3fa0')},
+    {t:'清廉指数十年走势',h:lineChartSVG(YEARS.map(String),trA,'#2F5876')},
     {t:'国别风险评分（六类）',h:'<div id="riskRadar"></div>',ex:1},
     {t:'重点业主所有制分布',h:oshipSet.length?pieChartHTML(oshipSet,oshipVals,['#1E3E5C','#3C6E5B','#8C6F3C','#8A939E']):'<div style="font-size:12px;color:#8A939E;padding:20px 0;text-align:center">暂无收录业主</div>',ex:1},
     {t:'项目行业分布（占比）',h:pieChartHTML(IND4,iv2,['#1E3E5C','#3C6E5B','#8C6F3C','#8A939E']),ex:1},
-    {t:'项目年份分布（个）',h:barChartSVG(yearSet.map(String),yearVals,'#6b3fa0'),ex:1}
+    {t:'项目年份分布（个）',h:barChartSVG(yearSet.map(String),yearVals,'#2F5876'),ex:1}
   ];
   document.getElementById('vizGrid').innerHTML=vps.map(v=>`
     <div class="${v.ex?'viz-ex':''}" style="${v.ex?'display:none;':''}border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff">
@@ -281,7 +281,7 @@ function bookRow(name,key){
 }
 function bookSec(title,en,inner){
   return `<div style="margin-bottom:20px">
-    <div style="display:flex;align-items:baseline;gap:8px;margin:4px 0 10px"><b style="font-size:14.5px;color:#123f86">${title}</b><span style="font-size:10.5px;color:#8A939E;letter-spacing:1px">${en}</span></div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin:4px 0 10px"><b style="font-size:14.5px;color:#16324F">${title}</b><span style="font-size:10.5px;color:#8A939E;letter-spacing:1px">${en}</span></div>
     ${inner}
   </div>`;
 }
@@ -290,7 +290,7 @@ function blueCard(ind){
   const outline=BOOK_OUTLINE.blue;
   const pages=100+gfH(nm)%80;
   return `<div style="border:1px solid var(--line);border-left:3px solid #2F5876;border-radius:8px;padding:10px 12px;background:#fff;display:flex;flex-direction:column;gap:5px">
-    <b style="font-size:12.5px;color:#123f86;line-height:1.5">${nm}</b>
+    <b style="font-size:12.5px;color:#16324F;line-height:1.5">${nm}</b>
     <span style="font-size:11px;color:#8A939E">2025版 · ${pages}页</span>
     <div style="display:flex;gap:12px;font-size:12px;margin-top:auto;align-items:center">
       <a href="javascript:showListModal('${nm} · 大纲',['${outline.join("','")}'])" style="color:#16324F">大纲预览</a>
@@ -336,8 +336,8 @@ document.getElementById('dimBtns').innerHTML=C_DIMS.map((d,i)=>{
     <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="showModal('${d} · 指标解释','${C_EXPLAIN[d]}')">
       <span style="font-size:13px;font-weight:600">${d}</span><b style="color:var(--blue);font-size:15px">${c.scores[i]}</b>
     </div>
-    <div class="dim-sub" style="display:none;margin-top:8px;border-top:1px dashed #e5ecf5;padding-top:8px">
-      ${C_SUBS[d].map((t,j)=>`<div style="display:flex;justify-content:space-between;font-size:12px;color:#46505C;padding:2px 0"><span>${t}</span><b style="color:#5a7184">${ss[j]}</b></div>`).join('')}
+    <div class="dim-sub" style="display:none;margin-top:8px;border-top:1px dashed #EDF1F5;padding-top:8px">
+      ${C_SUBS[d].map((t,j)=>`<div style="display:flex;justify-content:space-between;font-size:12px;color:#46505C;padding:2px 0"><span>${t}</span><b style="color:#46505C">${ss[j]}</b></div>`).join('')}
     </div>
   </div>`;
 }).join('');

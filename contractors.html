@@ -235,7 +235,7 @@ function renderTable(){
       <td class="name"><a href="contractor.html?id=${c.id}" style="color:var(--blue)">${c.name}</a></td>
       <td>${tpill(c.type)}</td>
       <td>${c.group}</td>
-      ${c.scores.map(s=>`<td>${s}</td>`).join('')}
+      ${c.scores.map(s=>`<td>${formatScore(s)}</td>`).join('')}
       <td class="score-total" style="color:${K_TYPE_COLORS[c.type]}">${c.total}</td>
       <td><button class="dl-btn" onclick="download('${c.name}·竞争力分析报告')">下载 ↓</button></td>
     </tr>`).join('');
@@ -284,7 +284,7 @@ function renderFnChips(){
   const ctrys=[...new Set(fnPool().map(x=>x.country))];
   document.getElementById('fnCtryChips').innerHTML=`<span style="font-size:12px;color:#8A939E">国别：</span>`+
     (ctrys.length?['全部',...ctrys].map(x=>`<button class="chip ${(x==='全部'&&!fnState.country)||x===fnState.country?'on':''}" data-v="${x==='全部'?'':x}">${x}</button>`).join('')
-    :'<span style="font-size:12px;color:#b0bccb">该区域暂无收录的外资承包商</span>');
+    :'<span style="font-size:12px;color:#CFCBC2">该区域暂无收录的外资承包商</span>');
   document.querySelectorAll('#fnCtryChips .chip').forEach(b=>b.onclick=()=>{
     fnState.country=b.dataset.v;renderFnChips();renderFnList();
   });

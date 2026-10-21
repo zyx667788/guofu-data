@@ -26,12 +26,12 @@
     <div class="card" style="padding:20px 24px;margin-bottom:18px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 22px">
         <div>
-          <div style="font-size:15.5px;font-weight:700;color:#123f86;margin-bottom:10px">同国别相关项目</div>
+          <div style="font-size:15.5px;font-weight:700;color:#16324F;margin-bottom:10px">同国别相关项目</div>
           <div id="relList"></div>
           <a class="rel-more" data-for="relList" href="javascript:void(0)" style="display:none;font-size:12.5px;color:var(--blue);padding:8px 0 2px">看更多 ▾</a>
         </div>
         <div>
-          <div style="font-size:15.5px;font-weight:700;color:#123f86;margin-bottom:10px">同行业相关项目</div>
+          <div style="font-size:15.5px;font-weight:700;color:#16324F;margin-bottom:10px">同行业相关项目</div>
           <div id="relIndList"></div>
           <a class="rel-more" data-for="relIndList" href="javascript:void(0)" style="display:none;font-size:12.5px;color:var(--blue);padding:8px 0 2px">看更多 ▾</a>
         </div>
@@ -42,16 +42,28 @@
     <div class="card" style="padding:20px 24px;margin-bottom:18px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 22px">
         <div>
-          <div style="font-size:15.5px;font-weight:700;color:#123f86;margin-bottom:10px">同业主相关项目</div>
+          <div style="font-size:15.5px;font-weight:700;color:#16324F;margin-bottom:10px">同业主相关项目</div>
           <div id="relOwList"></div>
           <a class="rel-more" data-for="relOwList" href="javascript:void(0)" style="display:none;font-size:12.5px;color:var(--blue);padding:8px 0 2px">看更多 ▾</a>
         </div>
         <div>
-          <div style="font-size:15.5px;font-weight:700;color:#123f86;margin-bottom:10px">同承包商相关项目</div>
+          <div style="font-size:15.5px;font-weight:700;color:#16324F;margin-bottom:10px">同承包商相关项目</div>
           <div id="relCtList"></div>
           <a class="rel-more" data-for="relCtList" href="javascript:void(0)" style="display:none;font-size:12.5px;color:var(--blue);padding:8px 0 2px">看更多 ▾</a>
         </div>
       </div>
+    </div>
+
+    <!-- 项目全周期执行里程碑与推进时间轴 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px">
+      <div class="sec-h"><div><div class="tag-en">PROJECT LIFECYCLE & MILESTONES</div><h2 style="font-size:17px">项目执行关键节点与全生命周期里程碑</h2></div></div>
+      <div class="pj-timeline" id="pjTimeline"></div>
+    </div>
+
+    <!-- 智库风险洞察与履约合规备忘 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px">
+      <div class="sec-h"><div><div class="tag-en">ADVISORY MEMO & COMPLIANCE</div><h2 style="font-size:17px">海外工程智库风险提示与合同条款建议</h2></div></div>
+      <div class="pj-advisory-grid" id="pjAdvisoryGrid"></div>
     </div>
   </div>
 
@@ -65,6 +77,11 @@
       <div class="sc-t">国别概况速览</div>
       <p style="font-size:12.5px;color:#46505C;line-height:1.8" id="cSnapshot"></p>
       <a class="chip on" id="goCountry" style="margin-top:10px;display:inline-block">进入国别详情 →</a>
+    </div></div>
+    <div class="side-card" style="border-top:3px solid var(--yellow)"><div class="pad">
+      <div class="sc-t">智库专属服务</div>
+      <p style="font-size:12px;color:var(--ink-2);line-height:1.75;margin:8px 0 12px">国复咨询海外投决专家团队提供定制化《项目深度尽调底稿》、《外方业主资信与履约预警》、《重大合同条款风控备忘》。</p>
+      <button class="btn" style="width:100%;font-size:12.5px;padding:8px 0;background:var(--yellow);border-color:var(--yellow);color:#2A1E00;font-weight:700" onclick="download(document.getElementById(&#39;dName&#39;).textContent+&#39;·项目深度尽调报告&#39;)">申请项目尽调底稿 ↓</button>
     </div></div>
   </aside>
 </div>
@@ -133,6 +150,44 @@ if(ctry){
   document.getElementById('cSnapshot').textContent=`${czh}暂未收录进国别市场库，相关信息持续跟踪中。`;
   document.getElementById('goCountry').style.display='none';
 }
+
+/* ---- 项目生命周期与里程碑时间轴 ---- */
+const isDone=p.status==='已完工';
+const isBuilding=p.status==='在建'||p.status==='已签约';
+const steps=[
+  {title:'前期立项与主权担保审批',desc:'业主完成立项审批，获取目标国财政部/发改部门主权担保批文',status:'done',time:(p.year-2)+' 前期'},
+  {title:'可行性研究与商务框架协议',desc:'完成技术方案比选、环境社会影响评估(ESIA)及初始EPC框架锁定',status:'done',time:(p.year-1)+' 谈判'},
+  {title:'国际招投标与总承包合同签署',desc:`总承包商 ${p.contractor} 中标并签署 ${p.mode} 总承包商务合同`,status:'done',time:p.year+' 签约'},
+  {title:'银团融资关闭与首期动拔',desc:'多边金融机构、出口信贷机构(ECA)与商业银行完成融资关闭',status:isDone||isBuilding?'done':'current',time:p.year+' 融资'},
+  {title:'现场施工建设与设备进场',desc:'主体土建施工、关键长周期机电设备海运清关及现场吊装安装',status:isDone?'done':p.status==='在建'?'current':'pending',time:isDone?(p.year+1)+' 完工':'当前推进'},
+  {title:'联合调试与商业运营 (COD)',desc:'完成全系统带电调试、性能考核及业主临时验收移交证书(PAC)',status:isDone?'done':'pending',time:isDone?(p.year+2)+' 运营':'预期目标'}
+];
+document.getElementById('pjTimeline').innerHTML=steps.map((s,i)=>`
+  <div class="tl-step ${s.status}">
+    <div class="tl-node">
+      <div class="tl-dot">${s.status==='done'?'✓':(i+1)}</div>
+      ${i<steps.length-1?'<div class="tl-line"></div>':''}
+    </div>
+    <div class="tl-content">
+      <div class="tl-head"><b class="tl-t">${s.title}</b><span class="tl-tag ${s.status}">${s.status==='done'?'已达成':s.status==='current'?'进行中':'规划中'}</span><span class="tl-time">${s.time}</span></div>
+      <p class="tl-p">${s.desc}</p>
+    </div>
+  </div>
+`).join('');
+
+/* ---- 智库出海风险提示与合同条款建议 ---- */
+const advisoryCards=[
+  {tag:'汇率与外汇兑付',title:'主权货币结算与外汇汇出通道锁定',desc:`目标国 ${czh} 需密切关注外汇管制及汇率波动敞口，建议在主合同中约定美元计价并引入备用信用证(SBLC)或主权担保代付安排，严格控制本币结算敞口。`},
+  {tag:'属地化用工与分包合规',title:'当地劳工配额与强制性分包比例审查',desc:`该国对大型基础设施项目普遍执行属地化劳工配额（通常需达到 60% 以上）。建议标前锁定信誉良好的当地 EPC 二级分包商，并在商务合同中明确责任背对背(Back-to-Back)条款。`},
+  {tag:'争议解决与国际仲裁',title:'适用国际公认争议仲裁机制（SIAC/ICC）',desc:'严格规避在当地法院诉讼管辖，建议争议解决条款唯一指定新加坡国际仲裁中心(SIAC)或国际商会仲裁院(ICC)，仲裁语言使用英文，适用中立国实体法。'}
+];
+document.getElementById('pjAdvisoryGrid').innerHTML=advisoryCards.map(a=>`
+  <div class="adv-card">
+    <div class="adv-badge">${a.tag}</div>
+    <b class="adv-t">${a.title}</b>
+    <p class="adv-p">${a.desc}</p>
+  </div>
+`).join('');
 </script>
 
 

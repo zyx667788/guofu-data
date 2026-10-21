@@ -72,8 +72,8 @@ document.getElementById('kpiRow').innerHTML=kpis.map(k=>`
 document.getElementById('chartRegion').innerHTML=barChartSVG(REGIONS,REGIONS.map(r=>COUNTRIES.filter(c=>c.region===r).length),'#16324F');
 const inds=['电力','交通','房建','能矿','其他'];
 document.getElementById('chartIndustry').innerHTML=barChartSVG(inds,inds.map(d=>PROJECT_POOL.filter(p=>p.industry===d).length),'#2F5876');
-document.getElementById('chartOwner').innerHTML=pieChartHTML(O_TYPES,O_TYPES.map(t=>OWNERS.filter(o=>o.type===t).length),['#A8894F','#16324F','#2F5876','#4A5A6E','#8A939E']);
-document.getElementById('chartCon').innerHTML=pieChartHTML(K_TYPES,K_TYPES.map(t=>CONTRACTORS.filter(c=>c.type===t).length),['#3C6E5B','#2F5876','#8C6F3C','#4A5A6E','#16324F']);
+document.getElementById('chartOwner').innerHTML=pieChartHTML(O_TYPES,O_TYPES.map(t=>OWNERS.filter(o=>o.type===t).length),['#A8894F','#16324F','#2F5876','#46505C','#8A939E']);
+document.getElementById('chartCon').innerHTML=pieChartHTML(K_TYPES,K_TYPES.map(t=>CONTRACTORS.filter(c=>c.type===t).length),['#3C6E5B','#2F5876','#8C6F3C','#46505C','#16324F']);
 
 /* 第三部分：付费方案 */
 const plans=[

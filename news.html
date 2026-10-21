@@ -35,7 +35,7 @@
     <aside style="display:flex;flex-direction:column">
       <div class="side-card anchor-fix" id="flash724" style="height:780px;display:flex;flex-direction:column;margin-bottom:0">
         <div class="sc-head" style="gap:12px">
-          <i style="width:8px;height:8px;border-radius:50%;background:#ff5b5b;animation:blink 1.2s infinite"></i><b class="rail-tab on" id="rtFlash" onclick="pickRailTab(&#39;flash&#39;)">7×24 快讯</b><b class="rail-tab rail-fav" id="rtFav" onclick="pickRailTab(&#39;fav&#39;)">我的关注动态</b><span class="live-badge" id="liveBadge">实时滚动</span>
+          <i style="width:8px;height:8px;border-radius:50%;background:#8C4A42;animation:blink 1.2s infinite"></i><b class="rail-tab on" id="rtFlash" onclick="pickRailTab(&#39;flash&#39;)">7×24 快讯</b><b class="rail-tab rail-fav" id="rtFav" onclick="pickRailTab(&#39;fav&#39;)">我的关注动态</b><span class="live-badge" id="liveBadge">实时滚动</span>
         </div>
         <div class="flash-scroll" id="flashWrap" style="flex:1;height:auto;min-height:0"><div class="flash-track" id="flashTrack"></div></div>
         <div id="favWrap" style="display:none;flex:1;overflow:auto;padding:12px 16px"><div id="favList"></div></div>
@@ -50,7 +50,7 @@
 <script>
 renderHeader('news');renderFooter();
 
-const ABR_C=['#8C6F3C','#2F5876','#16324F','#3C6E5B','#4A5A6E'];
+const ABR_C=['#8C6F3C','#2F5876','#16324F','#3C6E5B','#46505C'];
 const abbrOf=n=>{
   if(n.country){const c=countryById(n.country);if(c)return c.zh.slice(0,2)}
   if(n.contractor){const k=contractorById(n.contractor);if(k)return k.name.slice(0,2)}

@@ -168,7 +168,7 @@ function renderTable(){
       <td>${(state.page-1)*PAGE+i+1}</td>
       <td class="name">${o.name}</td>
       <td onclick="event.stopPropagation()">${tpill(o.type)}</td>
-      ${o.scores.map(s=>`<td>${s}</td>`).join('')}
+      ${o.scores.map(s=>`<td>${formatScore(s)}</td>`).join('')}
       <td class="score-total" style="color:${O_TYPE_COLORS[o.type]}">${o.total}</td>
       <td>${o.country}</td>
       <td>${o.ownership}</td>

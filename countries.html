@@ -33,7 +33,7 @@
   </div>
 
   <!-- 五大类型卡 -->
-  <div class="tcards" id="typeCards"></div>
+  <div class="tcards tcards-country" id="typeCards"></div>
 
   <div class="nat-grid" style="align-items:stretch">
     <!-- 左侧栏：国别快讯（与右侧榜单上下齐平） -->
@@ -191,7 +191,7 @@ function renderTable(){
       <td>${(state.page-1)*PAGE+i+1}</td>
       <td class="name">${c.zh}</td>
       <td onclick="event.stopPropagation()">${tpill(c.type)}</td>
-      ${c.scores.map(s=>`<td>${s}</td>`).join('')}
+      ${c.scores.map(s=>`<td>${formatScore(s)}</td>`).join('')}
       <td class="score-total" style="color:${C_TYPE_COLORS[c.type]}">${c.total}</td>
       <td onclick="event.stopPropagation()"><button class="dl-btn" onclick="download('${c.zh}·国别全景白皮书')">下载 ↓</button></td>
     </tr>`).join('');
