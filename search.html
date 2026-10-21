@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>全站搜索 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="pagehead"><div class="wrap">
+  <div class="en">SITE SEARCH</div>
+  <h1>全站搜索</h1>
+  <div class="sub" id="resultMeta">覆盖新闻、报告、项目、业主、承包商、国别</div>
+</div></div>
+
+<div class="wrap">
+  <div class="search-band" style="margin-top:22px">
+    <input id="q" type="text" placeholder="输入关键词，全站检索…"/>
+    <button class="btn" onclick="doSearch()">全站搜索</button>
+  </div>
+  <div id="results"></div>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('');renderFooter();
+const params=new URLSearchParams(location.search);
+let q=params.get('q')||'';const type=params.get('type')||'';
+document.getElementById('q').value=q;
+function doSearch(){q=document.getElementById('q').value.trim();render()}
+function hit(...arr){if(!q)return true;return arr.filter(Boolean).some(t=>String(t).toLowerCase().includes(q.toLowerCase()))}
+function group(title,list,render){
+  if(!list.length)return'';
+  return `<div class="search-group"><h3>${title} <span class="cnt">${list.length} 条结果</span></h3>
+    <div class="sg-list">${list.slice(0,8).map(render).join('')}</div></div>`;
+}
+function render(){
+  document.getElementById('resultMeta').textContent=q?`「${q}」的搜索结果`:'覆盖新闻、报告、项目、业主、承包商、国别';
+  const newsR=NEWS.filter(n=>hit(n.title,n.sum,n.src,n.ch));
+  const reportR=REPORTS.filter(r=>hit(r.name));
+  const projR=PROJECTS.filter(p=>hit(p.name,p.industry,countryById(p.country)?.zh));
+  const ownerR=OWNERS.filter(o=>hit(o.name,o.type,o.country));
+  const kR=CONTRACTORS.filter(c=>hit(c.name,c.type,c.group,c.country));
+  const cR=COUNTRIES.filter(c=>hit(c.zh,c.en,c.type,c.region,c.sub));
+  const artR=ARTICLES.filter(a=>hit(a.title,a.excerpt,a.colName));
+  let html='';
+  if(type!=='article'){
+    html+=group('国别',cR,c=>`<a href="country.html?id=${c.id}"><b>${c.zh}</b> ${c.en}<span class="sp">${c.region}${c.sub?' · '+c.sub:''} · ${c.type} · 综合 ${c.total}</span></a>`);
+    html+=group('业主',ownerR,o=>`<a href="owner.html?id=${o.id}"><b>${o.name}</b><span class="sp">${o.country} · ${o.type} · 综合 ${o.total}</span></a>`);
+    html+=group('承包商',kR,c=>`<a href="contractor.html?id=${c.id}"><b>${c.name}</b><span class="sp">${c.type} · ${c.subtype} · 综合 ${c.total}</span></a>`);
+    html+=group('项目',projR,p=>`<a href="project.html?id=${p.id}"><b>${p.name}</b><span class="sp">${countryById(p.country)?.zh||''} · ${p.industry} · ${p.value}</span></a>`);
+    html+=group('报告',reportR,r=>{const s=REPORT_SERIES.find(x=>x.id===r.series);return `<a href="reports.html?series=${r.series}"><b>${r.name}</b><span class="sp">${s.name}</span></a>`});
+    html+=group('新闻',newsR,n=>`<a href="news-article.html?id=${n.id}"><b>${n.title}</b><span class="sp">${n.ch} · ${n.date}</span></a>`);
+  }
+  html+=group('知识文库',artR,a=>`<a href="article.html?i=${a.idx}"><b>${a.title}</b><span class="sp">${a.colName}</span></a>`);
+  document.getElementById('results').innerHTML=html||'<div class="panel" style="padding:30px;text-align:center;color:#8A939E">未找到匹配结果，换个关键词试试</div>';
+}
+render();
+</script>
+
+
+</body></html>

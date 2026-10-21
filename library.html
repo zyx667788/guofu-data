@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>出海知识库 · 国复数据</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="wrap"><div class="crumb"><a href="index.html">首页</a> / <b>出海知识库</b></div></div>
+
+<div class="lib-search"><div class="wrap">
+  <div class="ls-box">
+    <input id="libQ" type="text" placeholder="投融资、商务谈判、市场管理" onkeydown="if(event.key===&#39;Enter&#39;)doLibSearch()"/>
+    <button onclick="doLibSearch()">搜索</button>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <div class="lib-layout">
+    <div class="lib-grid" id="libGrid"></div>
+    <!-- 右侧栏目：今日阅读榜单 -->
+    <aside class="lib-side">
+      <div class="side-card" style="margin-bottom:0">
+        <div class="sc-head"><b>今日阅读榜单</b><span class="live-badge">每日更新</span></div>
+        <div id="readRank" style="padding:6px 14px 10px"></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('library');renderFooter();
+function doLibSearch(){const q=document.getElementById('libQ').value.trim();location.href='search.html?type=article&q='+encodeURIComponent(q)}
+
+const q=new URLSearchParams(location.search).get('col');
+document.getElementById('libGrid').innerHTML=LIB_COLS.map(col=>{
+  const arts=ARTICLES.filter(a=>a.col===col.id);
+  const feat=arts[0],rest=arts.slice(1,4);
+  return `<section id="col-${col.id}">
+    <div class="lib-sec-h"><b>${col.name}</b><span class="desc">${col.desc}</span><a href="article.html?i=${feat.idx}">更多 &gt;</a></div>
+    <div class="lib-feat">
+      <a class="cover" style="background:linear-gradient(150deg,${col.color},${col.color}88)" href="article.html?i=${feat.idx}"><b>${col.name}</b><span>COLUMN</span></a>
+      <div>
+        <a class="ft-t" href="article.html?i=${feat.idx}">${feat.title}</a>
+        <p>${feat.excerpt}</p>
+      </div>
+    </div>
+    <div class="lib-links">${rest.map(a=>`<a href="article.html?i=${a.idx}">${a.title}</a>`).join('')}</div>
+  </section>`;
+}).join('');
+if(q){const t=document.getElementById('col-'+q);if(t){t.scrollIntoView({behavior:'smooth'});t.style.background='#fdf8e3';setTimeout(()=>t.style.background='',1800)}}
+
+/* ---- 今日阅读榜单：按日期随机抽取 10 篇，每日更新 ---- */
+(function(){
+  const seed=new Date().toISOString().slice(0,10);
+  const top10=ARTICLES.map(a=>[gfH(seed+a.title),a]).sort((x,y)=>x[0]-y[0]).slice(0,10).map(x=>x[1]);
+  document.getElementById('readRank').innerHTML=top10.map((a,i)=>`
+    <div class="learn-item"><span class="no" style="color:${i<3?'#d93025':'#8A939E'};font-weight:800">${String(i+1).padStart(2,'0')}</span><div class="li-txt"><a href="article.html?i=${a.idx}">${a.title}</a><span>${a.colName} · 出海知识库</span></div></div>`).join('');
+})();
+</script>
+
+
+</body></html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>出海知识库文章 · 国复数据</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="wrap">
+  <div class="crumb"><a href="index.html">首页</a> / <a href="library.html">出海知识库</a> / <span id="crumbCol"></span></div>
+  <div class="article-layout">
+    <!-- 左侧悬浮：文章类型导航 + 本栏目其他文章 -->
+    <aside class="article-side">
+      <div class="as-box">
+        <div class="as-h">文章类型导航</div>
+        <div id="colNav"></div>
+      </div>
+      <div class="as-box">
+        <div class="as-h">本栏目其他文章</div>
+        <div id="siblings"></div>
+      </div>
+    </aside>
+    <main class="article-main" id="artMain"></main>
+  </div>
+</div>
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('library');renderFooter();
+const i=+(new URLSearchParams(location.search).get('i')||0);
+const a=ARTICLES[i]||ARTICLES[0];
+document.title=a.title;
+document.getElementById('crumbCol').textContent=a.colName;
+
+/* 左侧：文章类型导航（点击回知识库对应栏目位置，与底部原"推荐专栏"跳转一致） */
+document.getElementById('colNav').innerHTML=LIB_COLS.map(c=>`<a class="as-item ${c.id===a.col?'on':''}" href="library.html?col=${c.id}">${c.name}</a>`).join('');
+
+/* 本栏目其他文章 */
+document.getElementById('siblings').innerHTML=ARTICLES.filter(x=>x.col===a.col&&x.idx!==a.idx).map(x=>`<a class="as-item" href="article.html?i=${x.idx}">${x.title}</a>`).join('');
+
+/* 正文：国别/承包商/业主实体自动加跳转链接 */
+document.getElementById('artMain').innerHTML=`
+  <h1>${a.title}</h1>
+  <div class="a-meta">出海知识库 · ${a.colName} · 2026-07</div>
+  ${a.body.map(p=>`<p>${linkifyEntities(p)}</p>`).join('')}
+  <p style="color:#8A939E;font-size:12.5px">编辑注：本文为本站演示数据，正文中的国别、承包商、业主名称已自动生成跳转链接，点击可进入对应详情页。</p>
+  <div class="art-actions">
+    <button class="btn-back" onclick="history.back()">← 返回</button>
+    <button class="btn-share" onclick="shareWx('friend')">分享给微信好友</button>
+    <button class="btn-share" onclick="shareWx('moments')">分享到朋友圈</button>
+    <button class="btn-copy" onclick="copyPageLink()">复制链接</button>
+  </div>
+  <div id="relReps"></div>`;
+relatedReports(document.getElementById('relReps'),[a.title,a.excerpt||'',...a.body]);
+</script>
+
+
+</body></html>

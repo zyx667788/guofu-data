@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>国别市场库 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="wrap">
+  <!-- 长banner（与业主主页蓝色 banner 形式一致） -->
+  <div class="ctry-banner bcar bcar-wide" id="ctryBanner">
+    <div class="bcar-track">
+      <div class="bcar-slide">
+        <div class="en">COUNTRY DATABASE</div>
+        <h1>国别市场库</h1>
+        <p>150+ 国别市场 · 政策、产业链、竞争策略、实现路径全套方案 · 点击行进入国别详情页</p>
+        <svg class="bcar-art" viewBox="0 0 260 150" fill="none"><circle cx="182" cy="75" r="56" stroke="rgba(201,174,124,.55)" stroke-width="1.6"></circle><ellipse cx="182" cy="75" rx="56" ry="23" stroke="rgba(201,174,124,.4)" stroke-width="1.2"></ellipse><ellipse cx="182" cy="75" rx="25" ry="56" stroke="rgba(201,174,124,.4)" stroke-width="1.2"></ellipse><circle cx="182" cy="75" r="70" stroke="rgba(255,255,255,.18)" stroke-dasharray="2 6"></circle><circle cx="182" cy="19" r="3.5" fill="#C9AE7C"></circle><circle cx="233" cy="96" r="2.5" fill="#fff" opacity=".85"></circle><circle cx="58" cy="36" r="2.2" fill="rgba(255,255,255,.55)"></circle><circle cx="34" cy="104" r="2.8" fill="rgba(201,174,124,.65)"></circle><circle cx="86" cy="122" r="1.8" fill="rgba(255,255,255,.45)"></circle><circle cx="102" cy="28" r="1.6" fill="rgba(255,255,255,.35)"></circle><path d="M18 92 Q72 58 116 78" stroke="rgba(255,255,255,.35)" stroke-width="1.4" stroke-dasharray="3 5"></path></svg>
+      </div>
+      <div class="bcar-slide">
+        <div class="en">SIX-DIMENSION MODEL</div>
+        <h1>六维模型逐一评价</h1>
+        <p>市场容量、进入难度、竞争程度、营商环境、盈利概率、属地化要求</p>
+        <svg class="bcar-art" viewBox="0 0 260 150" fill="none"><polygon points="180,21 226.8,48 226.8,102 180,129 133.2,102 133.2,48" stroke="rgba(255,255,255,.28)" stroke-width="1.2"></polygon><polygon points="180,39 211.2,57 211.2,93 180,111 148.8,93 148.8,57" stroke="rgba(255,255,255,.28)" stroke-width="1.2"></polygon><polygon points="180,57 195.6,66 195.6,84 180,93 164.4,84 164.4,66" stroke="rgba(255,255,255,.28)" stroke-width="1.2"></polygon><polygon points="180,33 215,60 204,98 180,117 150,95 160,55" fill="rgba(201,174,124,.22)" stroke="#C9AE7C" stroke-width="1.8"></polygon><circle cx="180" cy="33" r="3" fill="#C9AE7C"></circle><circle cx="215" cy="60" r="3" fill="#C9AE7C"></circle><circle cx="204" cy="98" r="3" fill="#C9AE7C"></circle><circle cx="180" cy="117" r="3" fill="#C9AE7C"></circle><circle cx="150" cy="95" r="3" fill="#C9AE7C"></circle><circle cx="160" cy="55" r="3" fill="#C9AE7C"></circle><circle cx="48" cy="40" r="2.2" fill="rgba(255,255,255,.5)"></circle><circle cx="30" cy="104" r="2.6" fill="rgba(201,174,124,.6)"></circle></svg>
+      </div>
+      <div class="bcar-slide">
+        <div class="en">DEEP COUNTRY FOCUS</div>
+        <h1>每国 20 个细分行业</h1>
+        <p>3000+ 报告深耕国别 · 64 个国别 · 六维评分模型</p>
+        <svg class="bcar-art" viewBox="0 0 260 150" fill="none"><rect x="118" y="86" width="17" height="46" rx="3" fill="rgba(255,255,255,.2)"></rect><rect x="143" y="68" width="17" height="64" rx="3" fill="rgba(255,255,255,.32)"></rect><rect x="168" y="48" width="17" height="84" rx="3" fill="rgba(201,174,124,.55)"></rect><rect x="193" y="26" width="17" height="106" rx="3" fill="rgba(201,174,124,.85)"></rect><path d="M114 76 L150 56 L176 36 L206 14" stroke="#C9AE7C" stroke-width="2.2"></path><circle cx="206" cy="14" r="4" fill="#C9AE7C"></circle><line x1="106" y1="132" x2="222" y2="132" stroke="rgba(255,255,255,.35)" stroke-width="1.2"></line><circle cx="52" cy="44" r="2.2" fill="rgba(255,255,255,.5)"></circle><circle cx="30" cy="100" r="2.6" fill="rgba(201,174,124,.6)"></circle><circle cx="82" cy="118" r="1.8" fill="rgba(255,255,255,.4)"></circle></svg>
+      </div>
+    </div>
+    <div class="bcar-dots"></div>
+  </div>
+
+  <!-- 五大类型卡 -->
+  <div class="tcards" id="typeCards"></div>
+
+  <div class="nat-grid" style="align-items:stretch">
+    <!-- 左侧栏：国别快讯（与右侧榜单上下齐平） -->
+    <aside style="display:flex">
+      <div class="side-card" style="flex:1;display:flex;flex-direction:column;margin-bottom:0">
+        <div class="sc-head"><b>国别快讯</b><span class="live-badge">实时滚动</span></div>
+        <div class="flash-scroll" style="flex:1;height:auto;min-height:0"><div class="flash-track" id="natFlash"></div></div>
+      </div>
+    </aside>
+
+    <!-- 右主区 -->
+    <div>
+      <div class="sec anchor-fix" id="ranking" style="margin-top:0;margin-bottom:0">
+        <div class="sec-h">
+          <div><h2 style="font-size:19px">全球国别市场分类 · 六维评分榜</h2><span id="rankCount" style="color:#8A939E;font-size:12px"></span></div>
+          <div class="sbox" style="flex:1;position:relative;margin-left:16px">
+            <input type="text" id="q" placeholder="国别名称 / 关键词" style="padding-right:190px;width:100%"/>
+            <div id="hotWords" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);display:flex;gap:4px;align-items:center;font-size:11px;color:#8A939E;white-space:nowrap"></div>
+          </div>
+        </div>
+        <div class="filter-row" id="filterRow">
+          <div class="chip-wrap" id="regionChips" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"></div>
+        </div>
+        <div class="chip-wrap sub-tabs" id="regionSubs" style="display:none;border-radius:0;border-left:1px solid var(--line);border-right:1px solid var(--line);margin:0"></div>
+        <div class="tbl-wrap card" style="border-radius:0 0 10px 10px;border-top:none">
+          <table class="tbl" id="tbl">
+            <thead><tr id="theadRow"></tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+          <div class="pager" id="pager"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部彩虹报告 banner -->
+  <a class="rep-ad rep-ad2" href="reports.html" style="text-decoration:none;margin-top:26px">
+    <div class="ra-l">
+      <b>彩虹报告系列 · 让海外市场变主场</b>
+      <p>金银红绿黄蓝白，5000+ 报告，180+ 国别，20 个行业，让企业出海决策低成本、高质量、行稳致远！</p>
+    </div>
+    <div class="ra-covers">
+      <span class="ra-cv" style="--bc:#A8894F"><b>金皮书</b><i>业主画像</i></span>
+      <span class="ra-cv ra-white"><b>白皮书</b><i>国别工程全景</i></span>
+      <span class="ra-cv" style="--bc:#3C6E5B"><b>绿皮书</b><i>国别准入与经营</i></span>
+      <span class="ra-cv" style="--bc:#8C4A42"><b>红皮书</b><i>国别风险防控</i></span>
+      <span class="ra-cv" style="--bc:#2F5876"><b>蓝皮书</b><i>行业机会分析</i></span>
+      <span class="ra-cv" style="--bc:#8A939E"><b>银皮书</b><i>承包商竞争力</i></span>
+    </div>
+  </a>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('countries');renderFooter();
+bannerCarousel('ctryBanner');
+
+const tpill=t=>`<span class="tpill" style="color:${C_TYPE_COLORS[t]};border-color:${C_TYPE_COLORS[t]}55;background:${C_TYPE_COLORS[t]}0f">${t}</span>`;
+
+/* ---- 五大类型卡 ---- */
+const state={type:'',region:'',q:'',page:1,sortKey:'total',sortDir:-1};
+const tc={};COUNTRIES.forEach(c=>tc[c.type]=(tc[c.type]||0)+1);
+document.getElementById('typeCards').innerHTML=C_TYPES.map(t=>`
+  <button class="tcard" style="--tc:${C_TYPE_COLORS[t]}" data-type="${t}">
+    <b>${t}<i class="tc-info" title="类型说明">i</i></b><span class="tip">${C_TYPE_TIPS[t]}</span><span class="n">${tc[t]||0}</span>
+  </button>`).join('');
+function pickType(t){
+  const target=[...typeFg.querySelectorAll('.fdrop .chip')].find(c=>c.textContent===(t||'全部大类'));
+  if(target)target.click();
+}
+document.querySelectorAll('.tcard').forEach(b=>b.onclick=e=>{
+  const t=b.dataset.type;
+  if(e.target.classList.contains('tc-info')){
+    showModal(`${t} · 类型说明`,`${C_TYPE_TIPS[t]}。${C_TYPE_DESC[t]}（当前收录 ${tc[t]||0} 个国别）`);
+    return;
+  }
+  pickType(state.type===t?'':t);
+});
+
+/* ---- 区域筛选（筛选行内，联动榜单；非洲/欧洲出现二级区域标签） ---- */
+let sideSub='';
+function renderSideRegions(){
+  document.getElementById('regionChips').innerHTML=['全部区域',...REGIONS].map(r=>{
+    const v=r==='全部区域'?'':r;
+    return `<button class="chip ${v===state.region?'on':''}" data-r="${v}">${r}</button>`;
+  }).join('');
+  document.querySelectorAll('#regionChips .chip').forEach(b=>b.onclick=()=>{
+    state.region=b.dataset.r;sideSub='';state.page=1;renderSideRegions();renderTable();
+  });
+  const st=document.getElementById('regionSubs');
+  if(SUB_REGIONS[state.region]){
+    st.style.display='flex';
+    st.innerHTML=`<span style="font-size:12px;color:#8A939E">${state.region} · 次区域：</span>`+['全部',...SUB_REGIONS[state.region]].map(s=>{
+      const v=s==='全部'?'':s;
+      return `<button class="chip ${v===sideSub?'sub-on':''}" data-s="${v}">${s}</button>`;
+    }).join('');
+    st.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{sideSub=b.dataset.s;state.page=1;renderSideRegions();renderTable()});
+  }else st.style.display='none';
+}
+renderSideRegions();
+
+/* ---- 国别快讯（纵向滚动） ---- */
+(function(){
+  const items=NEWS.filter(n=>n.country).map(n=>{
+    const c=countryById(n.country);
+    return c?`<a class="nat-flash" href="country.html?id=${c.id}"><b>${n.title}</b><span>${c.zh} · ${n.ch}</span></a>`:'';
+  }).join('');
+  document.getElementById('natFlash').innerHTML=items+items;
+})();
+
+/* ---- 完整榜单 ---- */
+const fr=document.getElementById('filterRow');
+const typeFg=filterGroup('国别大类',['全部大类',...C_TYPES],v=>{state.type=v;state.page=1;document.querySelectorAll('.tcard').forEach(x=>x.classList.toggle('on',x.dataset.type===state.type));renderTable()});
+fr.appendChild(typeFg);
+document.getElementById('q').oninput=e=>{state.q=e.target.value.trim();state.page=1;renderTable()};
+/* 热搜词（点击即搜） */
+document.getElementById('hotWords').innerHTML='热搜：'+['沙特','印尼','泰国','南非','塞尔维亚'].map(w=>`<a href="javascript:void(0)" data-w="${w}" style="color:var(--blue)">${w}</a>`).join(' / ');
+document.querySelectorAll('#hotWords a').forEach(a=>a.onclick=()=>{const q=document.getElementById('q');q.value=a.dataset.w;state.q=a.dataset.w;state.page=1;renderTable()});
+
+const HEADS=[['rank','序号',0],['zh','国别',0],['type','国别大类',0],
+ ...C_DIMS.map(d=>[d,d,1]),['total','综合评分',0],['dl','国别报告',0]];
+document.getElementById('theadRow').innerHTML=HEADS.map(h=>`<th data-k="${h[0]}">${h[1]}${h[2]?infoIcon(h[1],C_EXPLAIN):''}<span class="sort-mk">⇅</span></th>`).join('');
+document.querySelectorAll('#theadRow th').forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k;if(k==='dl')return;
+  if(state.sortKey===k)state.sortDir*=-1;else{state.sortKey=k;state.sortDir=-1}
+  state.page=1;renderTable();
+});
+
+function filtered(){
+  return COUNTRIES.filter(c=>
+    (!state.region||c.region===state.region)&&
+    (!sideSub||c.sub===sideSub)&&
+    (!state.type||c.type===state.type)&&
+    (!state.subtype||c.subtype===state.subtype)&&
+    (!state.q||c.zh.includes(state.q)||c.en.toLowerCase().includes(state.q.toLowerCase()))
+  ).sort((a,b)=>{
+    const k=state.sortKey;let va,vb;
+    if(k==='rank'||k==='total'){va=a.total;vb=b.total}
+    else if(C_DIMS.includes(k)){va=a.scores[C_DIMS.indexOf(k)];vb=b.scores[C_DIMS.indexOf(k)]}
+    else{va=String(a[k]||'');vb=String(b[k]||'');return state.sortDir*va.localeCompare(vb,'zh')}
+    return state.sortDir*(va-vb);
+  });
+}
+const PAGE=20;
+function renderTable(){
+  const list=filtered();
+  document.getElementById('rankCount').textContent=`共 ${list.length} 个国别 · 点击行进入国别详情页 · 点击表头排序`;
+  const pages=Math.max(1,Math.ceil(list.length/PAGE));
+  if(state.page>pages)state.page=pages;
+  const rows=list.slice((state.page-1)*PAGE,state.page*PAGE);
+  document.getElementById('tbody').innerHTML=rows.map((c,i)=>`
+    <tr onclick="location.href='country.html?id=${c.id}'">
+      <td>${(state.page-1)*PAGE+i+1}</td>
+      <td class="name">${c.zh}</td>
+      <td onclick="event.stopPropagation()">${tpill(c.type)}</td>
+      ${c.scores.map(s=>`<td>${s}</td>`).join('')}
+      <td class="score-total" style="color:${C_TYPE_COLORS[c.type]}">${c.total}</td>
+      <td onclick="event.stopPropagation()"><button class="dl-btn" onclick="download('${c.zh}·国别全景白皮书')">下载 ↓</button></td>
+    </tr>`).join('');
+  renderPager(document.getElementById('pager'),list.length,state.page,PAGE,p=>{state.page=p;renderTable()});
+}
+renderTable();
+</script>
+
+
+</body></html>

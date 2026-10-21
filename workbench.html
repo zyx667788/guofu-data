@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>我的工作台 · 国复数据</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+
+<div class="wrap" style="padding:26px 20px 46px" id="wbRoot"></div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('');renderFooter();
+
+let ses=null;try{ses=JSON.parse(localStorage.getItem('gf_session')||'null')}catch(e){}
+if(!ses){location.replace('login.html')}
+else{
+
+const favs=getFavs();
+const favC=favs.countries.map(countryById).filter(Boolean);
+const favCon=favs.contractors.map(contractorById).filter(Boolean);
+const favO=favs.owners.map(ownerById).filter(Boolean);
+const favTotal=favC.length+favCon.length+favO.length;
+const reports=ses.reports||[];
+
+function saveSes(){localStorage.setItem('gf_session',JSON.stringify(ses))}
+function upgrade(){
+  ses.member=true;
+  const d=new Date();d.setFullYear(d.getFullYear()+1);
+  ses.expire=d.toISOString().slice(0,10);
+  ses.coupons=(ses.coupons||0)+10;
+  saveSes();location.reload();
+}
+function logout(){localStorage.removeItem('gf_session');location.href='index.html'}
+function unfav(kind,id){toggleFav(kind,id);location.reload()}
+
+const memberBadge=ses.member
+  ?'<span style="background:linear-gradient(90deg,#A8894F,#d4a017);color:#fff;font-size:11px;font-weight:700;border-radius:9px;padding:2px 10px">会员</span>'
+  :'<span style="background:#F0EFEA;color:#8A939E;font-size:11px;font-weight:700;border-radius:9px;padding:2px 10px">普通用户</span>';
+
+const statCard=(label,val,sub)=>`<div class="card" style="flex:1;min-width:150px;padding:16px 18px;text-align:center">
+  <div style="font-size:12px;color:#8A939E">${label}</div>
+  <div style="font-size:22px;font-weight:800;color:#123f86;margin:6px 0 4px">${val}</div>
+  <div style="font-size:11px;color:#8A939E">${sub}</div>
+</div>`;
+
+function favCard(page,x,sub,kind){
+  return `<div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="flex:1;min-width:0"><a href="${page}?id=${x.id}" style="font-weight:700;color:#123f86;font-size:13.5px">${x.name||x.zh}</a>
+    <div style="font-size:11.5px;color:#8A939E;margin-top:2px">${sub}</div></div>
+    <button class="chip" onclick="unfav('${kind}','${x.id}')" style="flex-shrink:0">取消关注</button>
+  </div>`;
+}
+const emptyFav=(t,href)=>`<div style="padding:16px 14px;color:#8A939E;font-size:12.5px;border:1px dashed var(--line);border-radius:8px;text-align:center">尚未关注${t}<br><a href="${href}" style="color:#16324F;font-weight:600">去${t}库看看 →</a></div>`;
+
+const favSec=(title,en,inner,count)=>`<div class="card" style="padding:16px 18px">
+  <div style="display:flex;align-items:baseline;margin-bottom:10px"><b style="font-size:14.5px;color:#123f86">${title}</b><span style="font-size:10.5px;color:#8A939E;margin-left:8px;letter-spacing:1px">${en}</span><span style="margin-left:auto;font-size:12px;color:#46505C">${count} 项</span></div>
+  ${inner}
+</div>`;
+
+/* ---- 我的关注动态：关注对象的相关新闻 ---- */
+const dyn=NEWS.filter(n=>(n.country&&favs.countries.includes(n.country))||(n.contractor&&favs.contractors.includes(n.contractor))||(n.owner&&favs.owners.includes(n.owner)));
+const dynHtml=dyn.length?dyn.map(n=>`<a href="news-article.html?id=${n.id}" style="display:flex;gap:10px;align-items:baseline;padding:10px 4px;border-bottom:1px dashed var(--line)">
+  <span class="tpill" style="flex-shrink:0">${n.ch}</span>
+  <span style="flex:1;min-width:0"><b style="font-size:13.5px;color:#123f86">${n.title}</b><br><span style="font-size:11.5px;color:#8A939E">${n.sum.slice(0,60)}…</span></span>
+  <span style="font-size:11px;color:#8A939E;flex-shrink:0">${n.src} · ${n.date}</span>
+</a>`).join(''):'<div style="padding:22px;color:#8A939E;font-size:12.5px;text-align:center;border:1px dashed var(--line);border-radius:8px">暂无关注动态 —— 关注国别、业主或承包商后，相关中标签约与政策动态将自动汇聚于此。</div>';
+
+document.getElementById('wbRoot').innerHTML=`
+  <!-- 个人信息卡 -->
+  <div class="card" style="padding:22px 26px;margin-bottom:18px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+    <div style="width:64px;height:64px;border-radius:50%;background:${ses.member?'linear-gradient(135deg,#A8894F,#d4a017)':'linear-gradient(135deg,#12283D,#1E3E5C)'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex-shrink:0">${(ses.name||'国')[0]}</div>
+    <div style="flex:1;min-width:240px">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><b style="font-size:20px">${ses.name||'国复用户'}</b>${memberBadge}</div>
+      <div style="font-size:12.5px;color:#46505C;margin-top:6px">我的公司：${ses.company||'未填写'} · 注册于 ${ses.since||'—'}</div>
+      <div style="font-size:12.5px;margin-top:4px;color:${ses.member?'#8a6d00':'#a0342c'}">${ses.member?`会员期限：至 <b>${ses.expire}</b>`:'尚未开通会员 —— 开通后可畅享全部彩虹系列报告下载与每月报告券'}</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      ${ses.member?'':'<button class="auth-btn" style="width:auto;padding:11px 24px;letter-spacing:0" onclick="upgrade()">开通会员</button>'}
+      <button class="chip" onclick="logout()">退出登录</button>
+    </div>
+  </div>
+
+  <!-- 统计条 -->
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px">
+    ${statCard('我的报告券',(ses.coupons||0)+' 张',ses.member?'会员每月发放 5 张':'开通会员即可获得')}
+    ${statCard('我的报告',reports.length+' 份','已购报告随时下载')}
+    ${statCard('我的关注',favTotal+' 项','国别 / 承包商 / 业主')}
+    ${statCard('会员期限',ses.member?ses.expire:'未开通',ses.member?'到期前可续费':'开通后有效期一年')}
+  </div>
+
+  <!-- 三类关注 -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px" class="resp-grid">
+    ${favSec('我的关注国别','COUNTRIES',favC.length?favC.map(x=>favCard('country.html',x,`${x.region} · ${x.type} · 综合评分 ${x.total}`,'countries')).join(''):emptyFav('国别','countries.html'),favC.length)}
+    ${favSec('我的关注承包商','CONTRACTORS',favCon.length?favCon.map(x=>favCard('contractor.html',x,`${x.type} · ${x.country} · 综合评分 ${x.total}`,'contractors')).join(''):emptyFav('承包商','contractors.html'),favCon.length)}
+    ${favSec('我的关注业主','OWNERS',favO.length?favO.map(x=>favCard('owner.html',x,`${x.country} · ${x.industry} · 综合评分 ${x.total}`,'owners')).join(''):emptyFav('业主','owners.html'),favO.length)}
+  </div>
+
+  <!-- 我的报告 + 报告券说明 -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:18px" class="resp-grid">
+    <div class="card" style="padding:16px 18px">
+      <div style="display:flex;align-items:baseline;margin-bottom:10px"><b style="font-size:14.5px;color:#123f86">我的报告</b><span style="font-size:10.5px;color:#8A939E;margin-left:8px;letter-spacing:1px">MY REPORTS</span><a href="reports.html" style="margin-left:auto;font-size:12px;color:#16324F">去报告中心 →</a></div>
+      ${reports.length?reports.map(r=>`<div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <span style="flex:1;font-size:13.5px;font-weight:600;color:#123f86">${r.name}</span>
+        <span style="font-size:11.5px;color:#8A939E">购于 ${r.date}</span>
+        <button class="vip" onclick="download('${r.name}')" style="font-size:11px;padding:2px 10px">下载</button>
+      </div>`).join(''):'<div style="padding:16px 14px;color:#8A939E;font-size:12.5px;border:1px dashed var(--line);border-radius:8px;text-align:center">暂无已购报告 —— <a href="reports.html" style="color:#16324F;font-weight:600">去出海必备报告看看 →</a></div>'}
+    </div>
+    <div class="card" style="padding:16px 18px">
+      <div style="display:flex;align-items:baseline;margin-bottom:10px"><b style="font-size:14.5px;color:#123f86">我的报告券</b><span style="font-size:10.5px;color:#8A939E;margin-left:8px;letter-spacing:1px">COUPONS</span></div>
+      <div style="text-align:center;padding:8px 0 12px"><b style="font-size:34px;color:#A8894F">${ses.coupons||0}</b><span style="font-size:12px;color:#8A939E"> 张可用</span></div>
+      <div style="font-size:12px;color:#46505C;line-height:1.9;border-top:1px dashed var(--line);padding-top:10px">
+        报告券可兑换任意彩虹系列报告（白皮书 / 蓝皮书 / 绿皮书 / 红皮书 / 金皮书 / 银皮书）。${ses.member?'会员每月 1 日自动发放 5 张。':'开通会员后每月自动发放 5 张。'}
+      </div>
+      ${ses.member?'':'<button class="auth-btn" style="width:100%;margin-top:12px;padding:10px;letter-spacing:0" onclick="upgrade()">开通会员领券</button>'}
+    </div>
+  </div>
+
+  <!-- 关注动态 -->
+  <div class="card" style="padding:16px 18px">
+    <div style="display:flex;align-items:baseline;margin-bottom:6px"><b style="font-size:14.5px;color:#123f86">我的关注动态</b><span style="font-size:10.5px;color:#8A939E;margin-left:8px;letter-spacing:1px">FOLLOWED UPDATES</span><span style="margin-left:auto;font-size:12px;color:#46505C">${dyn.length} 条</span></div>
+    ${dynHtml}
+  </div>
+`;
+}
+</script>
+
+</body></html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>海外项目库 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="wrap">
+  <!-- 长banner（与国别主页蓝色 banner 形式一致） -->
+  <div class="ctry-banner bcar bcar-wide" id="projBanner">
+    <div class="bcar-track">
+      <div class="bcar-slide">
+        <div class="en">PROJECT DATABASE</div>
+        <h1>海外项目库</h1>
+        <p id="bannerSub">跟踪项目 · 覆盖国别 · 点击行进入项目详情</p>
+        <svg class="bcar-art" viewBox="0 0 260 150" fill="none"><circle cx="182" cy="75" r="56" stroke="rgba(201,174,124,.55)" stroke-width="1.6"></circle><ellipse cx="182" cy="75" rx="56" ry="23" stroke="rgba(201,174,124,.4)" stroke-width="1.2"></ellipse><ellipse cx="182" cy="75" rx="25" ry="56" stroke="rgba(201,174,124,.4)" stroke-width="1.2"></ellipse><circle cx="182" cy="75" r="70" stroke="rgba(255,255,255,.18)" stroke-dasharray="2 6"></circle><circle cx="182" cy="19" r="3.5" fill="#C9AE7C"></circle><circle cx="233" cy="96" r="2.5" fill="#fff" opacity=".85"></circle><circle cx="58" cy="36" r="2.2" fill="rgba(255,255,255,.55)"></circle><circle cx="34" cy="104" r="2.8" fill="rgba(201,174,124,.65)"></circle><circle cx="86" cy="122" r="1.8" fill="rgba(255,255,255,.45)"></circle><circle cx="102" cy="28" r="1.6" fill="rgba(255,255,255,.35)"></circle><path d="M18 92 Q72 58 116 78" stroke="rgba(255,255,255,.35)" stroke-width="1.4" stroke-dasharray="3 5"></path></svg>
+      </div>
+      <div class="bcar-slide">
+        <div class="en">BID &amp; OPPORTUNITY TRACKING</div>
+        <h1>中标签约 + 机会项目双轨跟踪</h1>
+        <p>行业、模式、状态、区域、国别全维度筛选 · 项目快讯实时滚动</p>
+        <svg class="bcar-art" viewBox="0 0 260 150" fill="none"><rect x="118" y="86" width="17" height="46" rx="3" fill="rgba(255,255,255,.2)"></rect><rect x="143" y="68" width="17" height="64" rx="3" fill="rgba(255,255,255,.32)"></rect><rect x="168" y="48" width="17" height="84" rx="3" fill="rgba(201,174,124,.55)"></rect><rect x="193" y="26" width="17" height="106" rx="3" fill="rgba(201,174,124,.85)"></rect><path d="M114 76 L150 56 L176 36 L206 14" stroke="#C9AE7C" stroke-width="2.2"></path><circle cx="206" cy="14" r="4" fill="#C9AE7C"></circle><line x1="106" y1="132" x2="222" y2="132" stroke="rgba(255,255,255,.35)" stroke-width="1.2"></line><circle cx="52" cy="44" r="2.2" fill="rgba(255,255,255,.5)"></circle><circle cx="30" cy="100" r="2.6" fill="rgba(201,174,124,.6)"></circle><circle cx="82" cy="118" r="1.8" fill="rgba(255,255,255,.4)"></circle></svg>
+      </div>
+    </div>
+    <div class="bcar-dots"></div>
+  </div>
+
+  <!-- 五大行业类型卡 -->
+  <div class="tcards" id="indCards"></div>
+
+  <div class="nat-grid" style="align-items:stretch">
+    <!-- 左侧栏：项目快讯（与右侧榜单上下齐平） -->
+    <aside style="display:flex">
+      <div class="side-card" style="flex:1;display:flex;flex-direction:column;margin-bottom:0">
+        <div class="sc-head"><b>项目快讯</b><span class="live-badge">实时滚动</span></div>
+        <div class="flash-scroll" style="flex:1;height:auto;min-height:0"><div class="flash-track" id="projFlash"></div></div>
+      </div>
+    </aside>
+
+    <!-- 右主区 -->
+    <div>
+      <div class="sec anchor-fix" id="ranking" style="margin-top:0;margin-bottom:0">
+        <div class="sec-h">
+          <div><h2 style="font-size:19px">海外项目库 · 全量项目榜</h2><span id="rankCount" style="color:#8A939E;font-size:12px"></span></div>
+          <div class="sbox" style="flex:1;position:relative;margin-left:16px">
+            <input type="text" id="q" placeholder="项目名称 / 国别 / 业主 / 承包商" style="padding-right:190px;width:100%"/>
+            <div id="hotWords" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);display:flex;gap:4px;align-items:center;font-size:11px;color:#8A939E;white-space:nowrap"></div>
+          </div>
+        </div>
+        <div class="filter-row" id="filterRow"></div>
+        <div class="tbl-wrap card" style="border-radius:0 0 10px 10px;border-top:none">
+          <table class="tbl" id="tbl">
+            <thead><tr id="theadRow"></tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+          <div class="pager" id="pager"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部彩虹报告 banner -->
+  <a class="rep-ad rep-ad2" href="reports.html" style="text-decoration:none;margin-top:26px">
+    <div class="ra-l">
+      <b>彩虹报告系列 · 让海外市场变主场</b>
+      <p>金银红绿黄蓝白，5000+ 报告，180+ 国别，20 个行业，让企业出海决策低成本、高质量、行稳致远！</p>
+    </div>
+    <div class="ra-covers">
+      <span class="ra-cv" style="--bc:#A8894F"><b>金皮书</b><i>业主画像</i></span>
+      <span class="ra-cv ra-white"><b>白皮书</b><i>国别工程全景</i></span>
+      <span class="ra-cv" style="--bc:#3C6E5B"><b>绿皮书</b><i>国别准入与经营</i></span>
+      <span class="ra-cv" style="--bc:#8C4A42"><b>红皮书</b><i>国别风险防控</i></span>
+      <span class="ra-cv" style="--bc:#2F5876"><b>蓝皮书</b><i>行业机会分析</i></span>
+      <span class="ra-cv" style="--bc:#8A939E"><b>银皮书</b><i>承包商竞争力</i></span>
+    </div>
+  </a>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('projects');renderFooter();
+bannerCarousel('projBanner');
+document.getElementById('bannerSub').textContent=`${PROJECT_POOL.length} 个跟踪项目 · 覆盖 ${COUNTRIES.length} 国别 · 点击行进入项目详情`;
+
+const IND5=['电力','交通','房建','能矿','其他'];
+const IND_COLORS={电力:'#1E3E5C',交通:'#8C6F3C',房建:'#3C6E5B',能矿:'#A8894F',其他:'#8A939E'};
+const IND_TIPS={电力:'光伏 · 风电 · 输变电 · 水电 · 核电',交通:'道桥 · 轨道交通 · 港口航道',房建:'住宅 · 商业建筑 · 公共建筑',能矿:'油气 · 矿产 · 冶金 · 化工',其他:'水务 · 生态环保 · 通讯 · 水泥建材'};
+const IND_DESC={电力:'覆盖发电、输电与配电全产业链项目，新能源占比持续提升',交通:'覆盖公路桥梁、铁路轨交与港航工程，是海外基建主力赛道',房建:'覆盖住宅、商业与公共建筑，集中于中东、东南亚城市化市场',能矿:'覆盖油气、矿产、冶金与化工工程，资源国别需求稳定',其他:'涵盖水务、生态环保、通讯与建材工业等多元项目'};
+
+/* ---- 五大行业类型卡 ---- */
+const state={ind:'',sub:'',mode:'',status:'',region:'',subRegion:'',country:'',q:'',page:1,sortKey:'value',sortDir:-1};
+const ic={};PROJECT_POOL.forEach(p=>ic[p.industry]=(ic[p.industry]||0)+1);
+document.getElementById('indCards').innerHTML=IND5.map(t=>`
+  <button class="tcard" style="background:${IND_COLORS[t]}" data-ind="${t}">
+    <b>${t}<i class="tc-info" title="行业说明">i</i></b><span class="tip">${IND_TIPS[t]}</span><span class="n">${ic[t]||0}</span>
+  </button>`).join('');
+function pickInd(t){
+  const target=[...indFg.querySelectorAll('.fdrop .chip')].find(c=>c.textContent===(t||'全部行业'));
+  if(target)target.click();
+}
+document.querySelectorAll('.tcard').forEach(b=>b.onclick=e=>{
+  const t=b.dataset.ind;
+  if(e.target.classList.contains('tc-info')){
+    showModal(`${t} · 行业说明`,`${IND_TIPS[t]}。${IND_DESC[t]}（当前收录 ${ic[t]||0} 个项目）`);
+    return;
+  }
+  pickInd(state.ind===t?'':t);
+});
+
+/* ---- 筛选组：行业→二级行业 / 模式 / 状态 / 区域→(次区域)→国别 ---- */
+const fr=document.getElementById('filterRow');
+const subIndWrap=document.createElement('span');subIndWrap.style.display='contents';
+const subRegWrap=document.createElement('span');subRegWrap.style.display='contents';
+const ctryWrap=document.createElement('span');ctryWrap.style.display='contents';
+function renderSubInd(){
+  subIndWrap.innerHTML='';
+  if(!state.ind)return;
+  subIndWrap.appendChild(filterGroup('二级行业',['全部二级',...SUB_IND[state.ind]],v=>{state.sub=v;state.page=1;renderTable()}));
+}
+function renderCtry(){
+  ctryWrap.innerHTML='';
+  const list=COUNTRIES.filter(c=>c.region===state.region&&(!state.subRegion||c.sub===state.subRegion));
+  ctryWrap.appendChild(filterGroup('国别',['全部国别',...list.map(c=>c.zh)],v=>{state.country=v;state.page=1;renderTable()}));
+}
+function renderRegionCascade(){
+  subRegWrap.innerHTML='';ctryWrap.innerHTML='';
+  if(!state.region)return;
+  const subs=SUB_REGIONS[state.region];
+  if(subs){
+    subRegWrap.appendChild(filterGroup('次区域',['全部次区域',...subs],v=>{state.subRegion=v;state.country='';state.page=1;renderCtry();renderTable()}));
+  }
+  renderCtry();
+}
+const indFg=filterGroup('行业',['全部行业',...IND5],v=>{
+  state.ind=v;state.sub='';state.page=1;
+  document.querySelectorAll('.tcard').forEach(x=>x.classList.toggle('on',x.dataset.ind===state.ind));
+  renderSubInd();renderTable();
+});
+fr.appendChild(indFg);fr.appendChild(subIndWrap);
+fr.appendChild(filterGroup('模式',['全部模式',...PROJ_MODES],v=>{state.mode=v;state.page=1;renderTable()}));
+fr.appendChild(filterGroup('状态',['全部状态','在建','已签约','已完工','规划中'],v=>{state.status=v;state.page=1;renderTable()}));
+fr.appendChild(filterGroup('区域',['全部区域',...REGIONS],v=>{
+  state.region=v;state.subRegion='';state.country='';state.page=1;
+  renderRegionCascade();renderTable();
+}));
+fr.appendChild(subRegWrap);fr.appendChild(ctryWrap);
+
+/* ---- 搜索框（支持 ?country= 预置） ---- */
+const q0=new URLSearchParams(location.search).get('country');
+if(q0){state.q=q0;document.getElementById('q').value=q0}
+document.getElementById('q').oninput=e=>{state.q=e.target.value.trim();state.page=1;renderTable()};
+/* 热搜词（点击即搜） */
+document.getElementById('hotWords').innerHTML='热搜：'+['沙特','光伏','NEOM','EPC','中铁'].map(w=>`<a href="javascript:void(0)" data-w="${w}" style="color:var(--blue)">${w}</a>`).join(' / ');
+document.querySelectorAll('#hotWords a').forEach(a=>a.onclick=()=>{const q=document.getElementById('q');q.value=a.dataset.w;state.q=a.dataset.w;state.page=1;renderTable()});
+
+/* ---- 项目快讯（纵向滚动） ---- */
+(function(){
+  const items=NEWS.map(n=>`<a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${n.ch} · ${n.date}</span></a>`).join('');
+  document.getElementById('projFlash').innerHTML=items+items;
+})();
+
+/* ---- 完整榜单 ---- */
+const ST_C={在建:['#e8f7ee','#3C6E5B'],已签约:['#e8f0fe','#16324F'],已完工:['#eef1f5','#5a7184'],规划中:['#faf3e0','#A8894F']};
+const HEADS=[['rank','序号'],['name','项目名称'],['czh','国别'],['industry','行业'],['sub','二级行业'],['mode','模式'],['status','状态']];
+document.getElementById('theadRow').innerHTML=HEADS.map(h=>`<th data-k="${h[0]}">${h[1]}<span class="sort-mk">⇅</span></th>`).join('');
+document.querySelectorAll('#theadRow th').forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k;
+  if(state.sortKey===k)state.sortDir*=-1;else{state.sortKey=k;state.sortDir=-1}
+  state.page=1;renderTable();
+});
+
+function filtered(){
+  return PROJECT_POOL.filter(p=>
+    (!state.ind||p.industry===state.ind)&&
+    (!state.sub||subInd(p)===state.sub)&&
+    (!state.mode||p.mode===state.mode)&&
+    (!state.status||p.status===state.status)&&
+    (!state.region||(countryById(p.cc)||{}).region===state.region)&&
+    (!state.subRegion||(countryById(p.cc)||{}).sub===state.subRegion)&&
+    (!state.country||p.czh===state.country)&&
+    (!state.q||p.name.includes(state.q)||p.czh.includes(state.q)||p.owner.includes(state.q)||p.contractor.includes(state.q))
+  ).sort((a,b)=>{
+    const k=state.sortKey;
+    if(k==='rank'||k==='value')return state.sortDir*(a.value-b.value);
+    const va=k==='sub'?subInd(a):String(a[k]||''),vb=k==='sub'?subInd(b):String(b[k]||'');
+    return state.sortDir*va.localeCompare(vb,'zh');
+  });
+}
+const PAGE=20;
+function renderTable(){
+  const list=filtered();
+  document.getElementById('rankCount').textContent=`共 ${list.length} 个项目 · 点击行进入项目详情 · 点击表头排序`;
+  const pages=Math.max(1,Math.ceil(list.length/PAGE));
+  if(state.page>pages)state.page=pages;
+  const rows=list.slice((state.page-1)*PAGE,state.page*PAGE);
+  document.getElementById('tbody').innerHTML=rows.length?rows.map((p,i)=>`
+    <tr onclick="location.href='project.html?id=${p.id}'">
+      <td>${(state.page-1)*PAGE+i+1}</td>
+      <td class="name">${p.name}</td>
+      <td>${p.czh}</td>
+      <td><span class="tpill" style="color:${IND_COLORS[p.industry]};border-color:${IND_COLORS[p.industry]}55;background:${IND_COLORS[p.industry]}0f">${p.industry}</span></td>
+      <td>${subInd(p)}</td>
+      <td>${p.mode}</td>
+      <td><span class="tpill" style="background:${ST_C[p.status][0]};color:${ST_C[p.status][1]}">${p.status}</span></td>
+    </tr>`).join('')
+    :`<tr><td colspan="7" style="text-align:center;color:#8A939E;padding:30px 0">没有符合条件的项目，请调整筛选或关键词</td></tr>`;
+  renderPager(document.getElementById('pager'),list.length,state.page,PAGE,p=>{state.page=p;renderTable()});
+}
+renderTable();
+</script>
+
+
+</body></html>

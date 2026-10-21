@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>业主详情 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+
+<div class="dtl-head"><div class="wrap" style="display:flex;gap:20px;align-items:flex-start">
+  <div style="width:64px;height:64px;border-radius:10px;background:var(--yellow);color:#4a3800;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex-shrink:0" id="avatar"></div>
+  <div style="flex:1">
+    <div class="crumb" style="margin:0 0 6px"><a href="owners.html" style="color:#9AA6B2">业主库</a> / <span id="crumbName" style="color:#F6F5F2"></span></div>
+    <div style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap"><h1 style="font-size:24px;margin:0"><span id="dName"></span> <span id="dEn" style="font-size:14px;color:#9AA6B2;font-weight:400"></span></h1><span id="dContact" style="font-size:12.5px;color:#9AA6B2"></span></div>
+    <div id="dPills" style="margin-top:8px"></div>
+    <div class="dtl-links" id="dLinks"></div>
+  </div>
+  <div class="dtl-actions" style="display:flex;flex-direction:column;align-items:flex-end;align-self:stretch;justify-content:space-between">
+    <button class="btn" id="favBtn" style="background:var(--yellow);border-color:var(--yellow);color:#4a3800;font-weight:700">＋ 关注业主</button>
+    <button class="btn" id="dlBtn" style="background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.55);color:#fff;font-weight:700;font-size:14.5px;padding:13px 24px;box-shadow:0 4px 14px rgba(0,0,0,.18)">下载该业主画像分析报告（金皮书）↓</button>
+  </div>
+</div></div>
+
+<div class="wrap resp-grid" style="display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start;margin-top:20px">
+  <div>
+    <!-- 六维评分 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px">
+      <div class="sec-h" style="margin-bottom:6px">
+        <div><div class="tag-en">SIX-DIMENSION SCORE</div><h2 style="font-size:17px">业主六维评分 <span id="dScore" style="font-size:12.5px;color:#A8894F;font-weight:700"></span></h2></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div><div style="font-size:12.5px;color:#46505C;margin-bottom:6px;font-weight:600" id="radarT1"></div><div id="radar1"></div></div>
+        <div><div style="font-size:12.5px;color:#46505C;margin-bottom:6px;font-weight:600" id="radarT2"></div><div id="radar2"></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 26px;margin-top:14px" id="bars"></div>
+      <div style="font-size:11.5px;color:#8A939E;margin-top:8px" id="dimNote"></div>
+      <div class="dim-cards" id="dimCards"></div>
+    </div>
+
+    <!-- 项目 -->
+    <div class="card anchor-fix" id="projects" style="padding:20px 24px;margin-bottom:18px">
+      <div class="sec-h">
+        <div><div class="tag-en">PROJECTS</div><h2 style="font-size:17px" id="projTitle">所属项目</h2></div>
+        <a class="more" href="projects.html">查看项目库 →</a>
+      </div>
+      <div class="book-tabs" id="projTabs" style="margin-bottom:12px">
+        <button class="chip on" data-k="bid">中标签约项目</button>
+        <button class="chip" data-k="opp">机会项目</button>
+      </div>
+      <div class="proj-merged">
+        <div class="proj-pie"><div id="projPieT" style="font-size:12.5px;color:#46505C;margin-bottom:4px;font-weight:600"></div><div id="chInd"></div></div>
+        <div style="flex:1;min-width:0">
+          <div class="tbl-wrap" style="margin:0;border:0;border-radius:0">
+            <table class="tbl">
+              <thead><tr><th>项目名称</th><th>国别</th><th>行业</th><th>二级行业</th><th>更新时间</th><th>状态</th></tr></thead>
+              <tbody id="projBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 专属报告 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px;border-left:4px solid var(--yellow)">
+      <div class="sec-h">
+        <div><div class="tag-en">EXCLUSIVE REPORT</div><h2 style="font-size:17px" id="reportName"></h2></div>
+      </div>
+      <p style="font-size:12.5px;color:#46505C" id="reportDesc"></p>
+      <div style="font-size:12.5px;color:#8A939E;margin:8px 0 12px">版本：2025版 · 语言：英文 · 页数：150页</div>
+      <button class="btn" style="background:var(--yellow);border-color:var(--yellow);color:#4a3800;font-weight:700" onclick="download(document.getElementById(&#39;reportName&#39;).textContent)">会员查看 / 下载</button>
+    </div>
+
+    <!-- 同国别业主报告（金皮书）：≤4 静止一排，>4 自右向左滚动 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px;overflow:hidden">
+      <div class="sec-h">
+        <div><div class="tag-en">SAME-COUNTRY GOLD BOOKS</div><h2 style="font-size:17px">同国别业主报告 · 金皮书系列</h2></div>
+      </div>
+      <div id="sameCtryReports"></div>
+    </div>
+  </div>
+
+  <!-- 右侧栏 -->
+  <aside>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">业主动态 <span class="live-badge" style="margin-left:auto">实时滚动</span></div>
+      <div class="flash-scroll" style="height:210px;margin:0 -16px"><div class="flash-track" id="newsTrack" style="animation-duration:26s"></div></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">主要合作承包商</div>
+      <div class="chips-row" id="conTabs" style="display:flex;gap:8px;margin-bottom:10px"></div>
+      <div id="topCons"></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">本国其他业主</div>
+      <div id="sameCtryOwners"></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t" style="display:flex;align-items:center">同行业主动态<button class="chip" id="indSwap" style="margin-left:auto;padding:1px 10px;font-size:11px">换一换 ↻</button></div>
+      <div id="sameIndNews"></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">本国其他业主动态 <span class="live-badge" style="margin-left:auto">实时滚动</span></div>
+      <div class="flash-scroll" style="height:210px;margin:0 -16px"><div class="flash-track" id="ctryTrack" style="animation-duration:30s"></div></div>
+    </div></div>
+  </aside>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('owners');renderFooter();
+{const tw=document.querySelector('#topnav .wrap');if(tw)tw.insertAdjacentHTML('afterbegin','<a href="owners.html" title="返回业主库" style="color:#F6F5F2;font-size:22px;font-weight:700;text-decoration:none;margin-right:10px;line-height:1;align-self:center">‹</a>')}
+const id=new URLSearchParams(location.search).get('id')||'qatarenergy';
+const o=ownerById(id)||OWNERS[0];
+document.title=o.name+' · 业主详情 · 国复咨询';
+
+const ctry=COUNTRIES.find(c=>c.zh===o.country);
+const rank=OWNERS.indexOf(o)+1;
+const isHot=rnd(o.id+'hot')<0.28;
+
+/* ---- 头部 ---- */
+document.getElementById('avatar').textContent=o.name[0];
+document.getElementById('crumbName').textContent=o.name;
+document.getElementById('dName').textContent=o.name;
+document.getElementById('dEn').textContent=o.en||'';
+document.getElementById('dPills').innerHTML=`
+  ${isHot?'<span class="dtl-pill hot">热点</span>':''}
+  <span class="dtl-pill">${o.type} · ${o.subtype}</span>
+  <span class="dtl-pill">所有权：${o.ownership}</span>
+  <span class="dtl-pill">总部：${o.country}</span>
+  ${ctry?`<a class="dtl-pill" href="country.html?id=${ctry.id}">所属国别：${o.country} »</a>`:''}`;
+document.getElementById('dContact').textContent=`官网：www.${o.id}.example ｜ 联系邮箱：contact@${o.id}.example`;
+document.getElementById('dLinks').innerHTML=`
+  <a href="owners.html">查看同类型业主 »</a>
+  <a href="owners.html">查看同行业业主 »</a>
+  ${ctry?`<a href="country.html?id=${ctry.id}">查看同国别业主 »</a>`:''}`;
+const favBtn=document.getElementById('favBtn');
+(function(){const paint=()=>{const on=isFav('owners',o.id);favBtn.textContent=on?'✓ 已关注':'＋ 关注业主'};paint();favBtn.onclick=()=>{toggleFav('owners',o.id);paint()}})();
+document.getElementById('dlBtn').onclick=()=>download(`${o.name}业主画像分析报告`);
+
+/* ---- 六维评分 ---- */
+document.getElementById('dScore').textContent=`综合得分 ${o.total} · 排名第 ${rank} / ${OWNERS.length}`;
+/* 双雷达对比：左 同类型随机两家 / 右 同国别随机两家（该国别无其他业主则对比同区域）；每次访问随机更换 */
+const pick2=arr=>{const a=[...arr],r=[];while(r.length<2&&a.length)r.push(a.splice(Math.floor(Math.random()*a.length),1)[0]);return r};
+const typePeers=pick2(OWNERS.filter(x=>x.type===o.type&&x.id!==o.id));
+document.getElementById('radarT1').textContent=`同类型业主对比 · ${o.type}（随机更换）`;
+radarSVG(document.getElementById('radar1'),O_DIMS_FULL,[
+  {name:o.name,values:o.scores},
+  ...typePeers.map(p=>({name:p.name,values:p.scores}))
+]);
+let ctryPeers=OWNERS.filter(x=>x.country===o.country&&x.id!==o.id);
+let radarT2=`同国别业主对比 · ${o.country}`;
+if(!ctryPeers.length){
+  const rg=ctry?ctry.region:'';
+  ctryPeers=OWNERS.filter(x=>{const xc=COUNTRIES.find(cc=>cc.zh===x.country);return x.id!==o.id&&xc&&xc.region===rg});
+  radarT2=`同区域业主对比 · ${rg}（该国别无其他收录业主）`;
+}
+document.getElementById('radarT2').textContent=radarT2+'（随机更换）';
+radarSVG(document.getElementById('radar2'),O_DIMS_FULL,[
+  {name:o.name,values:o.scores},
+  ...pick2(ctryPeers).map(p=>({name:p.name,values:p.scores}))
+]);
+document.getElementById('bars').innerHTML=O_DIMS_FULL.map((d,i)=>`
+  <div class="hbar"><span class="lb">${d}</span><div class="tr"><div class="fl" style="width:${o.scores[i]*10}%"></div></div><span class="vl">${o.scores[i]}</span></div>`).join('');
+document.getElementById('dimNote').textContent=`分值范围 1–10 · 类别：${o.type}（${O_TYPE_TIPS[o.type]}）`;
+document.getElementById('dimCards').innerHTML=O_DIMS_FULL.map((d,i)=>{
+  const subs=O_SUBS[d],ss=subScores(o.id,O_DIMS[i],subs);
+  return `<div class="dim-card">
+    <div class="dh"><b>${d}</b><span class="s">${o.scores[i]}</span></div>
+    ${subs.map((s,j)=>`<div class="sr"><span>${s}</span><span class="sv">${ss[j]}</span></div>`).join('')}
+  </div>`;
+}).join('');
+
+/* ---- 所属项目（仅本业主项目，格式同国别详情页） ---- */
+const myProjs=PROJECT_POOL.filter(p=>p.owner===o.name);
+document.getElementById('projTitle').textContent=`所属项目 · 共 ${myProjs.length} 个跟踪项目`;
+const IND4=['电力','房建','交通','其他'];
+let projTab='bid';
+function renderProj(){
+  const list=myProjs.filter(p=>projTab==='bid'?p.status!=='规划中':p.status==='规划中');
+  document.querySelectorAll('#projTabs .chip').forEach(b=>{
+    b.classList.toggle('on',b.dataset.k===projTab);
+    b.onclick=()=>{projTab=b.dataset.k;renderProj()};
+  });
+  document.getElementById('projPieT').textContent=(projTab==='bid'?'中标签约项目':'机会项目')+' · 行业分布（占比）';
+  const iv=[list.filter(p=>p.industry==='电力').length,list.filter(p=>p.industry==='房建').length,list.filter(p=>p.industry==='交通').length,list.filter(p=>p.industry==='能矿'||p.industry==='其他').length];
+  document.getElementById('chInd').innerHTML=list.length?pieChartHTML(IND4,iv,['#1E3E5C','#3C6E5B','#8C6F3C','#8A939E']):'<div style="font-size:12px;color:#8A939E;padding:24px 0;text-align:center">暂无数据</div>';
+  document.getElementById('projBody').innerHTML=list.length?list.map(p=>`
+  <tr onclick="location.href='project.html?id=${p.id}'">
+    <td class="name">${p.name}</td><td>${p.czh}</td><td>${p.industry}</td><td>${subInd(p)}</td><td>${updTime(p)}</td>
+    <td><span class="tpill" style="color:${p.status==='在建'?'#3C6E5B':p.status==='已签约'?'#16324F':p.status==='已完工'?'#5a7184':'#A8894F'};border-color:currentColor">${p.status}</span></td>
+  </tr>`).join('')
+  :`<tr><td colspan="6" style="text-align:center;color:#8A939E;padding:30px 0">${projTab==='bid'?'该业主暂无中标签约项目收录':'该业主暂无机会项目收录'}</td></tr>`;
+}
+renderProj();
+
+/* ---- 专属报告 ---- */
+document.getElementById('reportName').textContent=`《${o.name}业主画像分析报告》`;
+document.getElementById('reportDesc').textContent=`基于六维评价模型，全景拆解 ${o.name} 的发包偏好、招采规则、合同条款与合作策略，附历史项目复盘与跟进建议。`;
+
+/* ---- 同国别业主报告卡片：一行四个，超过4个自右向左滚动 ---- */
+(function(){
+  const list=OWNERS.filter(x=>x.country===o.country&&x.id!==o.id);
+  const box=document.getElementById('sameCtryReports');
+  if(!list.length){box.innerHTML='<div style="font-size:12.5px;color:#8A939E">暂无同国别其他业主报告</div>';return}
+  const card=(x,w)=>`<div style="${w?'width:264px;flex:none;':''}border:1px solid var(--line);border-left:4px solid #A8894F;border-radius:8px;padding:14px 16px;background:#fff;box-shadow:var(--shadow)">
+    <b style="font-size:13.5px;display:block;line-height:1.5">《${x.name}·业主画像金皮书》</b>
+    <div style="font-size:11.5px;color:var(--ink-3);margin:6px 0 10px">${x.country} · ${x.type} · 2025版 · 150页</div>
+    <div style="display:flex;gap:8px">
+      <a href="owner.html?id=${x.id}" style="border:1px solid #d9e2ec;border-radius:14px;padding:3px 14px;font-size:12px;color:var(--ink-2)">在线阅读</a>
+      <button style="border:none;background:var(--blue);color:#fff;border-radius:14px;padding:4px 16px;font-size:12px;cursor:pointer" onclick="download('${x.name}·业主画像金皮书')">下载 ↓</button>
+    </div></div>`;
+  if(list.length<=4){
+    box.innerHTML=`<div style="display:grid;grid-template-columns:repeat(${list.length},1fr);gap:12px">${list.map(x=>card(x,false)).join('')}</div>`;
+  }else{
+    const items=list.map(x=>card(x,true)).join('');
+    box.innerHTML=`<div style="overflow:hidden" onmouseover="this.querySelector('.obtrack').style.animationPlayState='paused'" onmouseout="this.querySelector('.obtrack').style.animationPlayState='running'"><div class="obtrack" style="display:flex;gap:12px;width:max-content;animation:tick ${Math.max(12,list.length*5)}s linear infinite">${items}${items}</div></div>`;
+  }
+})();
+
+/* ---- 右侧栏 ---- */
+/* 业主动态（自下而上滚动） */
+(function(){
+  const myNews=NEWS.filter(n=>n.owner===o.id||n.title.includes(o.name)||(n.sum&&n.sum.includes(o.name)));
+  const padNews=NEWS.filter(n=>!myNews.includes(n)).slice(0,Math.max(0,5-myNews.length));
+  const showNews=[...myNews,...padNews];
+  if(showNews.length){
+    const rows=showNews.map(n=>`<a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${n.ch} · ${n.date}</span></a>`).join('');
+    document.getElementById('newsTrack').innerHTML=rows+rows;
+  }else{
+    document.getElementById('newsTrack').innerHTML='<div style="padding:16px;color:#8A939E;font-size:13px">暂无相关动态</div>';
+  }
+})();
+/* 主要合作承包商：中资 / 外资 / 本地（每类最多 5 家，可跳转） */
+const tConsPool=CONTRACTORS.filter((_,i)=>gfH(o.id+'tc'+i)%11<2);
+const conTabs=[{k:'中资',f:x=>x.country==='中国'},{k:'外资',f:x=>x.country!=='中国'&&x.country!==o.country},{k:'本地',f:x=>x.country===o.country}];
+let conTab='中资';
+function renderTopCons(){
+  document.getElementById('conTabs').innerHTML=conTabs.map(t=>`<button class="chip ${t.k===conTab?'on':''}" onclick="pickConTab('${t.k}')">${t.k}</button>`).join('');
+  const def=conTabs.find(t=>t.k===conTab);
+  let pool=tConsPool.filter(def.f);
+  if(!pool.length)pool=CONTRACTORS.filter(def.f);
+  const list=pool.slice(0,5);
+  document.getElementById('topCons').innerHTML=list.length?list.map((x,i)=>`
+  <a class="peer-li" href="contractor.html?id=${x.id}"><span class="rk">${i+1}</span><span>${x.name}</span></a>`).join('')
+  :'<div style="padding:10px 0;color:#8A939E;font-size:12.5px">暂无该类承包商</div>';
+}
+window.pickConTab=k=>{conTab=k;renderTopCons()};
+renderTopCons();
+/* 本国其他业主 */
+(function(){
+  let list=OWNERS.filter(x=>x.country===o.country&&x.id!==o.id);
+  if(!list.length&&ctry)list=OWNERS.filter(x=>{const xc=COUNTRIES.find(c=>c.zh===x.country);return xc&&xc.region===ctry.region&&x.id!==o.id});
+  document.getElementById('sameCtryOwners').innerHTML=list.length?list.slice(0,6).map((x,i)=>`
+  <a class="peer-li" href="owner.html?id=${x.id}"><span class="rk">${i+1}</span><span>${x.name}</span></a>`).join('')
+  :'<div style="padding:10px 0;color:#8A939E;font-size:12.5px">暂无同国别其他业主</div>';
+})();
+/* 同行业主动态（换一换） */
+const indPool=[...NEWS.filter(n=>n.owner&&(ownerById(n.owner)||{}).industry===o.industry),
+  ...NEWS.filter(n=>!(n.owner&&(ownerById(n.owner)||{}).industry===o.industry))];
+let indOff=0;
+function renderIndNews(){
+  document.getElementById('sameIndNews').innerHTML=Array.from({length:5},(_,i)=>indPool[(indOff+i)%indPool.length]).map(n=>`
+  <a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${n.ch} · ${n.date}</span></a>`).join('');
+}
+document.getElementById('indSwap').onclick=()=>{indOff+=5;renderIndNews()};
+renderIndNews();
+/* 本国其他业主动态（滚动播放） */
+(function(){
+  const otherIds=OWNERS.filter(x=>x.country===o.country&&x.id!==o.id).map(x=>x.id);
+  const primary=NEWS.filter(n=>otherIds.includes(n.owner));
+  const ctryNews=ctry?NEWS.filter(n=>n.country===ctry.id):[];
+  const pool=[...primary,...ctryNews.filter(n=>!primary.includes(n)),...NEWS.filter(n=>!primary.includes(n)&&!ctryNews.includes(n))];
+  const items=pool.map(n=>`<a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${n.ch} · ${n.date}</span></a>`).join('');
+  document.getElementById('ctryTrack').innerHTML=items+items;
+})();
+</script>
+
+
+</body></html>

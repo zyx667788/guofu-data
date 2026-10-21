@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>承包商详情 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+
+<div class="dtl-head"><div class="wrap" style="display:flex;gap:20px;align-items:flex-start">
+  <div style="width:64px;height:64px;border-radius:10px;background:var(--yellow);color:#4a3800;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex-shrink:0" id="avatar"></div>
+  <div style="flex:1">
+    <div class="crumb" style="margin:0 0 6px"><a href="contractors.html" style="color:#9AA6B2">承包商库</a> / <span id="crumbName" style="color:#F6F5F2"></span></div>
+    <div style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap"><h1 style="font-size:24px;margin:0" id="dName"></h1><span id="dContact" style="font-size:12.5px;color:#9AA6B2"></span></div>
+    <div id="dPills" style="margin-top:8px"></div>
+    <div class="dtl-kpis" id="dKpis"></div>
+    <div class="dtl-links" id="dLinks"></div>
+  </div>
+  <div class="dtl-actions" style="display:flex;flex-direction:column;align-items:flex-end;align-self:stretch;justify-content:space-between">
+    <button class="btn" id="favBtn" style="background:var(--yellow);border-color:var(--yellow);color:#4a3800;font-weight:700">＋ 关注承包商</button>
+    <button class="btn" id="dlBtn" style="background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.55);color:#fff;font-weight:700;font-size:14.5px;padding:13px 24px;box-shadow:0 4px 14px rgba(0,0,0,.18);white-space:nowrap;line-height:1.3">点击下载 该承包商海外竞争力分析报告 ↓</button>
+  </div>
+</div></div>
+
+<div class="wrap resp-grid" style="display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start;margin-top:20px" id="mainGrid">
+  <div>
+    <!-- 六维评分 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px">
+      <div class="sec-h" style="margin-bottom:6px">
+        <div><div class="tag-en">SIX-DIMENSION SCORE</div><h2 style="font-size:17px">承包商六维能力评分 <span id="dScore" style="font-size:14px;color:#A8894F;font-weight:700"></span></h2></div>
+      </div>
+      <div class="six-grid">
+        <div id="radar"></div>
+        <div id="bars"></div>
+      </div>
+      <div style="font-size:11.5px;color:#8A939E;margin-top:8px" id="dimNote"></div>
+      <div class="dim-cards" id="dimCards"></div>
+    </div>
+
+    <!-- 项目分布与展示 -->
+    <div class="card anchor-fix" id="projects" style="padding:20px 24px;margin-bottom:18px">
+      <div class="sec-h">
+        <div><div class="tag-en">PROJECTS</div><h2 style="font-size:17px" id="projTitle">项目分布与展示</h2></div>
+        <a class="more" href="projects.html">查看项目库 →</a>
+      </div>
+      <div class="book-tabs" id="projTabs" style="margin-bottom:12px">
+        <button class="chip on" data-k="bid">中标签约项目</button>
+        <button class="chip" data-k="opp">机会项目</button>
+      </div>
+      <div class="proj-merged">
+        <div class="proj-pie"><div id="projPieT" style="font-size:12.5px;color:#46505C;margin-bottom:4px;font-weight:600">项目行业分布（占比）</div><div id="chInd"></div></div>
+        <div class="tbl-wrap" style="flex:1;min-width:0">
+          <table class="tbl">
+            <thead><tr><th>项目名称</th><th>国别</th><th>行业</th><th>二级行业</th><th>更新时间</th><th>状态</th></tr></thead>
+            <tbody id="projBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 承包商报告下载 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px;border-left:4px solid var(--yellow)">
+      <div class="sec-h">
+        <div><div class="tag-en">EXCLUSIVE REPORT</div><h2 style="font-size:17px" id="reportName"></h2></div>
+      </div>
+      <p style="font-size:12.5px;color:#46505C" id="reportDesc"></p>
+      <div style="font-size:12.5px;color:#8A939E;margin:8px 0 12px">版本：2025版 · 语言：中文 · 页数：120页</div>
+      <button class="btn" style="background:var(--yellow);border-color:var(--yellow);color:#4a3800;font-weight:700" onclick="download(document.getElementById(&#39;reportName&#39;).textContent)">会员查看 / 下载</button>
+    </div>
+
+    <!-- 同类（中资）/ 同国别（外资）承包商银皮书：自左向右滚动 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px;overflow:hidden">
+      <div class="sec-h">
+        <div><div class="tag-en">SILVER BOOK SERIES</div><h2 style="font-size:17px" id="peerBookTitle"></h2></div>
+      </div>
+      <div id="peerBooks"></div>
+    </div>
+  </div>
+
+  <!-- 右侧栏 -->
+  <aside>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">承包商动态 <span class="live-badge" style="margin-left:auto">实时滚动</span></div>
+      <div class="flash-scroll" style="height:210px;margin:0 -16px"><div class="flash-track" id="newsTrack" style="animation-duration:26s"></div></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">主要业务国别</div>
+      <div id="bizCountries"></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">主要业主</div>
+      <div class="chips-row" id="ownTabs" style="display:flex;gap:8px;margin-bottom:10px"></div>
+      <div id="mainOwners"></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">同集团承包商</div>
+      <div id="sameGroup"></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t"><span id="peerTitleTxt">同类承包商动态</span> <span class="live-badge" style="margin-left:auto">实时滚动</span></div>
+      <div class="flash-scroll" style="height:210px;margin:0 -16px"><div class="flash-track" id="peerTrack" style="animation-duration:28s"></div></div>
+    </div></div>
+  </aside>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('contractors');renderFooter();
+{const tw=document.querySelector('#topnav .wrap');if(tw)tw.insertAdjacentHTML('afterbegin','<a href="contractors.html" title="返回承包商库" style="color:#F6F5F2;font-size:22px;font-weight:700;text-decoration:none;margin-right:10px;line-height:1;align-self:center">‹</a>')}
+const id=new URLSearchParams(location.search).get('id')||'crcc';
+const c=contractorById(id)||CONTRACTORS[0];
+document.title=c.name+' · 承包商详情 · 国复咨询';
+
+const IND_MAP={'能源基建':'电力','风电':'电力','输变电':'电力','能源化工工程':'电力','水电施工':'电力','电力施工':'电力',
+'路桥工程':'交通','铁路施工':'交通','公路施工':'交通','隧道工程':'交通','轨交装备+工程':'交通',
+'区域房建':'房建','房建施工':'房建','高端建筑':'房建',
+'水泥工程':'油矿','炼化工程':'油矿','化工工程':'油矿','化工施工':'油矿','冶金施工':'油矿'};
+const indOf=x=>IND_MAP[x.subtype]||'其他';
+const CITIES_CN=['北京','上海','武汉','西安','成都','广州'];
+const hq=c.country==='中国'?'中国·'+CITIES_CN[gfH(c.id+'hq')%6]:c.country;
+const role=['EPC总包商','投建营一体化商','专业承包商','设计咨询商'][gfH(c.id+'role')%4];
+const profit=(5+rnd(c.id+'pf')*55).toFixed(1);
+const rank=CONTRACTORS.indexOf(c)+1;
+const isCN=c.country==='中国';
+
+/* ---- 头部 ---- */
+document.getElementById('dScore').innerHTML=isCN?`综合得分 <b style="font-size:19px">${c.total}</b> · 排名第 ${rank} / ${CONTRACTORS.length}`:`综合得分 <b style="font-size:22px">${c.total}</b>`;
+document.getElementById('avatar').textContent=c.name[0];
+document.getElementById('crumbName').textContent=c.name;
+document.getElementById('dName').textContent=c.name;
+document.getElementById('dPills').innerHTML=`
+  <span class="dtl-pill hot">${c.type} · ${c.subtype}</span>
+  <span class="dtl-pill">所属集团：${c.group}</span>
+  <span class="dtl-pill">总部：${hq}</span>
+  <span class="dtl-pill">${role}</span>`;
+document.getElementById('dContact').textContent=`官网：www.${c.id}.example ｜ 联系邮箱：contact@${c.id}.example`;
+const revenue=isCN?(profit*(8+rnd(c.id+'rv')*10)).toFixed(0):null;
+document.getElementById('dKpis').innerHTML=`
+  <span>综合评分：<b class="yb">${c.total}</b></span>
+  ${isCN?`<span>排名：第 <b>${rank}</b> / ${CONTRACTORS.length}</span>`:''}
+  <span>上年营业收入：<b>${revenue||'n/a'}</b>${revenue?' 亿元':''}</span>
+  <span>上年利润：<b>${isCN?profit:'n/a'}</b>${isCN?' 亿元（数据来源：年度财报）':''}</span>`;
+document.getElementById('dLinks').innerHTML=`
+  <a href="contractors.html">查看同类型承包商 »</a>
+  <a href="contractors.html">查看同集团承包商 »</a>`;
+const favBtn=document.getElementById('favBtn');
+(function(){const paint=()=>{const on=isFav('contractors',c.id);favBtn.textContent=on?'✓ 已关注':'＋ 关注承包商'};paint();favBtn.onclick=()=>{toggleFav('contractors',c.id);paint()}})();
+document.getElementById('dlBtn').onclick=()=>download(`${c.name}承包商海外竞争力分析报告`);
+document.getElementById('reportName').textContent=`《${c.name}承包商海外竞争力分析报告》`;
+document.getElementById('reportDesc').textContent=`六维能力拆解 ${c.name} 的海外竞争力，覆盖区域与行业组合分析、同类企业对标与能力提升路径建议。`;
+
+/* ---- 同类（仅限中资）/ 同国别（仅限外资）承包商银皮书：自左向右滚动 ---- */
+(function(){
+  document.getElementById('peerBookTitle').textContent=isCN
+    ?`同类承包商银皮书 · ${c.type}（中资国际承包商）`
+    :`同国别承包商银皮书 · ${c.country}（外资国际承包商）`;
+  const box=document.getElementById('peerBooks');
+  const list=isCN
+    ?CONTRACTORS.filter(x=>x.type===c.type&&x.id!==c.id&&x.country==='中国')
+    :CONTRACTORS.filter(x=>x.country===c.country&&x.id!==c.id);
+  if(!list.length){box.innerHTML='<div style="font-size:12.5px;color:#8A939E">'+(isCN?'暂无同类中资承包商银皮书':'暂无同国别外资承包商银皮书')+'</div>';return}
+  let cards=[...list];while(cards.length<4)cards=[...cards,...list]; /* 重复填充，保证滚动连续 */
+  const card=x=>`<div style="width:272px;flex:none;border:1px solid var(--line);border-left:4px solid #8A939E;border-radius:8px;padding:14px 16px;background:#fff;box-shadow:var(--shadow)">
+    <b style="font-size:13.5px;display:block;line-height:1.5">《${x.name}·承包商海外竞争力分析银皮书》</b>
+    <div style="font-size:11.5px;color:var(--ink-3);margin:6px 0 10px">${x.country} · ${x.type} · 2025版 · 120页</div>
+    <div style="display:flex;gap:8px">
+      <a href="contractor.html?id=${x.id}" style="border:1px solid #d9e2ec;border-radius:14px;padding:3px 14px;font-size:12px;color:var(--ink-2)">在线阅读</a>
+      <button style="border:none;background:var(--blue);color:#fff;border-radius:14px;padding:4px 16px;font-size:12px;cursor:pointer" onclick="download('${x.name}·承包商海外竞争力分析银皮书')">下载 ↓</button>
+    </div></div>`;
+  const items=cards.map(card).join('');
+  box.innerHTML=`<div style="overflow:hidden" onmouseover="this.querySelector('.pbtrack').style.animationPlayState='paused'" onmouseout="this.querySelector('.pbtrack').style.animationPlayState='running'"><div class="pbtrack" style="display:flex;gap:12px;width:max-content;animation:tick ${Math.max(12,cards.length*6)}s linear infinite">${items}${items}</div></div>`;
+})();
+
+/* ---- 六维评分：本承包商 / 行业平均 / 同类两家 ---- */
+const indAvg=K_DIMS.map((d,i)=>Math.round(CONTRACTORS.reduce((s,x)=>s+x.scores[i],0)/CONTRACTORS.length*10)/10);
+const peers=CONTRACTORS.filter(x=>x.type===c.type&&x.id!==c.id).slice(0,2);
+radarSVG(document.getElementById('radar'),K_DIMS,[
+  {name:'本承包商',values:c.scores},
+  {name:'行业平均',values:indAvg},
+  ...peers.map(p=>({name:p.name,values:p.scores}))
+]);
+document.getElementById('bars').innerHTML=K_DIMS.map((d,i)=>`
+  <div class="hbar"><span class="lb">${d}</span><div class="tr"><div class="fl" style="width:${c.scores[i]*10}%"></div></div><span class="vl">${c.scores[i]}</span></div>`).join('');
+document.getElementById('dimNote').textContent=`分值范围 1–10 · 类别：${c.type}（${K_TYPE_TIPS[c.type]}）`;
+document.getElementById('dimCards').innerHTML=K_DIMS.map((d,i)=>{
+  const subs=K_SUBS[d],ss=subScores(c.id,d,subs);
+  return `<div class="dim-card">
+    <div class="dh"><b>${d}</b><span class="s">${c.scores[i]}</span></div>
+    ${subs.map((s,j)=>`<div class="sr"><span>${s}</span><span class="sv">${ss[j]}</span></div>`).join('')}
+  </div>`;
+}).join('');
+
+/* ---- 项目分布与展示（仅该承包商的跟踪项目，格式与国别详情页一致） ---- */
+const myProjs=PROJECT_POOL.filter(p=>p.contractor===c.name);
+document.getElementById('projTitle').textContent=`项目分布与展示 · 共 ${myProjs.length} 个跟踪项目`;
+const IND4=['电力','房建','交通','其他'];
+let projTab='bid';
+function renderProj(){
+  const list=myProjs.filter(p=>projTab==='bid'?p.status!=='规划中':p.status==='规划中');
+  document.querySelectorAll('#projTabs .chip').forEach(b=>{
+    b.classList.toggle('on',b.dataset.k===projTab);
+    b.onclick=()=>{projTab=b.dataset.k;renderProj()};
+  });
+  document.getElementById('projPieT').textContent=(projTab==='bid'?'中标签约项目':'机会项目')+' · 行业分布（占比）';
+  const iv=[list.filter(p=>p.industry==='电力').length,list.filter(p=>p.industry==='房建').length,list.filter(p=>p.industry==='交通').length,list.filter(p=>p.industry==='能矿'||p.industry==='其他').length];
+  document.getElementById('chInd').innerHTML=list.length?pieChartHTML(IND4,iv,['#1E3E5C','#3C6E5B','#8C6F3C','#8A939E']):'<div style="font-size:12px;color:#8A939E;padding:24px 0;text-align:center">暂无数据</div>';
+  document.getElementById('projBody').innerHTML=list.length?list.map(p=>`
+  <tr onclick="location.href='project.html?id=${p.id}'">
+    <td class="name">${p.name}</td><td>${p.czh}</td><td>${p.industry}</td><td>${subInd(p)}</td><td>${updTime(p)}</td>
+    <td><span class="tpill" style="color:${p.status==='在建'?'#3C6E5B':p.status==='已签约'?'#16324F':p.status==='已完工'?'#5a7184':'#A8894F'};border-color:currentColor">${p.status}</span></td>
+  </tr>`).join(''):`<tr><td colspan="6" style="text-align:center;color:#8A939E;padding:20px">${projTab==='bid'?'该承包商暂无中标签约项目收录':'该承包商暂无机会项目收录'}</td></tr>`;
+}
+renderProj();
+
+/* ---- 右侧栏 ---- */
+/* 承包商动态（自下而上滚动） */
+const myNews=NEWS.filter(n=>n.contractor===c.id||n.title.includes(c.name)||(n.sum&&n.sum.includes(c.name)));
+(function(){
+  const fallbackNews=NEWS.filter(n=>!myNews.includes(n)).slice(0,Math.max(0,5-myNews.length));
+  const showNews=[...myNews,...fallbackNews];
+  if(showNews.length){
+    const rows=showNews.map(n=>`<a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${n.ch} · ${n.date}</span></a>`).join('');
+    document.getElementById('newsTrack').innerHTML=rows+rows;
+  }else{
+    document.getElementById('newsTrack').innerHTML='<div style="padding:16px;color:#8A939E;font-size:13px">暂无相关动态</div>';
+  }
+})();
+/* 主要业务国别：先区域、再国别（国别在区域下方） */
+const bizCs=COUNTRIES.filter((_,i)=>gfH(c.id+'bc'+i)%13<2).slice(0,8);
+const bizList=bizCs.length?bizCs:COUNTRIES.slice(0,8);
+const bizByReg={};bizList.forEach(x=>{(bizByReg[x.region]=bizByReg[x.region]||[]).push(x)});
+document.getElementById('bizCountries').innerHTML=Object.entries(bizByReg).map(([r,arr])=>`
+  <div style="margin-bottom:10px">
+    <div style="font-size:12px;font-weight:700;color:#5a7184;margin-bottom:6px">${r}</div>
+    <div class="chip-wrap">${arr.map(x=>`<a class="chip" href="country.html?id=${x.id}">${x.zh}</a>`).join('')}</div>
+  </div>`).join('');
+/* 主要业主：国有 / 私营 / 政府（每类最多 5 家，可跳转） */
+const mOwnersPool=OWNERS.filter((_,i)=>gfH(c.id+'mo'+i)%11<2);
+const ownTabs=[{k:'国有',f:x=>x.ownership==='国有'},{k:'私营',f:x=>x.ownership==='私有'},{k:'政府',f:x=>x.ownership==='政府'||x.ownership==='国际组织'}];
+let ownTab='国有';
+function renderMainOwners(){
+  document.getElementById('ownTabs').innerHTML=ownTabs.map(t=>`<button class="chip ${t.k===ownTab?'on':''}" onclick="pickOwnTab('${t.k}')">${t.k}</button>`).join('');
+  const def=ownTabs.find(t=>t.k===ownTab);
+  let pool=mOwnersPool.filter(def.f);
+  if(!pool.length)pool=OWNERS.filter(def.f);
+  const list=pool.slice(0,5);
+  document.getElementById('mainOwners').innerHTML=list.length?list.map((x,i)=>`
+  <a class="peer-li" href="owner.html?id=${x.id}"><span class="rk">${i+1}</span><span>${x.name}（${x.country}）</span></a>`).join('')
+  :'<div style="padding:10px 0;color:#8A939E;font-size:12.5px">暂无该类业主</div>';
+}
+window.pickOwnTab=k=>{ownTab=k;renderMainOwners()};
+renderMainOwners();
+const sg=CONTRACTORS.filter(x=>x.group===c.group&&x.id!==c.id);
+document.getElementById('sameGroup').innerHTML=sg.length?sg.map((x,i)=>`
+  <a class="peer-li" href="contractor.html?id=${x.id}"><span class="rk">${i+1}</span><span>${x.name}</span></a>`).join('')
+  :'<div style="font-size:12.5px;color:#8A939E;padding:6px 0">无同集团其他承包商</div>';
+/* 同类（中资）/ 同国别（外资）承包商动态（自下而上滚动，10条） */
+(function(){
+  document.getElementById('peerTitleTxt').textContent=isCN?'同类承包商动态':'同国别承包商动态';
+  const peerIds=new Set(CONTRACTORS.filter(x=>isCN?(x.type===c.type&&x.country==='中国'):(x.country===c.country)).map(x=>x.id));
+  const primary=NEWS.filter(n=>n.contractor&&peerIds.has(n.contractor));
+  const pad=NEWS.filter(n=>!primary.includes(n));
+  const items=[...primary,...pad].slice(0,10).map(n=>`<a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${n.ch} · ${n.date}</span></a>`).join('');
+  document.getElementById('peerTrack').innerHTML=items+items;
+})();
+</script>
+
+
+</body></html>

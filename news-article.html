@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>资讯详情 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="wrap">
+  <div class="crumb"><a href="index.html">首页</a> / <a href="news.html">News</a> / <span id="crumbCh"></span></div>
+  <div style="margin:-2px 0 12px"><button class="btn-back" onclick="history.back()">← 返回</button></div>
+  <div class="article-layout">
+    <aside class="article-side">
+      <div class="as-box">
+        <div class="as-h">资讯频道</div>
+        <div id="chNav"></div>
+      </div>
+      <div class="as-box">
+        <div class="as-h">相关主体</div>
+        <div id="relEnts"></div>
+      </div>
+    </aside>
+    <main class="article-main" id="artMain"></main>
+  </div>
+</div>
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('news');renderFooter();
+const id=new URLSearchParams(location.search).get('id')||'a01';
+const n=newsById(id)||NEWS[0];
+document.title=n.title;
+document.getElementById('crumbCh').textContent=n.ch;
+
+document.getElementById('chNav').innerHTML=NEWS_CHANNELS.map((c,ci)=>`<a class="as-item ${c===n.ch?'on':''}" href="news.html#ch-${ci}">${c}</a>`).join('');
+
+const ents=[];
+if(n.contractor){const c=contractorById(n.contractor);if(c)ents.push(`<a class="as-item" href="contractor.html?id=${c.id}">承包商 · ${c.name}</a>`)}
+if(n.owner){const o=ownerById(n.owner);if(o)ents.push(`<a class="as-item" href="owner.html?id=${o.id}">业主 · ${o.name}</a>`)}
+if(n.country){const c=countryById(n.country);if(c)ents.push(`<a class="as-item" href="country.html?id=${c.id}">国别 · ${c.zh}</a>`)}
+document.getElementById('relEnts').innerHTML=ents.join('')||'<div class="empty-tip" style="padding:10px 14px">—</div>';
+
+const body=[n.sum,`本刊记者了解到，${n.sum.replace(/。$/,'')}。目前各项工作正按计划推进，后续进展本刊将持续跟踪报道。`,`背景延伸：该项目所在的${n.country?countryById(n.country).zh:'该区域'}市场近期活跃度持续上升，多家国际承包商与业主方均有新的动作。业内普遍认为，本事件将对区域市场格局产生一定影响。`,`编辑注：本文为本站演示数据，文中时间、金额与主体信息均为示例。`];
+document.getElementById('artMain').innerHTML=`
+  <h1>${n.title}</h1>
+  <div class="a-meta">${n.ch} · ${n.src} · ${n.date} ${n.time}</div>
+  ${body.map(p=>`<p>${linkifyEntities(p)}</p>`).join('')}
+  <div class="art-actions">
+    <button class="btn-back" onclick="history.back()">← 返回</button>
+    <button class="btn-share" onclick="shareWx('friend')">分享给微信好友</button>
+    <button class="btn-share" onclick="shareWx('moments')">分享到朋友圈</button>
+  </div>
+  <div id="relReps"></div>`;
+relatedReports(document.getElementById('relReps'),[n.title,...body]);
+</script>
+
+
+</body></html>

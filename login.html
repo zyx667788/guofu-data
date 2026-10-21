@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>登录 / 注册 · 国复数据</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-side">
+      <div style="font-size:11px;letter-spacing:2.5px;color:#9AA6B2">GUOFU DATA · MEMBER CENTER</div>
+      <h2>登录工作台<br/>管理您的出海情报</h2>
+      <p>国复数据会员中心：关注国别、业主与承包商，第一时间掌握中标签约与政策动态，下载彩虹系列报告。</p>
+      <ul>
+        <li>我的关注：国别、业主、承包商一键追踪</li>
+        <li>关注动态：所关注对象的资讯自动汇聚</li>
+        <li>我的报告：已购报告随时在线查看与下载</li>
+        <li>报告券：会员按月发放，全场报告通用</li>
+      </ul>
+    </div>
+    <div class="auth-main">
+      <div class="auth-tabs">
+        <button class="at on" id="tabLogin" type="button">登 录</button>
+        <button class="at" id="tabReg" type="button">注 册</button>
+      </div>
+      <form id="authForm" novalidate="">
+        <label>手机号 / 邮箱</label>
+        <input id="fAcc" placeholder="请输入手机号或邮箱" autocomplete="username"/>
+        <div id="companyRow" style="display:none">
+          <label>公司名称</label>
+          <input id="fCompany" placeholder="请输入公司名称"/>
+        </div>
+        <label>密码</label>
+        <input id="fPwd" type="password" placeholder="请输入密码（至少 6 位）" autocomplete="current-password"/>
+        <div class="auth-err" id="authErr"></div>
+        <button class="auth-btn" type="submit" id="authBtn">登 录</button>
+      </form>
+      <div class="auth-tip">演示环境：任意账号密码即可登录 · <a href="javascript:demoLogin()">使用会员演示账号 →</a></div>
+      <div class="auth-note">登录即代表同意《用户协议》与《隐私政策》｜ 国复咨询旗下网站</div>
+    </div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('');renderFooter();
+
+let mode='login';
+const tabL=document.getElementById('tabLogin'),tabR=document.getElementById('tabReg');
+const companyRow=document.getElementById('companyRow'),authBtn=document.getElementById('authBtn'),authErr=document.getElementById('authErr');
+function setMode(m){
+  mode=m;
+  tabL.classList.toggle('on',m==='login');
+  tabR.classList.toggle('on',m==='reg');
+  companyRow.style.display=m==='reg'?'':'none';
+  authBtn.textContent=m==='login'?'登 录':'注册并登录';
+  authErr.textContent='';
+}
+tabL.onclick=()=>setMode('login');
+tabR.onclick=()=>setMode('reg');
+
+function saveSession(s){localStorage.setItem('gf_session',JSON.stringify(s))}
+
+function demoLogin(){
+  saveSession({
+    name:'演示会员',
+    company:'中国港湾工程有限责任公司',
+    member:true,
+    since:'2026-01-15',
+    expire:'2027-01-14',
+    coupons:12,
+    reports:[
+      {name:'《沙特国别工程全景白皮书》',date:'2026-08-02'},
+      {name:'《ACWA Power·业主画像金皮书》',date:'2026-07-11'},
+      {name:'《阿联酋光伏行业蓝皮书》',date:'2026-05-28'}
+    ]
+  });
+  location.href='workbench.html';
+}
+
+document.getElementById('authForm').onsubmit=e=>{
+  e.preventDefault();
+  const acc=document.getElementById('fAcc').value.trim();
+  const pwd=document.getElementById('fPwd').value.trim();
+  const comp=document.getElementById('fCompany').value.trim();
+  if(!acc){authErr.textContent='请输入手机号或邮箱';return}
+  if(pwd.length<6){authErr.textContent='密码至少 6 位';return}
+  if(mode==='reg'&&!comp){authErr.textContent='请输入公司名称';return}
+  const today=new Date().toISOString().slice(0,10);
+  saveSession({
+    name:acc.includes('@')?acc.split('@')[0]:acc,
+    company:mode==='reg'?comp:'',
+    member:false,
+    since:today,
+    expire:null,
+    coupons:0,
+    reports:[]
+  });
+  location.href='workbench.html';
+};
+</script>
+
+</body></html>

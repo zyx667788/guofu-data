@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>国别资讯 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+
+<div class="pagehead"><div class="wrap">
+  <div>
+    <div class="en">COUNTRY NEWS</div>
+    <h1 id="pgTitle">国别资讯</h1>
+  </div>
+  <div class="right">中标签约 · 政策动态 · 风险提示</div>
+</div></div>
+
+<div class="wrap" style="margin-top:18px">
+  <a href="countries.html" id="backLink" style="display:inline-block;margin-bottom:14px;color:var(--blue);font-size:13px;text-decoration:none">‹ 返回国别详情</a>
+  <div class="card" style="padding:18px 22px">
+    <div class="chips-row" id="newsTabs" style="display:flex;gap:8px;margin-bottom:6px"></div>
+    <div id="newsList"></div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('countries');renderFooter();
+const id=new URLSearchParams(location.search).get('id')||'sa';
+const c=countryById(id)||COUNTRIES[0];
+document.title=c.zh+' · 国别资讯 · 国复咨询';
+document.getElementById('pgTitle').textContent=c.zh+' · 国别资讯';
+document.getElementById('backLink').href='country.html?id='+c.id;
+
+const TABS=[{k:'bid',label:'中标签约',color:'#16324F'},{k:'policy',label:'政策动态',color:'#0d7a5f'},{k:'risk',label:'风险提示',color:'#a0342c'}];
+let tab='bid';
+const regionIds=new Set(COUNTRIES.filter(x=>x.region===c.region).map(x=>x.id));
+const myNews=NEWS.filter(n=>n.country===c.id);
+const regNews=NEWS.filter(n=>n.country!==c.id&&regionIds.has(n.country));
+const RISK_KW=/风险|预警|违约|汇率|通胀|债务|政局|罢工|制裁|汇兑|征收/;
+function poolFor(k){
+  const kw=k==='risk';
+  const ch=k==='bid'?'签约中标':'国别政策';
+  const hit=n=>kw?RISK_KW.test(n.title+(n.sum||'')):n.ch===ch;
+  const primary=myNews.filter(hit);
+  const pad=[...regNews.filter(hit),...NEWS.filter(hit).filter(n=>!primary.includes(n)&&!regNews.includes(n))];
+  return [...primary,...pad];
+}
+const ctryOf=n=>{const x=countryById(n.country);return x?x.zh:''};
+function render(){
+  document.getElementById('newsTabs').innerHTML=TABS.map(t=>`<button class="chip ${t.k===tab?'on':''}" data-k="${t.k}">${t.label}</button>`).join('');
+  document.querySelectorAll('#newsTabs .chip').forEach(b=>b.onclick=()=>{tab=b.dataset.k;render()});
+  const t=TABS.find(x=>x.k===tab);
+  const list=poolFor(tab);
+  let html='';
+  if(tab==='risk'){
+    const rvs=countryRisks(c);
+    const cards=C_RISKS.map((r,i)=>({r,lv:rvs[i]})).filter(x=>x.lv!=='低');
+    if(cards.length)html+=`<div style="border:1px solid #f3d2d2;background:#fdf6f6;border-radius:10px;padding:14px 16px;margin:8px 0 14px">
+      <div style="font-size:13.5px;font-weight:700;color:#a0342c;margin-bottom:8px">${c.zh} · 重点风险画像（分值越高风险越大）</div>
+      ${cards.map(x=>`<div style="display:flex;justify-content:space-between;font-size:12.5px;color:#5a3a3a;padding:3px 0;max-width:420px"><span>${x.r}</span><b style="color:${x.lv==='高'?'#8C4A42':'#A8894F'}">${x.lv}</b></div>`).join('')}
+      <div style="margin-top:10px"><button class="dl-btn" onclick="download('${c.zh}国别风险防控红皮书')">下载《${c.zh}国别风险防控红皮书》 ↓</button></div></div>`;
+    const riskArts=ARTICLES.map((a,i)=>({...a,idx:i})).filter(a=>/风险|合规|索赔|征收|汇率/.test(a.title+a.excerpt));
+    if(riskArts.length)html+=`<div style="font-size:13.5px;font-weight:700;color:#123f86;margin:4px 0 6px">风险研判 · 知识库精选</div>`+
+      riskArts.map(a=>`
+      <a href="article.html?i=${a.idx}" style="display:block;padding:12px 4px;border-bottom:1px solid #eef2f7;text-decoration:none;color:inherit">
+        <b style="font-size:14px;color:#1a2b45">${a.title}</b>
+        <p style="font-size:12.5px;color:#46505C;margin:5px 0 3px;line-height:1.7">${a.excerpt.slice(0,80)}…</p>
+        <span style="font-size:11.5px;color:#8A939E">出海知识库 · ${(LIB_COLS.find(x=>x.id===a.col)||{}).name||''}</span>
+      </a>`).join('');
+  }
+  html+=list.length?list.map(n=>`
+    <a href="news-article.html?id=${n.id}" style="display:block;padding:14px 4px;border-bottom:1px solid #eef2f7;text-decoration:none;color:inherit">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span class="tpill" style="color:${t.color};border-color:currentColor">${t.label}</span>
+        <b style="font-size:14.5px;color:#1a2b45">${n.title}</b>
+      </div>
+      <p style="font-size:12.5px;color:#46505C;margin:6px 0 4px;line-height:1.7">${n.sum||''}</p>
+      <span style="font-size:11.5px;color:#8A939E">${ctryOf(n)} · ${n.src} · ${n.date}${n.time?' '+n.time:''}</span>
+    </a>`).join(''):(tab==='risk'&&html?'':'<div style="padding:26px;color:#8A939E;font-size:13px;text-align:center">该国别暂无本类资讯</div>');
+  document.getElementById('newsList').innerHTML=html;
+}
+render();
+</script>
+
+
+
+</body></html>

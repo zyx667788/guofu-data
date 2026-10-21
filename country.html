@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>国别详情 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+
+<div class="dtl-head"><div class="wrap" style="display:flex;gap:20px;align-items:flex-start">
+  <div style="width:64px;height:64px;border-radius:10px;background:var(--yellow);color:#4a3800;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex-shrink:0" id="avatar"></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;min-height:130px">
+    <div>
+      <h1 style="font-size:24px;margin:0"><span id="dName"></span> <span id="dEn" style="font-size:14px;color:#9AA6B2;font-weight:400"></span></h1>
+      <div id="dPills" style="margin-top:10px"></div>
+    </div>
+    <div class="dtl-kpis" id="dKpis" style="margin-top:auto"></div>
+  </div>
+  <div class="dtl-actions" style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;align-self:center">
+    <button class="btn" id="favBtn" style="background:var(--yellow);border-color:var(--yellow);color:#4a3800;font-weight:700">＋ 关注国别</button>
+    <a class="btn" href="#countryReports" style="background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.55);color:#fff;font-weight:700;font-size:14px;padding:11px 22px;text-decoration:none">下载国别相关报告 ↓</a>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <!-- 六维 KPI 条 -->
+  <div class="ckpi-row" id="kpiRow"></div>
+
+  <div class="resp-grid" style="display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start" id="mainGrid">
+    <div>
+      <!-- 国别画像（六维评分 / 对比评价 / 可视化 / 基本信息） -->
+      <div class="card" style="padding:20px 24px;margin-bottom:18px">
+        <!-- 国别六维评分（细分维度点击展开按钮才显示） -->
+        <div style="margin-bottom:16px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#f8fbff">
+          <div style="display:flex;align-items:center;margin-bottom:10px">
+            <span style="font-size:13.5px;font-weight:700;color:#123f86">国别六维评分</span>
+            <span style="font-size:12.5px;color:#46505C;margin-left:10px">综合评分：<b id="dimTotal" style="color:#A8894F;font-size:16px"></b></span>
+            <span style="font-size:11px;color:#8A939E;margin-left:8px">点击维度查看说明</span>
+            <span style="background:var(--yellow);color:#4a3800;font-size:10px;font-weight:700;border-radius:8px;padding:0 6px;margin-left:6px">VIP</span>
+            <button class="chip" id="dimToggle" style="margin-left:auto;padding:2px 14px;font-size:11.5px">展开细分维度 ▾</button>
+          </div>
+          <div id="dimBtns" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+          <div style="font-size:11px;color:#8A939E;margin-top:8px;line-height:1.7">数据来源：大数据挖掘、官方资料比对、模型推测与调研访谈</div>
+        </div>
+        <!-- 国别对比评价（属于国别评价板块：左 同区域 / 右 同类型） -->
+        <div style="margin-bottom:16px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff">
+          <div style="display:flex;align-items:center;margin-bottom:10px">
+            <span style="font-size:13.5px;font-weight:700;color:#123f86">国别对比评价</span>
+            <span style="font-size:11px;color:#8A939E;margin-left:8px">左侧对比同区域国别 · 右侧对比同类型国别</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div>
+              <div style="font-size:12.5px;color:#46505C;margin-bottom:6px;display:flex;align-items:center"><span id="cmpTitle"></span><button class="chip" id="cmpRefresh" style="margin-left:auto;padding:1px 10px;font-size:11px">换一换 ↻</button></div>
+              <div id="cmpRadar"></div>
+            </div>
+            <div>
+              <div style="font-size:12.5px;color:#46505C;margin-bottom:6px;display:flex;align-items:center"><span id="cmpTitle2"></span><button class="chip" id="cmpRefresh2" style="margin-left:auto;padding:1px 10px;font-size:11px">换一换 ↻</button></div>
+              <div id="cmpRadar2"></div>
+            </div>
+          </div>
+        </div>
+        <!-- 国别可视化分析：8 组图表，每行 2 个，初始展示 2 行 -->
+        <div style="margin-bottom:16px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff">
+          <div style="display:flex;align-items:center;margin-bottom:10px">
+            <span style="font-size:13.5px;font-weight:700;color:#123f86">国别可视化分析</span>
+            <span style="font-size:11px;color:#8A939E;margin-left:8px">8 组图表 · 默认显示 4 组 · 点击下方「展开全部图表」查看全部</span>
+          </div>
+          <div id="vizGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px"></div>
+          <div style="text-align:center;margin-top:12px"><button class="chip" id="vizToggle" style="padding:4px 22px;font-size:12px">展开全部图表 ▾</button></div>
+        </div>
+        <!-- 国别基本信息 -->
+        <div style="display:flex;align-items:center;margin:18px 0 10px">
+          <span style="font-size:13.5px;font-weight:700;color:#123f86">国别基本信息</span>
+          <span style="font-size:11px;color:#8A939E;margin-left:8px">宏观 · 财政 · 汇率 · 人口</span>
+        </div>
+        <div class="macro-grid" id="macroGrid"></div>
+        <div class="chart-duo" style="margin-top:16px">
+          <div><div style="font-size:12.5px;color:#46505C;margin-bottom:4px">GDP 十年走势（亿USD）</div><div id="gdpChart"></div></div>
+          <div><div style="font-size:12.5px;color:#46505C;margin-bottom:4px">人均GDP 十年走势（美元）</div><div id="rateChart"></div></div>
+        </div>
+      </div>
+
+      <!-- 项目列表（含重点项目行业分布饼图） -->
+      <div class="card anchor-fix" id="projects" style="padding:20px 24px;margin-bottom:18px">
+        <div class="sec-h">
+          <div><div class="tag-en">PROJECTS</div><h2 style="font-size:17px">项目列表</h2></div>
+          <a class="more" href="projects.html">查看项目库 →</a>
+        </div>
+        <div class="book-tabs" id="projTabs" style="margin-bottom:12px">
+          <button class="chip on" data-k="bid">中标签约项目</button>
+          <button class="chip" data-k="opp">机会项目</button>
+        </div>
+        <div class="proj-merged">
+          <div class="proj-pie"><div id="projPieT" style="font-size:12.5px;color:#46505C;margin-bottom:4px;font-weight:600">项目行业分布（占比）</div><div id="chInd"></div></div>
+          <div class="tbl-wrap" style="flex:1;min-width:0">
+            <table class="tbl">
+              <thead><tr><th>项目名称</th><th>行业</th><th>二级行业</th><th>更新时间</th><th>状态</th></tr></thead>
+              <tbody id="projBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 彩虹系列报告 -->
+      <div class="card anchor-fix" id="countryReports" style="padding:20px 24px;margin-bottom:18px">
+        <div class="sec-h">
+          <div><div class="tag-en">RAINBOW REPORTS</div><h2 style="font-size:17px">国别实操 · 彩虹系列报告</h2></div>
+        </div>
+        <div id="bookList"></div>
+      </div>
+    </div>
+
+    <!-- 右侧栏 -->
+    <aside>
+      <div class="side-card"><div class="pad">
+        <div class="sc-t" style="display:flex;align-items:center">国别动态 <span class="live-badge" style="margin-left:auto">实时滚动</span></div>
+        <div class="flash-scroll" style="height:210px;margin:0 -16px"><div class="flash-track" id="newsTrack" style="animation-duration:26s"></div></div>
+        <div style="margin-top:10px;text-align:right"><a href="#" id="moreNews" style="color:var(--blue);font-size:12.5px;text-decoration:none">看更多 →</a></div>
+      </div></div>
+      <div class="side-card"><div class="pad">
+        <div class="sc-t">主要参与者</div>
+        <div class="pt-block pt-blue"><div class="pt-sub">重点业主</div><div class="chip-wrap" id="keyOwners"></div></div>
+        <div class="pt-block pt-green"><div class="pt-sub">主要承包商（EPC）</div><div class="chip-wrap" id="keyCons"></div></div>
+        <div class="pt-block pt-orange"><div class="pt-sub">施工总包</div><div class="chip-wrap" id="keySubs"></div></div>
+      </div></div>
+      <div class="side-card"><div class="pad">
+        <div class="sc-t">国别风险 <span style="font-size:10px;color:#b0bccb">分值越高风险越大</span></div>
+        <div id="riskList"></div>
+        <div style="font-size:11px;color:#8A939E;margin-top:10px">深绿→深红：由稳定到高风险 · 详见《风控红皮书》</div>
+      </div></div>
+    </aside>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('countries');renderFooter();
+{const tw=document.querySelector('#topnav .wrap');if(tw)tw.insertAdjacentHTML('afterbegin','<a href="countries.html" title="返回国别库" style="color:#F6F5F2;font-size:22px;font-weight:700;text-decoration:none;margin-right:10px;line-height:1;align-self:center">‹</a>')}
+const id=new URLSearchParams(location.search).get('id')||'sa';
+const c=countryById(id)||COUNTRIES[0];
+document.title=c.zh+' · 国别详情 · 国复咨询';
+const macro=countryMacro(c);
+const rank=COUNTRIES.indexOf(c)+1;
+
+/* ---- 头部 ---- */
+const FULLNAMES={'sa':['沙特阿拉伯','Kingdom of Saudi Arabia']};
+const fname=FULLNAMES[c.id]||[c.zh,c.en];
+document.getElementById('avatar').textContent=c.zh[0];
+document.getElementById('dName').textContent=fname[0];
+document.getElementById('dEn').textContent=fname[1];
+document.getElementById('dPills').innerHTML=`
+  <span class="dtl-pill hot">${c.type}</span>
+  <span class="dtl-pill">${c.subtype}</span>
+  <span class="dtl-pill">${c.region}${c.sub?' · '+c.sub:''}</span>
+  <span class="dtl-pill">排名：第 ${rank} / ${COUNTRIES.length}</span>`;
+document.getElementById('dKpis').innerHTML=`
+  <span>重点业主 <b>${c.nOwners}</b> 家</span>`;
+document.getElementById('dimTotal').textContent=c.total;
+const favBtn=document.getElementById('favBtn');
+(function(){const paint=()=>{const on=isFav('countries',c.id);favBtn.textContent=on?'✓ 已关注':'＋ 关注国别'};paint();favBtn.onclick=()=>{toggleFav('countries',c.id);paint()}})();
+
+/* ---- 六维 KPI 条 ---- */
+const KPI=[['市场容量',macro.capacity],['进入难度',macro.diff],['竞争程度',macro.comp],['营商环境',macro.biz],['项目盈利概率',macro.profit],['属地化要求',macro.loc]];
+document.getElementById('kpiRow').innerHTML=KPI.map(k=>`<div class="ckpi"><span>${k[0]}</span><b>${k[1]}</b></div>`).join('');
+
+/* ---- 宏观信息 ---- */
+const MI=[['信用评级',macro.credit],['风险评级',macro.risk],['政府债务率',macro.debt],['外债偿债率',macro.ext],
+['GDP',macro.gdp],['人均GDP',macro.gdpPer+' '+macro.gdpPerLv],['GDP增速',macro.gdpG],['通胀',macro.cpi],
+['清廉指数',macro.transparency+' '+macro.trLv],['汇率稳定性',macro.fx],['汇兑管制',macro.fxCtl],['人口',macro.pop]];
+document.getElementById('macroGrid').innerHTML=MI.map(m=>`<div class="mi"><span>${m[0]}</span><b>${m[1]}</b></div>`).join('');
+const YEARS=Array.from({length:10},(_,i)=>2017+i);
+document.getElementById('gdpChart').innerHTML=barChartSVG(YEARS.map(String),gdpSeries(c),'#1E3E5C');
+const gr=gRateSeries(c);
+const gppA=[];{let v=macro.gdpPer;for(let y=9;y>=0;y--){gppA[y]=Math.max(200,Math.round(v));v=v/(1+rnd(c.id+'gpps'+y)*0.08-0.03)}}
+document.getElementById('rateChart').innerHTML=lineChartSVG(YEARS.map(String),gppA,'#16324F')+`<div style="font-size:11px;color:#8A939E;text-align:right">2026 年人均GDP ${macro.gdpPer} 美元</div>`;
+
+/* ---- 国别动态（右列，自下而上滚动） ---- */
+const myNews=NEWS.filter(n=>n.country===c.id);
+(function(){
+  const pad=NEWS.filter(n=>!myNews.includes(n)).slice(0,Math.max(0,5-myNews.length));
+  const showNews=[...myNews,...pad];
+  if(showNews.length){
+    const rows=showNews.map(n=>`<a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${n.ch} · ${n.date}</span></a>`).join('');
+    document.getElementById('newsTrack').innerHTML=rows+rows;
+  }else{
+    document.getElementById('newsTrack').innerHTML='<div style="padding:16px;color:#8A939E;font-size:13px">近期暂无该国别资讯</div>';
+  }
+})();
+
+/* ---- 看更多：跳国别新闻页（中标签约 / 政策动态 / 风险提示） ---- */
+document.getElementById('moreNews').href='country-news.html?id='+c.id;
+
+/* ---- 项目统计 & 列表 ---- */
+let projs=poolByCountry(c.zh);
+if(!projs.length){projs=PROJECT_POOL.slice(gfH(c.id)%40,gfH(c.id)%40+6)}
+const IND4=['电力','房建','交通','其他'];
+let projTab='bid';
+function renderProj(){
+  const list=projs.filter(p=>projTab==='bid'?p.status!=='规划中':p.status==='规划中');
+  document.querySelectorAll('#projTabs .chip').forEach(b=>{
+    b.classList.toggle('on',b.dataset.k===projTab);
+    b.onclick=()=>{projTab=b.dataset.k;renderProj()};
+  });
+  document.getElementById('projPieT').textContent=(projTab==='bid'?'中标签约项目':'机会项目')+' · 行业分布（占比）';
+  const iv=[list.filter(p=>p.industry==='电力').length,list.filter(p=>p.industry==='房建').length,list.filter(p=>p.industry==='交通').length,list.filter(p=>p.industry==='能矿'||p.industry==='其他').length];
+  document.getElementById('chInd').innerHTML=list.length?pieChartHTML(IND4,iv,['#1E3E5C','#3C6E5B','#8C6F3C','#8A939E']):'<div style="font-size:12px;color:#8A939E;padding:24px 0;text-align:center">暂无数据</div>';
+  document.getElementById('projBody').innerHTML=list.length?list.map(p=>`
+  <tr onclick="location.href='project.html?id=${p.id}'">
+    <td class="name">${p.name}</td><td>${p.industry}</td><td>${subInd(p)}</td><td>${updTime(p)}</td>
+    <td><span class="tpill" style="color:${p.status==='在建'?'#3C6E5B':p.status==='已签约'?'#16324F':p.status==='已完工'?'#5a7184':'#A8894F'};border-color:currentColor">${p.status}</span></td>
+  </tr>`).join(''):`<tr><td colspan="5" style="text-align:center;color:#8A939E;padding:20px">${projTab==='bid'?'该国别暂无中标签约项目收录':'该国别暂无机会项目收录'}</td></tr>`;
+}
+renderProj();
+
+/* ---- 国别可视化分析：8 组图表（初始 2 行，点击展开显示全部） ---- */
+(function(){
+  const gr2=gRateSeries(c);
+  const popA=[];{let v=parseFloat(macro.pop)*(macro.pop.includes('亿')?10000:1);for(let y=9;y>=0;y--){popA[y]=Math.round(v);v=v/(1+rnd(c.id+'pps'+y)*0.03)}}
+  const debtA=[];{let v={'低':28,'中':48,'高':72}[macro.debt]||45;for(let y=9;y>=0;y--){debtA[y]=Math.round(v);v=Math.max(5,v-(rnd(c.id+'dbs'+y)*6-3))}}
+  const trA=[];{let v=macro.transparency;for(let y=9;y>=0;y--){trA[y]=Math.round(v);v=Math.max(10,v-(rnd(c.id+'trs'+y)*4-2))}}
+  const statusSet=[...new Set(projs.map(p=>p.status))];
+  const statusVals=statusSet.map(t=>projs.filter(p=>p.status===t).length);
+  const modeSet=[...new Set(projs.map(p=>p.mode))];
+  const modeVals=modeSet.map(m=>projs.filter(p=>p.mode===m).length);
+  const riskLv={'低':3,'中':6,'高':9};
+  const rviz=countryRisks(c);
+  const riskVals=C_RISKS.map((r,i)=>riskLv[rviz[i]]||3);
+  const kOwnersAll=OWNERS.filter(o=>o.country===c.zh);
+  const oshipSet=['国有','私有','政府','国际组织'].filter(t=>kOwnersAll.some(o=>o.ownership===t));
+  const oshipVals=oshipSet.map(t=>kOwnersAll.filter(o=>o.ownership===t).length);
+  const iv2=[projs.filter(p=>p.industry==='电力').length,projs.filter(p=>p.industry==='房建').length,projs.filter(p=>p.industry==='交通').length,projs.filter(p=>p.industry==='能矿'||p.industry==='其他').length];
+  const yearSet=[...new Set(projs.map(p=>p.year))].sort();
+  const yearVals=yearSet.map(y=>projs.filter(p=>p.year===y).length);
+  const vps=[
+    {t:'人口十年走势（万人）',h:areaChartSVG(YEARS.map(String),popA,'#3C6E5B')},
+    {t:'通胀十年走势（%）',h:lineChartSVG(YEARS.map(String),gr2.b,'#8C6F3C','%')},
+    {t:'政府负债率十年走势（%）',h:hBarChartSVG(YEARS.map(String),debtA,'#A8894F','%')},
+    {t:'清廉指数十年走势',h:lineChartSVG(YEARS.map(String),trA,'#6b3fa0')},
+    {t:'国别风险评分（六类）',h:'<div id="riskRadar"></div>',ex:1},
+    {t:'重点业主所有制分布',h:oshipSet.length?pieChartHTML(oshipSet,oshipVals,['#1E3E5C','#3C6E5B','#8C6F3C','#8A939E']):'<div style="font-size:12px;color:#8A939E;padding:20px 0;text-align:center">暂无收录业主</div>',ex:1},
+    {t:'项目行业分布（占比）',h:pieChartHTML(IND4,iv2,['#1E3E5C','#3C6E5B','#8C6F3C','#8A939E']),ex:1},
+    {t:'项目年份分布（个）',h:barChartSVG(yearSet.map(String),yearVals,'#6b3fa0'),ex:1}
+  ];
+  document.getElementById('vizGrid').innerHTML=vps.map(v=>`
+    <div class="${v.ex?'viz-ex':''}" style="${v.ex?'display:none;':''}border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff">
+      <div style="font-size:12.5px;color:#46505C;margin-bottom:6px;display:flex;align-items:center">${v.t}${v.btn||''}</div>
+      ${v.h}
+    </div>`).join('');
+  radarSVG(document.getElementById('riskRadar'),C_RISKS.map(r=>r.slice(0,4)),[{name:c.zh,values:riskVals}]);
+  let vizOpen=false;
+  document.getElementById('vizToggle').onclick=()=>{
+    vizOpen=!vizOpen;
+    document.querySelectorAll('#vizGrid .viz-ex').forEach(x=>x.style.display=vizOpen?'':'none');
+    document.getElementById('vizToggle').textContent=vizOpen?'收起图表 ▴':'展开全部图表 ▾';
+    
+  };
+})();
+
+/* ---- 彩虹系列报告：自上而下全部列出（白 / 绿 / 红 / 蓝 / 金 / 银） ---- */
+const GOLD_OUTLINE=['第一章 业主背景与股权结构','第二章 发包行为与项目管线','第三章 招采规则与评标偏好','第四章 合同条款与付款记录','第五章 合作策略与切入建议','附录 历史项目复盘'];
+const GOLD_INTRO='一业主一册，全景画像发包偏好、招采规则、合同条款与合作策略。';
+const SILVER_OUTLINE=['第一章 企业概况与股权结构','第二章 海外业务布局与营收结构','第三章 核心竞争优势与短板','第四章 在该国别的项目履历','第五章 竞标策略与报价水平','第六章 合作与分包机会评估'];
+const SILVER_INTRO='一企一册，拆解承包商竞争力、在该国项目履历与竞标策略。';
+function bookRow(name,key){
+  const outline=key==='gold'?GOLD_OUTLINE:key==='silver'?SILVER_OUTLINE:BOOK_OUTLINE[key];
+  const intro=key==='gold'?GOLD_INTRO:key==='silver'?SILVER_INTRO:BOOK_INTRO[key];
+  const pages=100+gfH(name)%80;
+  return `<div class="book">
+    <div class="bh"><b>${name}</b>
+      <div class="bd">
+        <a href="javascript:showListModal('${name} · 大纲',['${outline.join("','")}'])">大纲预览</a>
+        <button class="vip" onclick="download('${name}')">会员查看 / 下载</button>
+      </div>
+    </div>
+    <p>${intro}</p>
+    <div style="font-size:12px;color:#8A939E">版本：2025版 · 页数：${pages}页</div>
+    <div class="chapters">${outline.slice(0,3).join(' ｜ ')} …</div>
+  </div>`;
+}
+function bookSec(title,en,inner){
+  return `<div style="margin-bottom:20px">
+    <div style="display:flex;align-items:baseline;gap:8px;margin:4px 0 10px"><b style="font-size:14.5px;color:#123f86">${title}</b><span style="font-size:10.5px;color:#8A939E;letter-spacing:1px">${en}</span></div>
+    ${inner}
+  </div>`;
+}
+function blueCard(ind){
+  const nm=`《${c.zh}${ind}行业蓝皮书》`;
+  const outline=BOOK_OUTLINE.blue;
+  const pages=100+gfH(nm)%80;
+  return `<div style="border:1px solid var(--line);border-left:3px solid #2F5876;border-radius:8px;padding:10px 12px;background:#fff;display:flex;flex-direction:column;gap:5px">
+    <b style="font-size:12.5px;color:#123f86;line-height:1.5">${nm}</b>
+    <span style="font-size:11px;color:#8A939E">2025版 · ${pages}页</span>
+    <div style="display:flex;gap:12px;font-size:12px;margin-top:auto;align-items:center">
+      <a href="javascript:showListModal('${nm} · 大纲',['${outline.join("','")}'])" style="color:#16324F">大纲预览</a>
+      <button class="vip" onclick="download('${nm}')" style="font-size:11px;padding:1px 8px">会员下载</button>
+    </div>
+  </div>`;
+}
+(function(){
+  const BLUE_ROWS=[['光伏','输变电','道桥','轨道交通','住宅'],['水务','公共建筑','商业建筑','风电','水电'],['核电','港口航道','油气','矿产','冶金'],['化工','生态环保','通讯','电力设计','水泥建材']];
+  const goldOwners=OWNERS.filter(o=>o.country===c.zh);
+  const silvCons=[...new Set(projs.map(p=>p.contractor))].map(contractorByName).filter(Boolean);
+  const blueRow=r=>`<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:10px">${r.map(blueCard).join('')}</div>`;
+  const emptyNote=t=>`<div style="padding:12px 14px;color:#8A939E;font-size:12.5px;border:1px dashed var(--line);border-radius:8px">${t}</div>`;
+  let html='';
+  html+=bookSec('白皮书 · 国别工程全景','WHITE PAPER',bookRow(`《${c.zh}国别工程全景白皮书》`,'white'));
+  html+=bookSec('绿皮书 · 国别准入与经营指南','GREEN PAPER',bookRow(`《${c.zh}国别准入与经营指南绿皮书》`,'green'));
+  html+=bookSec('红皮书 · 国别风险防控','RED PAPER',bookRow(`《${c.zh}国别风险防控红皮书》`,'red'));
+  html+=bookSec('蓝皮书 · 细分行业研究（20 个行业）','BLUE PAPER',
+    blueRow(BLUE_ROWS[0])+blueRow(BLUE_ROWS[1])+
+    `<div id="blueMore" style="display:none">${blueRow(BLUE_ROWS[2])+blueRow(BLUE_ROWS[3])}</div>
+    <div style="text-align:center;margin-top:2px"><button class="chip" id="blueMoreBtn" style="padding:4px 22px;font-size:12px">查看更多行业报告 ▾</button></div>`);
+  html+=bookSec('金皮书 · 业主画像','GOLD PAPER',goldOwners.length?goldOwners.map(o=>bookRow(`《${o.name}·业主画像金皮书》`,'gold')).join(''):emptyNote('该国别暂无收录重点业主，业主金皮书暂未出版。'));
+  html+=bookSec('银皮书 · 该国活跃承包商','SILVER PAPER',silvCons.length?silvCons.map(x=>bookRow(`《${x.name}·承包商竞争力银皮书》`,'silver')).join(''):emptyNote('该国别暂无收录活跃承包商，承包商银皮书暂未出版。'));
+  document.getElementById('bookList').innerHTML=html;
+  let bm=false;
+  document.getElementById('blueMoreBtn').onclick=()=>{
+    bm=!bm;
+    document.getElementById('blueMore').style.display=bm?'':'none';
+    document.getElementById('blueMoreBtn').textContent=bm?'收起 ▴':'查看更多行业报告 ▾';
+  };
+})();
+
+/* ---- 国别六维评分（细分维度点击「展开」按钮才显示） ---- */
+const C_SUBS={'市场容量':['基建投资规模','规划项目储备','需求增速'],
+'进入难度':['资质准入门槛','签证与劳工配额','本地成分要求'],
+'竞争程度':['中资同业密度','外资对手强度','低价竞争烈度'],
+'营商环境':['政务审批效率','法治与合同执行','清关物流便利'],
+'盈利概率':['价格水平','业主付款保障','成本可控性'],
+'属地化要求':['本地用工比例','本地采购要求','属地注册要求']};
+document.getElementById('dimBtns').innerHTML=C_DIMS.map((d,i)=>{
+  const ss=subScores(c.id,d,C_SUBS[d]);
+  return `<div style="border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff">
+    <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="showModal('${d} · 指标解释','${C_EXPLAIN[d]}')">
+      <span style="font-size:13px;font-weight:600">${d}</span><b style="color:var(--blue);font-size:15px">${c.scores[i]}</b>
+    </div>
+    <div class="dim-sub" style="display:none;margin-top:8px;border-top:1px dashed #e5ecf5;padding-top:8px">
+      ${C_SUBS[d].map((t,j)=>`<div style="display:flex;justify-content:space-between;font-size:12px;color:#46505C;padding:2px 0"><span>${t}</span><b style="color:#5a7184">${ss[j]}</b></div>`).join('')}
+    </div>
+  </div>`;
+}).join('');
+(function(){
+  let dimOpen=false;
+  document.getElementById('dimToggle').onclick=()=>{
+    dimOpen=!dimOpen;
+    document.querySelectorAll('#dimBtns .dim-sub').forEach(x=>x.style.display=dimOpen?'':'none');
+    document.getElementById('dimToggle').textContent=dimOpen?'收起细分维度 ▴':'展开细分维度 ▾';
+  };
+})();
+
+/* ---- 右侧栏：国别风险 ---- */
+const risks=countryRisks(c);
+document.getElementById('riskList').innerHTML=C_RISKS.map((r,i)=>`
+  <div class="risk-row"><span>${r}</span><span class="rl risk-lv-${risks[i]}">${risks[i]}</span></div>`).join('');
+
+
+/* ---- 国别对比评价（雷达：左 同区域两国 / 右 同类型两国） ---- */
+let cmpOff=0,cmpOff2=0;
+function renderCmp(){
+  const same=COUNTRIES.filter(x=>x.region===c.region&&x.id!==c.id);
+  const pair=[];for(let i=0;i<Math.min(2,same.length);i++)pair.push(same[(cmpOff+i)%same.length]);
+  document.getElementById('cmpTitle').textContent=`${c.region} · 同区域国别对比`;
+  radarSVG(document.getElementById('cmpRadar'),C_DIMS,[
+    {name:c.zh,values:c.scores},
+    ...pair.map(x=>({name:x.zh,values:x.scores}))
+  ]);
+}
+function renderCmp2(){
+  const same=COUNTRIES.filter(x=>x.type===c.type&&x.id!==c.id);
+  const pair=[];for(let i=0;i<Math.min(2,same.length);i++)pair.push(same[(cmpOff2+i)%same.length]);
+  document.getElementById('cmpTitle2').textContent=`${c.type} · 同类型国别对比`;
+  radarSVG(document.getElementById('cmpRadar2'),C_DIMS,[
+    {name:c.zh,values:c.scores},
+    ...pair.map(x=>({name:x.zh,values:x.scores}))
+  ]);
+}
+document.getElementById('cmpRefresh').onclick=()=>{cmpOff+=1;renderCmp()};
+document.getElementById('cmpRefresh2').onclick=()=>{cmpOff2+=1;renderCmp2()};
+renderCmp();renderCmp2();
+
+/* ---- 右侧栏：主要参与者 ---- */
+const kOwners=OWNERS.filter(o=>o.country===c.zh).slice(0,6);
+document.getElementById('keyOwners').innerHTML=(kOwners.length?kOwners:OWNERS.filter((_,i)=>gfH(c.id+'ko'+i)%13<2).slice(0,4)).map(o=>`<a class="chip" href="owner.html?id=${o.id}">${o.name}</a>`).join('')||'<span style="font-size:12px;color:#8A939E">—</span>';
+document.getElementById('keyCons').innerHTML=CONTRACTORS.filter((_,i)=>gfH(c.id+'kc'+i)%17<2).slice(0,5).map(x=>`<a class="chip" href="contractor.html?id=${x.id}">${x.name}</a>`).join('');
+document.getElementById('keySubs').innerHTML=CONTRACTORS.filter((_,i)=>gfH(c.id+'ks'+i)%19<2).slice(0,5).map(x=>`<a class="chip" href="contractor.html?id=${x.id}">${x.name}</a>`).join('');
+</script>
+
+
+</body></html>

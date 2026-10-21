@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>关于国复数据 · 国复数据</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="pagehead"><div class="wrap">
+  <div>
+    <div class="en">ABOUT GOALFORE DATA</div>
+    <h1>关于国复数据</h1>
+    <div class="sub">国复咨询旗下 · 出海专业数据平台</div>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <!-- 第一部分：文字介绍 -->
+  <div class="card" style="padding:30px 34px;margin:26px 0 8px">
+    <div class="sec-h"><div><div class="tag-en">WHO WE ARE</div><h2>平台介绍</h2></div></div>
+    <p style="font-size:15.5px;line-height:2.1;color:var(--ink-2);max-width:960px">国复数据是国复咨询的出海专业数据平台，包含业主数据、承包商数据、国别数据、7大类30小类，5000余份出海必备的报告。</p>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:22px" id="kpiRow"></div>
+  </div>
+
+  <!-- 第二部分：覆盖可视化 -->
+  <div class="sec-h" style="margin-top:30px"><div><div class="tag-en">DATA COVERAGE</div><h2>数据覆盖可视化</h2></div></div>
+  <div class="duo" style="margin-bottom:16px">
+    <div class="card" style="padding:18px 20px">
+      <b style="font-size:15px">覆盖国别 · 按区域分布</b>
+      <div id="chartRegion" style="margin-top:10px"></div>
+    </div>
+    <div class="card" style="padding:18px 20px">
+      <b style="font-size:15px">跟踪项目 · 按行业分布</b>
+      <div id="chartIndustry" style="margin-top:10px"></div>
+    </div>
+    <div class="card" style="padding:18px 20px">
+      <b style="font-size:15px">业主数据 · 按资信类型构成</b>
+      <div id="chartOwner" style="margin-top:14px"></div>
+    </div>
+    <div class="card" style="padding:18px 20px">
+      <b style="font-size:15px">承包商数据 · 按大类构成</b>
+      <div id="chartCon" style="margin-top:14px"></div>
+    </div>
+  </div>
+
+  <!-- 第三部分：付费方案 -->
+  <div class="sec-h" style="margin-top:30px"><div><div class="tag-en">PRICING</div><h2>付费方案</h2></div></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px" id="priceRow"></div>
+
+  <!-- 第四部分：客户评价 -->
+  <div class="sec-h" style="margin-top:30px"><div><div class="tag-en">TESTIMONIALS</div><h2>客户评价</h2></div></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:30px" id="testiRow"></div>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('about');renderFooter();
+
+/* 第一部分：关键数字 */
+const kpis=[
+  ['5000+','出海必备报告'],['64','覆盖国别'],['54','承包商档案'],['39','业主档案'],['120','跟踪项目']
+];
+document.getElementById('kpiRow').innerHTML=kpis.map(k=>`
+  <div style="background:var(--blue-l);border-radius:10px;padding:16px 18px;text-align:center">
+    <div style="font-size:26px;font-weight:800;color:var(--blue)">${k[0]}</div>
+    <div style="font-size:12.5px;color:var(--ink-3);margin-top:4px">${k[1]}</div>
+  </div>`).join('');
+
+/* 第二部分：可视化 */
+document.getElementById('chartRegion').innerHTML=barChartSVG(REGIONS,REGIONS.map(r=>COUNTRIES.filter(c=>c.region===r).length),'#16324F');
+const inds=['电力','交通','房建','能矿','其他'];
+document.getElementById('chartIndustry').innerHTML=barChartSVG(inds,inds.map(d=>PROJECT_POOL.filter(p=>p.industry===d).length),'#2F5876');
+document.getElementById('chartOwner').innerHTML=pieChartHTML(O_TYPES,O_TYPES.map(t=>OWNERS.filter(o=>o.type===t).length),['#A8894F','#16324F','#2F5876','#4A5A6E','#8A939E']);
+document.getElementById('chartCon').innerHTML=pieChartHTML(K_TYPES,K_TYPES.map(t=>CONTRACTORS.filter(c=>c.type===t).length),['#3C6E5B','#2F5876','#8C6F3C','#4A5A6E','#16324F']);
+
+/* 第三部分：付费方案 */
+const plans=[
+ {name:'体验版',price:'¥0',unit:'',feats:['每日快讯与热点榜单','部分国别 / 业主 / 承包商档案浏览','报告大纲预览'],hot:false},
+ {name:'专业版',price:'¥4,800',unit:'/年',feats:['全部档案与六维评分','彩虹报告全库下载（金/银/蓝/白/绿/红）','我的关注动态与7×24快讯','出海知识库全文阅读'],hot:true},
+ {name:'旗舰版',price:'¥19,800',unit:'/年',feats:['专业版全部功能','定制国别 / 业主 / 承包商专题报告','专属客户经理与数据接口','多人子账号与团队协作'],hot:false}
+];
+document.getElementById('priceRow').innerHTML=plans.map(p=>`
+  <div class="card" style="padding:24px 22px;${p.hot?'border:2px solid var(--yellow);position:relative':''}">
+    ${p.hot?'<span style="position:absolute;top:-12px;right:16px;background:var(--yellow);color:#4a3800;font-size:11px;font-weight:800;border-radius:10px;padding:2px 10px">最受欢迎</span>':''}
+    <b style="font-size:16px">${p.name}</b>
+    <div style="margin:8px 0 14px"><span style="font-size:30px;font-weight:800;color:var(--blue)">${p.price}</span><span style="font-size:12.5px;color:var(--ink-3)">${p.unit}</span></div>
+    <ul style="list-style:none;font-size:13px;color:var(--ink-2);line-height:2.1">${p.feats.map(f=>`<li>✓ ${f}</li>`).join('')}</ul>
+    <button class="btn ${p.hot?'btn-y':''}" style="width:100%;margin-top:14px" onclick="showModal('付费方案（演示）','「${p.name}」开通入口为演示功能，请联系客服微信或致电 +86 10-84351696 咨询。')">${p.price==='¥0'?'免费使用':'开通方案'}</button>
+  </div>`).join('');
+
+/* 第四部分：客户评价 */
+const testis=[
+ {q:'国复数据的业主画像报告让我们在沙特市场少走了至少半年弯路，招采偏好和付款记录非常实用。',who:'某央企国际公司 · 市场开发部负责人'},
+ {q:'承包商六维评分模型是我们做竞争对手分析的标准工具，维度拆解清晰，对标一目了然。',who:'某省级建工集团 · 海外事业部'},
+ {q:'7×24快讯和国别风险红皮书结合使用，项目前期的风险筛查效率提升非常明显。',who:'某新能源上市公司 · 国际投资部'}
+];
+document.getElementById('testiRow').innerHTML=testis.map(t=>`
+  <div class="card" style="padding:22px 22px">
+    <div style="font-size:22px;color:var(--yellow);font-weight:800;line-height:1">“</div>
+    <p style="font-size:13.5px;color:var(--ink-2);line-height:2;margin:6px 0 14px">${t.q}</p>
+    <div style="font-size:12px;color:var(--ink-3);border-top:1px dashed var(--line);padding-top:10px">${t.who}</div>
+  </div>`).join('');
+</script>
+
+
+</body></html>

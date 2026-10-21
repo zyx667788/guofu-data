@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>国际承包商库 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="wrap">
+  <!-- 顶部轮播 banner -->
+  <div class="rank-banner bcar bcar-wide" id="conTopBanner">
+    <div class="bcar-track">
+      <div class="bcar-slide">
+        <div class="en">GLOBAL CONTRACTOR INTELLIGENCE</div>
+        <h2>300 家国际承包商分析</h2>
+        <p>竞合策略一站掌握 · 中资与外资国际承包商全覆盖</p>
+        <svg class="bcar-art" viewBox="0 0 260 150" fill="none"><circle cx="182" cy="75" r="56" stroke="rgba(201,174,124,.55)" stroke-width="1.6"></circle><ellipse cx="182" cy="75" rx="56" ry="23" stroke="rgba(201,174,124,.4)" stroke-width="1.2"></ellipse><ellipse cx="182" cy="75" rx="25" ry="56" stroke="rgba(201,174,124,.4)" stroke-width="1.2"></ellipse><circle cx="182" cy="75" r="70" stroke="rgba(255,255,255,.18)" stroke-dasharray="2 6"></circle><circle cx="182" cy="19" r="3.5" fill="#C9AE7C"></circle><circle cx="233" cy="96" r="2.5" fill="#fff" opacity=".85"></circle><circle cx="58" cy="36" r="2.2" fill="rgba(255,255,255,.55)"></circle><circle cx="34" cy="104" r="2.8" fill="rgba(201,174,124,.65)"></circle><circle cx="86" cy="122" r="1.8" fill="rgba(255,255,255,.45)"></circle><circle cx="102" cy="28" r="1.6" fill="rgba(255,255,255,.35)"></circle><path d="M18 92 Q72 58 116 78" stroke="rgba(255,255,255,.35)" stroke-width="1.4" stroke-dasharray="3 5"></path></svg>
+      </div>
+      <div class="bcar-slide">
+        <div class="en">BENCHMARK &amp; WIN</div>
+        <h2>知己知彼 · 对标对表</h2>
+        <p>市场开发、项目管理、投融资、价格优势、关联服务</p>
+        <svg class="bcar-art" viewBox="0 0 260 150" fill="none"><rect x="118" y="86" width="17" height="46" rx="3" fill="rgba(255,255,255,.2)"></rect><rect x="143" y="68" width="17" height="64" rx="3" fill="rgba(255,255,255,.32)"></rect><rect x="168" y="48" width="17" height="84" rx="3" fill="rgba(201,174,124,.55)"></rect><rect x="193" y="26" width="17" height="106" rx="3" fill="rgba(201,174,124,.85)"></rect><path d="M114 76 L150 56 L176 36 L206 14" stroke="#C9AE7C" stroke-width="2.2"></path><circle cx="206" cy="14" r="4" fill="#C9AE7C"></circle><line x1="106" y1="132" x2="222" y2="132" stroke="rgba(255,255,255,.35)" stroke-width="1.2"></line><circle cx="52" cy="44" r="2.2" fill="rgba(255,255,255,.5)"></circle><circle cx="30" cy="100" r="2.6" fill="rgba(201,174,124,.6)"></circle><circle cx="82" cy="118" r="1.8" fill="rgba(255,255,255,.4)"></circle></svg>
+      </div>
+    </div>
+    <div class="bcar-dots"></div>
+  </div>
+</div>
+<div class="pagehead"><div class="wrap">
+  <div>
+    <div class="en">CONTRACTOR DATABASE</div>
+    <div style="display:flex;gap:26px;align-items:baseline">
+      <h1 id="tabCN" style="cursor:pointer;border-bottom:3px solid var(--yellow);padding-bottom:6px">中资国际承包商</h1>
+      <h1 id="tabFN" style="cursor:pointer;opacity:.55;font-weight:400;border-bottom:3px solid transparent;padding-bottom:6px">外资国际承包商</h1>
+    </div>
+  </div>
+</div></div>
+
+<div class="wrap" id="cnPanel">
+  <!-- 五大类型卡 -->
+  <div class="tcards" id="typeCards"></div>
+
+  <!-- 完整榜单（左侧：承包商动态滚动栏，上下与榜单齐平） -->
+  <div class="rank-duo">
+    <aside>
+      <div class="side-card own-feed">
+        <div class="sc-head"><b>中资国际承包商动态</b><span class="live-badge">实时滚动</span></div>
+        <div class="flash-scroll"><div class="flash-track" id="conFlash"></div></div>
+      </div>
+    </aside>
+    <div class="sec anchor-fix" id="ranking" style="margin-top:0;margin-bottom:0">
+    <div class="rank-banner" style="margin:0 0 14px;cursor:default">
+      <div class="en">ANNUAL RANKING</div>
+      <h2>中资承包商海外竞争力排名</h2>
+      <p>六维能力评分 · 年度100强榜单 · 支持逐列正序 / 倒序排序</p>
+    </div>
+    <div class="filter-row" id="filterRow">
+      <div class="sbox"><input type="text" id="q" placeholder="承包商名称 / 集团 / 关键词"/></div>
+      <span class="more" id="rankCount" style="margin-left:auto;align-self:center;color:#8A939E;font-size:12.5px"></span>
+    </div>
+    <div class="tbl-wrap card" style="border-radius:0 0 10px 10px;border-top:none">
+      <table class="tbl" id="tbl">
+        <thead><tr id="theadRow"></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="pager" id="pager"></div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 彩虹报告系列广告 banner -->
+  <a class="rep-ad rep-ad2" href="reports.html" style="text-decoration:none;margin-top:26px">
+    <div class="ra-l">
+      <b>彩虹报告系列 · 让海外市场变主场</b>
+      <p>金银红绿黄蓝白，5000+ 报告，180+ 国别，20 个行业，让企业出海决策低成本、高质量、行稳致远！</p>
+    </div>
+    <div class="ra-covers">
+      <span class="ra-cv" style="--bc:#A8894F"><b>金皮书</b><i>业主画像</i></span>
+      <span class="ra-cv ra-white"><b>白皮书</b><i>国别工程全景</i></span>
+      <span class="ra-cv" style="--bc:#3C6E5B"><b>绿皮书</b><i>国别准入与经营</i></span>
+      <span class="ra-cv" style="--bc:#8C4A42"><b>红皮书</b><i>国别风险防控</i></span>
+      <span class="ra-cv" style="--bc:#2F5876"><b>蓝皮书</b><i>行业机会分析</i></span>
+      <span class="ra-cv" style="--bc:#8A939E"><b>银皮书</b><i>承包商竞争力</i></span>
+    </div>
+  </a>
+</div>
+
+<!-- 外资国际承包商面板 -->
+<div class="wrap" id="fnPanel" style="display:none">
+  <div class="rank-duo">
+    <aside>
+      <div class="side-card own-feed">
+        <div class="sc-head"><b>外资承包商动态</b><span class="live-badge">实时滚动</span></div>
+        <div class="flash-scroll"><div class="flash-track" id="fnFlash"></div></div>
+      </div>
+    </aside>
+    <div class="sec" style="margin-top:0;margin-bottom:0">
+      <div class="sec-h">
+        <div><h2 style="font-size:19px">外资国际承包商榜单 · 200家</h2></div>
+        <span class="more" id="fnCount" style="color:#8A939E;font-size:12.5px"></span>
+      </div>
+      <div class="filter-row" id="fnFilterRow" style="flex-direction:column;align-items:stretch;gap:10px">
+        <div class="sbox"><input type="text" id="fnq" placeholder="承包商名称 / 集团 / 关键词"/></div>
+        <div class="chip-wrap" id="fnRegChips"></div>
+        <div class="chip-wrap" id="fnSubChips" style="display:none"></div>
+        <div class="chip-wrap" id="fnCtryChips"></div>
+      </div>
+      <div class="tbl-wrap card" style="border-radius:0 0 10px 10px;border-top:none">
+        <table class="tbl">
+          <thead><tr><th>序号</th><th style="text-align:left;cursor:pointer;user-select:none" id="fnThName">名称 <span class="sort-mk" id="fnMkName">⇅</span></th><th>区域</th><th>国别</th><th style="cursor:pointer;user-select:none" id="fnThScore">综合评分 <span class="sort-mk" id="fnMkScore">⇅</span></th><th>承包商报告</th></tr></thead>
+          <tbody id="fnBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 彩虹报告系列广告 banner（外资榜单下方） -->
+  <a class="rep-ad rep-ad2" href="reports.html" style="text-decoration:none;margin-top:26px">
+    <div class="ra-l">
+      <b>彩虹报告系列 · 让海外市场变主场</b>
+      <p>金银红绿黄蓝白，5000+ 报告，180+ 国别，20 个行业，让企业出海决策低成本、高质量、行稳致远！</p>
+    </div>
+    <div class="ra-covers">
+      <span class="ra-cv" style="--bc:#A8894F"><b>金皮书</b><i>业主画像</i></span>
+      <span class="ra-cv ra-white"><b>白皮书</b><i>国别工程全景</i></span>
+      <span class="ra-cv" style="--bc:#3C6E5B"><b>绿皮书</b><i>国别准入与经营</i></span>
+      <span class="ra-cv" style="--bc:#8C4A42"><b>红皮书</b><i>国别风险防控</i></span>
+      <span class="ra-cv" style="--bc:#2F5876"><b>蓝皮书</b><i>行业机会分析</i></span>
+      <span class="ra-cv" style="--bc:#8A939E"><b>银皮书</b><i>承包商竞争力</i></span>
+    </div>
+  </a>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('contractors');renderFooter();
+bannerCarousel('conTopBanner');
+
+const tpill=t=>`<span class="tpill" style="color:${K_TYPE_COLORS[t]};border-color:${K_TYPE_COLORS[t]}55;background:${K_TYPE_COLORS[t]}0f">${t.replace('承包商','')}</span>`;
+
+/* ---- 五大类型卡 ---- */
+const state={type:'',q:'',page:1,sortKey:'total',sortDir:-1};
+const tc={};CONTRACTORS.filter(c=>c.country==='中国').forEach(c=>tc[c.type]=(tc[c.type]||0)+1);
+function syncTypeUI(){
+  document.querySelectorAll('.tcard').forEach(x=>x.classList.toggle('on',x.dataset.type===state.type));
+  const b=document.getElementById('typeBtn');
+  if(b){b.innerHTML=`类型：<b>${state.type||'显示全部'}</b> ▾`;b.classList.toggle('active',!!state.type)}
+}
+document.getElementById('typeCards').innerHTML=K_TYPES.map(t=>`
+  <button class="tcard" style="--tc:${K_TYPE_COLORS[t]}" data-type="${t}">
+    <b>${t}<i class="tc-info" title="类型说明">i</i></b><span class="tip">${K_TYPE_TIPS[t]}</span><span class="n">${tc[t]||0}</span>
+  </button>`).join('');
+document.querySelectorAll('.tcard').forEach(b=>b.onclick=e=>{
+  const t=b.dataset.type;
+  if(e.target.classList.contains('tc-info')){
+    showModal(`${t} · 类型说明`,`${K_TYPE_TIPS[t]}。${K_TYPE_DESC[t]}（详细分类排名与竞争力分析请见下方完整榜单，当前收录 ${tc[t]||0} 家中资承包商）`);
+    return;
+  }
+  state.type=state.type===t?'':t;state.page=1;
+  syncTypeUI();renderTable();
+});
+
+/* ---- 承包商动态（自下而上滚动） ---- */
+(function(){
+  const cnNames=CONTRACTORS.filter(x=>x.country==='中国').map(x=>x.name);
+  const cnNews=NEWS.filter(n=>{
+    const k=n.contractor&&contractorById(n.contractor);
+    return (k&&k.country==='中国')||cnNames.some(nm=>n.title.includes(nm)||(n.sum||'').includes(nm));
+  });
+  const items=cnNews.map(n=>{
+    const k=n.contractor&&contractorById(n.contractor);
+    return `<a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${k?k.name+' · ':''}${n.date}</span></a>`;
+  }).join('');
+  document.getElementById('conFlash').innerHTML=items?(items+items):'<div style="padding:16px;color:#8A939E;font-size:13px">近期暂无中资承包商动态</div>';
+})();
+
+/* ---- 完整榜单 ---- */
+const fr=document.getElementById('filterRow');
+(function(){
+  const g=document.createElement('div');g.className='fgroup';
+  const btn=document.createElement('button');btn.id='typeBtn';btn.innerHTML='类型：<b>显示全部</b> ▾';
+  const drop=document.createElement('div');drop.className='fdrop';
+  const render=()=>{
+    drop.innerHTML='';
+    ['显示全部',...K_TYPES].forEach(op=>{
+      const c=document.createElement('button');c.className='chip'+(op===(state.type||'显示全部')?' on':'');
+      c.textContent=op;
+      c.onclick=e=>{e.stopPropagation();
+        state.type=op==='显示全部'?'':op;state.page=1;
+        g.classList.remove('open');syncTypeUI();renderTable();};
+      drop.appendChild(c);
+    });
+  };
+  render();
+  btn.onclick=e=>{e.stopPropagation();render();document.querySelectorAll('.fgroup.open').forEach(x=>{if(x!==g)x.classList.remove('open')});g.classList.toggle('open')};
+  g.appendChild(btn);g.appendChild(drop);
+  document.addEventListener('click',()=>g.classList.remove('open'));
+  fr.appendChild(g);
+})();
+document.getElementById('q').oninput=e=>{state.q=e.target.value.trim();state.page=1;renderTable()};
+
+const HEADS=[['rank','序号',0],['name','简称',0],['type','类型',0],['group','所属集团',0],
+ ...K_DIMS.map(d=>[d,d,1]),['total','综合评分',0],['dl','承包商报告',0]];
+document.getElementById('theadRow').innerHTML=HEADS.map(h=>`<th data-k="${h[0]}">${h[1]}${h[2]?infoIcon(h[1],K_EXPLAIN):''}<span class="sort-mk">⇅</span></th>`).join('');
+document.querySelectorAll('#theadRow th').forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k;if(k==='dl')return;
+  if(state.sortKey===k)state.sortDir*=-1;else{state.sortKey=k;state.sortDir=-1}
+  state.page=1;renderTable();
+});
+function filtered(){
+  return CONTRACTORS.filter(c=>
+    c.country==='中国'&&  /* 榜单仅中资承包商 */
+    (!state.type||c.type===state.type)&&
+    (!state.q||c.name.toLowerCase().includes(state.q.toLowerCase())||c.group.toLowerCase().includes(state.q.toLowerCase()))
+  ).sort((a,b)=>{
+    const k=state.sortKey;let va,vb;
+    if(k==='rank'||k==='total'){va=a.total;vb=b.total}
+    else if(K_DIMS.includes(k)){va=a.scores[K_DIMS.indexOf(k)];vb=b.scores[K_DIMS.indexOf(k)]}
+    else{va=String(a[k]||'');vb=String(b[k]||'');return state.sortDir*va.localeCompare(vb,'zh')}
+    return state.sortDir*(va-vb);
+  });
+}
+const PAGE=20;
+function renderTable(){
+  const list=filtered();
+  document.getElementById('rankCount').textContent=`共 ${list.length} 家中资承包商 · 点击承包商名称看详情 · 点击表头排序`;
+  const pages=Math.max(1,Math.ceil(list.length/PAGE));
+  if(state.page>pages)state.page=pages;
+  const rows=list.slice((state.page-1)*PAGE,state.page*PAGE);
+  document.getElementById('tbody').innerHTML=rows.map((c,i)=>`
+    <tr>
+      <td>${(state.page-1)*PAGE+i+1}</td>
+      <td class="name"><a href="contractor.html?id=${c.id}" style="color:var(--blue)">${c.name}</a></td>
+      <td>${tpill(c.type)}</td>
+      <td>${c.group}</td>
+      ${c.scores.map(s=>`<td>${s}</td>`).join('')}
+      <td class="score-total" style="color:${K_TYPE_COLORS[c.type]}">${c.total}</td>
+      <td><button class="dl-btn" onclick="download('${c.name}·竞争力分析报告')">下载 ↓</button></td>
+    </tr>`).join('');
+  renderPager(document.getElementById('pager'),list.length,state.page,PAGE,p=>{state.page=p;renderTable()});
+}
+renderTable();
+
+/* ---- 中资 / 外资 tab 切换 ---- */
+const tabCN=document.getElementById('tabCN'),tabFN=document.getElementById('tabFN');
+function switchConTab(k){
+  const cn=k==='cn';
+  document.getElementById('cnPanel').style.display=cn?'':'none';
+  document.getElementById('fnPanel').style.display=cn?'none':'';
+  tabCN.style.opacity=cn?'1':'.55';tabCN.style.fontWeight=cn?'800':'400';
+  tabCN.style.borderBottom=cn?'3px solid var(--yellow)':'3px solid transparent';
+  tabFN.style.opacity=cn?'.55':'1';tabFN.style.fontWeight=cn?'400':'800';
+  tabFN.style.borderBottom=cn?'3px solid transparent':'3px solid var(--yellow)';
+}
+tabCN.onclick=()=>switchConTab('cn');
+tabFN.onclick=()=>switchConTab('fn');
+
+/* ---- 外资承包商：区域标签（非洲/欧洲含次级标签）→ 国别标签 → 列表 ---- */
+const FN_CONS=CONTRACTORS.filter(x=>x.country!=='中国');
+const FN_REGIONS=['东南亚','中东','中亚','拉美','非洲','南亚','欧洲','大洋洲','其他'];
+const FN_SUBS={'非洲':['全部','北非','东非','中西非','南部非洲'],'欧洲':['全部','中东欧','西欧','南欧']};
+const fnState={region:'',sub:'',country:'',q:'',sortK:'',sortDir:1};
+const fnPool=()=>FN_CONS.filter(x=>
+  (!fnState.region||conRegion(x.country)===fnState.region)&&
+  (!fnState.sub||(CON_CTRY_SUB[x.country]||'')===fnState.sub)
+);
+function renderFnChips(){
+  document.getElementById('fnRegChips').innerHTML=`<span style="font-size:12px;color:#8A939E">区域：</span>`+
+    ['全部',...FN_REGIONS].map(r=>`<button class="chip ${(r==='全部'&&!fnState.region)||r===fnState.region?'on':''}" data-v="${r==='全部'?'':r}">${r}</button>`).join('');
+  document.querySelectorAll('#fnRegChips .chip').forEach(b=>b.onclick=()=>{
+    fnState.region=b.dataset.v;fnState.sub='';fnState.country='';renderFnChips();renderFnList();
+  });
+  const subRow=document.getElementById('fnSubChips');
+  if(fnState.region&&FN_SUBS[fnState.region]){
+    subRow.style.display='';
+    subRow.innerHTML=`<span style="font-size:12px;color:#8A939E">次区域：</span>`+
+      FN_SUBS[fnState.region].map(r=>`<button class="chip ${(r==='全部'&&!fnState.sub)||r===fnState.sub?'on':''}" data-v="${r==='全部'?'':r}">${r}</button>`).join('');
+    subRow.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+      fnState.sub=b.dataset.v;fnState.country='';renderFnChips();renderFnList();
+    });
+  }else subRow.style.display='none';
+  const ctrys=[...new Set(fnPool().map(x=>x.country))];
+  document.getElementById('fnCtryChips').innerHTML=`<span style="font-size:12px;color:#8A939E">国别：</span>`+
+    (ctrys.length?['全部',...ctrys].map(x=>`<button class="chip ${(x==='全部'&&!fnState.country)||x===fnState.country?'on':''}" data-v="${x==='全部'?'':x}">${x}</button>`).join('')
+    :'<span style="font-size:12px;color:#b0bccb">该区域暂无收录的外资承包商</span>');
+  document.querySelectorAll('#fnCtryChips .chip').forEach(b=>b.onclick=()=>{
+    fnState.country=b.dataset.v;renderFnChips();renderFnList();
+  });
+}
+document.getElementById('fnq').oninput=e=>{fnState.q=e.target.value.trim();renderFnList()};
+function renderFnList(){
+  const list=fnPool().filter(x=>
+    (!fnState.country||x.country===fnState.country)&&
+    (!fnState.q||x.name.toLowerCase().includes(fnState.q.toLowerCase())||x.group.toLowerCase().includes(fnState.q.toLowerCase()))
+  );
+  if(fnState.sortK==='name')list.sort((a,b)=>fnState.sortDir*a.name.localeCompare(b.name,'zh'));
+  else if(fnState.sortK==='total')list.sort((a,b)=>fnState.sortDir*(a.total-b.total));
+  document.getElementById('fnCount').textContent=`共 ${list.length} 家外资承包商 · 点击承包商名称看详情`;
+  document.getElementById('fnBody').innerHTML=list.length?list.map((x,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td class="name"><a href="contractor.html?id=${x.id}" style="color:var(--blue)">${x.name}</a></td>
+      <td>${conRegion(x.country)}${CON_CTRY_SUB[x.country]?' · '+CON_CTRY_SUB[x.country]:''}</td>
+      <td>${x.country}</td>
+      <td class="score-total" style="color:${K_TYPE_COLORS[x.type]}">${x.total}</td>
+      <td><button class="dl-btn" onclick="download('${x.name}·承包商海外竞争力分析银皮书')">下载 ↓</button></td>
+    </tr>`).join(''):'<tr><td colspan="6" style="color:#8A939E">该筛选下暂无外资承包商</td></tr>';
+}
+function syncFnSortMk(){
+  document.getElementById('fnMkName').textContent=fnState.sortK==='name'?(fnState.sortDir===1?'↑':'↓'):'⇅';
+  document.getElementById('fnMkScore').textContent=fnState.sortK==='total'?(fnState.sortDir===1?'↑':'↓'):'⇅';
+}
+document.getElementById('fnThName').onclick=()=>{
+  fnState.sortDir=fnState.sortK==='name'?-fnState.sortDir:1;
+  fnState.sortK='name';syncFnSortMk();renderFnList();
+};
+document.getElementById('fnThScore').onclick=()=>{
+  fnState.sortDir=fnState.sortK==='total'?-fnState.sortDir:-1;
+  fnState.sortK='total';syncFnSortMk();renderFnList();
+};
+renderFnChips();
+renderFnList();
+
+/* ---- 外资承包商动态（自下而上滚动） ---- */
+(function(){
+  const fnIds=new Set(FN_CONS.map(x=>x.id));
+  const fnNames=FN_CONS.map(x=>x.name);
+  const primary=NEWS.filter(n=>(n.contractor&&fnIds.has(n.contractor))||fnNames.some(nm=>n.title.includes(nm)||(n.sum||'').includes(nm)));
+  const pad=NEWS.filter(n=>!primary.includes(n));
+  const rows=[...primary,...pad].map(n=>`<a class="nat-flash" href="news-article.html?id=${n.id}"><b>${n.title}</b><span>${n.ch} · ${n.date}</span></a>`).join('');
+  document.getElementById('fnFlash').innerHTML=rows+rows;
+})();
+</script>
+
+
+</body></html>

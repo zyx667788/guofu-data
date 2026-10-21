@@ -1,0 +1,482 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>国复咨询 · 国际工程数据平台</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+
+
+<!-- 全站搜索 + 数据统计 -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-eyebrow">Global Engineering Intelligence</div>
+    <h1>洞察全球市场<br>连接出海机遇</h1>
+    <p class="hero-sub">国别 · 业主 · 承包商 · 项目 · 报告，一站式发现海外工程与投资机会</p>
+    <div class="hero-search">
+      <span class="hs-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5 21 21"></path></svg></span>
+      <input id="heroSearch" type="text" placeholder="搜索国别 / 业主 / 承包商 / 项目 / 报告，如：沙特 NEOM 光伏" onkeydown="if(event.key===&#39;Enter&#39;)location.href=&#39;search.html?q=&#39;+encodeURIComponent(this.value)"/>
+      <button class="hero-btn" onclick="location.href=&#39;search.html?q=&#39;+encodeURIComponent(document.getElementById(&#39;heroSearch&#39;).value)">全站搜索</button>
+    </div>
+    <div class="hero-hot">热门搜索：<a href="search.html?q=沙特">沙特</a><a href="search.html?q=ACWA Power">ACWA Power</a><a href="search.html?q=光伏">光伏</a><a href="search.html?q=沙特业主画像">沙特业主画像</a><a href="search.html?q=东南亚高铁">东南亚高铁</a></div>
+    <div class="hero-rail">
+      <a class="hstat" href="contractors.html"><span class="hstat-n">200+</span><span class="hstat-l">国际承包商</span><span class="hstat-a">查承包商</span></a>
+      <a class="hstat" href="countries.html"><span class="hstat-n">188+</span><span class="hstat-l">国别市场</span><span class="hstat-a">查国别</span></a>
+      <a class="hstat" href="owners.html"><span class="hstat-n">400+</span><span class="hstat-l">海外业主</span><span class="hstat-a">查业主</span></a>
+      <a class="hstat" href="projects.html"><span class="hstat-n">2000+</span><span class="hstat-l">海外项目</span><span class="hstat-a">查项目</span></a>
+      <a class="hstat" href="reports.html"><span class="hstat-n">5000+</span><span class="hstat-l">境外报告</span><span class="hstat-a">查报告</span></a>
+    </div>
+  </div>
+</section>
+<!-- 今日卡片 -->
+<div class="wrap">
+  <div class="today-grid" id="todayGrid"></div>
+</div>
+
+<div class="wrap home-body">
+  <!-- 左侧导航 -->
+  <aside>
+    <div class="side-box">
+      <div class="sb-head" style="display:flex;align-items:center"><div><div class="en">RAINBOW REPORTS</div><b>彩虹报告推荐</b></div><button class="chip" id="sbRefresh" style="margin-left:auto;padding:2px 12px;font-size:11.5px">换一换 ↻</button></div>
+      <div id="sbRecs"></div>
+      <div class="side-stats">国别库 64 国 · 承包商 54 家 · 业主 39 家 · 项目 120 个</div>
+    </div>
+  </aside>
+
+  <!-- 主内容 -->
+  <main>
+    <!-- 热点关注 + 今日学习 -->
+    <div class="hotsec">
+      <div class="hotsec-body">
+        <div class="hotsec-left">
+          <div class="hotsec-head">
+            <span class="ht hot-tab on" id="tabHot" onclick="pickHotTab(&#39;hot&#39;)">热点动态</span>
+            <span class="ht hot-tab" id="tabMine" onclick="pickHotTab(&#39;mine&#39;)">我的关注</span>
+            <a class="lookmore" href="news.html" style="margin-left:auto">看更多 →</a>
+          </div>
+          <div class="hotnews-list"><div class="flash-track" id="hotNewsTrack" style="animation-duration:55s"></div></div>
+        </div>
+        <div class="learn-box">
+          <div class="lb-head">
+            <div><div class="tag-en" style="font-size:10px;letter-spacing:2px;color:#8A939E">TODAY&#39;S LEARNING</div><b style="color:#16324F">今日学习</b></div>
+          </div>
+          <div class="chips" id="learnChips"></div>
+          <div class="learn-scroll" id="learnList"></div>
+          <div style="margin-top:10px"><a href="library.html" style="font-size:12px;color:var(--blue)">进入出海知识库 →</a></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- 热点业主速览 -->
+<div class="wrap">
+  <!-- 区域热点业主 + 行业热点业主（原业主库模块） -->
+  <div class="tool-strip">
+    <div class="sec-h"><div><div class="tag-en">HOT OWNERS</div><h2>热点业主速览</h2></div><a class="more" href="owners.html">查看全部业主 →</a></div>
+    <div class="duo" style="margin-bottom:0">
+      <div class="dbox">
+        <div class="dbox-h"><b>区域热点业主</b><div class="chips-r"><button class="chip" id="oRegSwap" title="换一批">换一换 ↻</button></div></div>
+        <div class="chips-r" id="oRegChips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"></div>
+        <div class="chips-row sub-tabs" id="oSubTabs" style="display:none;padding:0 0 8px"></div>
+        <div class="mini-grid" id="oRegList"></div>
+      </div>
+      <div class="dbox">
+        <div class="dbox-h"><b>行业热点业主</b><div class="chips-r"><button class="chip" id="oIndSwap" title="换一批">换一换 ↻</button></div></div>
+        <div class="chips-r" id="oIndChips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"></div>
+        <div class="chips-row sub-tabs" id="oIndSubTabs" style="display:none;padding:0 0 8px"></div>
+        <div class="mini-grid" id="oIndList"></div>
+      </div>
+    </div>
+    <div class="bookfeed">
+      <div class="bf-head"><b>金皮书 · 业主画像报告</b></div>
+      <div class="bf-grid" id="goldGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 业主新闻滚动条（只显示业主相关新闻） -->
+<div class="wrap">
+  <div class="ticker">
+    <span class="t-label">业主动态</span>
+    <div class="t-track"><div class="t-inner" id="ticker"></div></div>
+  </div>
+</div>
+
+<!-- 热点国别速览 -->
+<div class="wrap">
+  <!-- 热点国别（原国别库模块） -->
+  <div class="tool-strip">
+    <div class="sec-h"><div><div class="tag-en">HOT COUNTRIES</div><h2>热点国别速览</h2></div></div>
+    <div class="dbox">
+      <div class="dbox-h">
+        <b>区域热点国别</b><button class="chip" id="refreshHot" title="换一批" style="margin-left:12px">换一换 ↻</button>
+        <a class="more" href="countries.html" style="margin-left:auto">全部国别 →</a>
+      </div>
+      <div class="chips-row" id="hotRegionChips" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      <div class="chips-row sub-tabs" id="hotSubTabs" style="display:none;margin-top:8px"></div>
+      <div class="hotc-grid" id="hotGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 国别新闻滚动条（只显示国别类新闻） -->
+<div class="wrap">
+  <div class="ticker">
+    <span class="t-label" style="background:#4A5A6E">国别动态</span>
+    <div class="t-track"><div class="t-inner" id="tickerCountry"></div></div>
+  </div>
+</div>
+
+<!-- 热点承包商速览 -->
+<div class="wrap">
+  <!-- 区域热点承包商 + 行业热点承包商（原承包商库模块） -->
+  <div class="tool-strip">
+    <div class="sec-h"><div><div class="tag-en">HOT CONTRACTORS</div><h2>热点承包商速览</h2></div></div>
+    <div class="duo" style="margin-bottom:0">
+      <div class="dbox">
+        <div class="dbox-h"><b>区域热点承包商</b><div class="chips-r"><button class="chip" id="kRegSwap" title="换一批">换一换 ↻</button></div></div>
+        <div class="chips-r" id="kRegChips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"></div>
+        <div class="chips-row sub-tabs" id="kSubTabs" style="display:none;padding:0 0 8px"></div>
+        <div class="mini-grid" id="kRegList"></div>
+      </div>
+      <div class="dbox">
+        <div class="dbox-h"><b>行业热点承包商</b><div class="chips-r"><button class="chip" id="kIndSwap" title="换一批">换一换 ↻</button></div></div>
+        <div class="chips-r" id="kIndChips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"></div>
+        <div class="chips-row sub-tabs" id="kIndSubTabs" style="display:none;padding:0 0 8px"></div>
+        <div class="mini-grid" id="kIndList"></div>
+      </div>
+    </div>
+    <div class="bookfeed">
+      <div class="bf-head"><b>银皮书：热点承包商海外竞争力分析</b></div>
+      <div class="bf-grid" id="silverGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 承包商新闻滚动条（只显示承包商类新闻） -->
+<div class="wrap">
+  <div class="ticker">
+    <span class="t-label" style="background:#3C6E5B">承包商动态</span>
+    <div class="t-track"><div class="t-inner" id="tickerContractor"></div></div>
+  </div>
+</div>
+
+<!-- 底部Banner（与顶部相同，无搜索栏） -->
+<div class="wrap">
+  <div class="hero-band">
+    <div class="hb-hot">热门搜索：<a href="search.html?q=沙特">沙特</a><a href="search.html?q=ACWA Power">ACWA Power</a><a href="search.html?q=光伏">光伏</a><a href="search.html?q=沙特业主画像">沙特业主画像</a><a href="search.html?q=东南亚高铁">东南亚高铁</a></div>
+    <div class="hb-stats">
+      <a class="hbs" href="contractors.html"><div class="hbs-top"><div class="zi" style="background:#3C6E5B">承</div><b>查承包商</b></div><div class="hbs-stat"><b>200+</b> 国际承包商</div></a>
+      <a class="hbs" href="countries.html"><div class="hbs-top"><div class="zi" style="background:#4A5A6E">国</div><b>查国别</b></div><div class="hbs-stat"><b>188+</b> 国别市场</div></a>
+      <a class="hbs" href="owners.html"><div class="hbs-top"><div class="zi" style="background:#16324F">业</div><b>查业主</b></div><div class="hbs-stat"><b>400+</b> 海外业主</div></a>
+      <a class="hbs" href="projects.html"><div class="hbs-top"><div class="zi" style="background:#8C6F3C">项</div><b>查项目</b></div><div class="hbs-stat"><b>2000+</b> 海外项目</div></a>
+      <a class="hbs" href="reports.html"><div class="hbs-top"><div class="zi" style="background:#A8894F">报</div><b>查报告</b></div><div class="hbs-stat"><b>5000+</b> 境外开发履约经营报告</div></a>
+    </div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('home');renderFooter();
+
+/* 滚动新闻：业主栏只显示业主相关新闻 */
+const ownerFlash=FLASH.filter(f=>{const n=newsById(f.news);return n&&n.owner}).slice(0,10);
+document.getElementById('ticker').innerHTML=ownerFlash.map(f=>`<a href="news-article.html?id=${f.news}">${f.title}</a>`).join('')+ownerFlash.map(f=>`<a href="news-article.html?id=${f.news}">${f.title}</a>`).join('');
+/* 国别动态 / 承包商动态 滚动条 */
+const ctryNews=NEWS.filter(n=>n.country).slice(0,10);
+document.getElementById('tickerCountry').innerHTML=ctryNews.map(n=>`<a href="news-article.html?id=${n.id}">${n.title}</a>`).join('')+ctryNews.map(n=>`<a href="news-article.html?id=${n.id}">${n.title}</a>`).join('');
+const ctorNews=NEWS.filter(n=>n.contractor).slice(0,10);
+document.getElementById('tickerContractor').innerHTML=ctorNews.map(n=>`<a href="news-article.html?id=${n.id}">${n.title}</a>`).join('')+ctorNews.map(n=>`<a href="news-article.html?id=${n.id}">${n.title}</a>`).join('');
+
+/* 今日卡片 */
+const today=[
+ {label:'今日承包商',name:'中国路桥',meta:'专业型承包商 · 综合评分 7.8',href:'contractor.html?id=crbc'},
+ {label:'今日业主',name:'EDF',meta:'D级业主 · 资信评分 6.7',href:'owner.html?id=edf'},
+ {label:'今日国别',name:'阿根廷',meta:'机会型国别 · 综合评分 4.3',href:'country.html?id=ar'},
+ {label:'今日项目',name:'马来西亚国际会展中心项目',meta:'马来西亚 · 房建 · 45.4 亿$',href:'project.html?id=gb-my-p2'}
+];
+document.getElementById('todayGrid').innerHTML=today.map(t=>{
+  return `<div class="today-card">
+    <span class="tc-label">${t.label}${t.label==='今日国别'?'<a class="hot-badge" href="library.html" title="进入出海知识库">HOT</a>':''}</span>
+    <a href="${t.href}" class="tc-name" style="color:#fff">${t.name}</a>
+    <span class="tc-meta">${t.meta}</span>
+  </div>`;
+}).join('')+`
+ <div class="yesterday">
+   <div class="y-label">昨日回顾</div>
+   <div class="y-grid">
+     <a href="contractor.html?id=cccc"><span>昨日承包商</span><b>中国交建</b></a>
+     <a href="owner.html?id=worldbank"><span>昨日业主</span><b>世界银行</b></a>
+     <a href="country.html?id=la"><span>昨日国别</span><b>老挝</b></a>
+     <a href="project.html?id=gb-uz-p1"><span>昨日项目</span><b>乌兹别克斯坦炼油化工一体化项目</b></a>
+   </div>
+ </div>`;
+
+/* 热点关注 / 我的动态：公众号模式（右侧图片框），自下而上滚动 */
+function renderHotNews(list){
+  const html=list.map(n=>`
+    <div class="hotnews-item">
+      <div class="hn-txt"><a class="t" href="news-article.html?id=${n.id}">${n.title}</a><div class="m">${n.src} · ${n.date}</div></div>
+      <a class="hn-img" href="news-article.html?id=${n.id}" tabindex="-1"><img src="assets/img/news${gfH(n.id)%6+1}.jpg" alt="" loading="lazy"></a>
+    </div>`).join('');
+  const tr=document.getElementById('hotNewsTrack');
+  tr.style.position='';
+  tr.innerHTML=html+html;
+}
+function hotMsg(html){
+  const tr=document.getElementById('hotNewsTrack');
+  tr.style.position='static';
+  tr.innerHTML=`<div style="padding:70px 20px;text-align:center;color:#8A939E;font-size:14px;line-height:2.2">${html}</div>`;
+}
+function pickHotTab(t){
+  document.getElementById('tabHot').classList.toggle('on',t==='hot');
+  document.getElementById('tabMine').classList.toggle('on',t==='mine');
+  if(t==='hot'){renderHotNews(NEWS);return}
+  let ses=null;try{ses=JSON.parse(localStorage.getItem('gf_session')||'null')}catch(e){}
+  if(!ses||!ses.member){hotMsg('我的关注仅面向登录用户<br><a href="login.html" style="color:#16324F;font-weight:700">请登录后查看 →</a>');return}
+  const f=getFavs();
+  const hasFav=(f.countries&&f.countries.length)||(f.contractors&&f.contractors.length)||(f.owners&&f.owners.length);
+  if(!hasFav){hotMsg('您还没有关注的业主/国别/承包商，请先关注~');return}
+  const list=NEWS.filter(n=>(n.country&&f.countries.includes(n.country))||(n.contractor&&f.contractors.includes(n.contractor))||(n.owner&&f.owners.includes(n.owner)));
+  if(!list.length){hotMsg('您关注的业主/国别/承包商暂无最新动态~');return}
+  renderHotNews(list);
+}
+renderHotNews(NEWS);
+
+/* 今日学习：6 个标签与出海知识库 6 个栏目保持一致，仅显示 10 条 */
+const learnChipNames=LIB_COLS.map(c=>c.name);
+let learnCur=learnChipNames[0];
+function renderLearn(){
+  document.getElementById('learnChips').innerHTML=learnChipNames.map(c=>`<button class="chip ${c===learnCur?'on':''}" onclick="pickLearn('${c}')">${c}</button>`).join('');
+  const colId=LIB_COLS[learnChipNames.indexOf(learnCur)].id;
+  const list=ARTICLES.filter(a=>a.col===colId).slice(0,10);
+  document.getElementById('learnList').innerHTML=list.map((a,i)=>`<div class="learn-item"><span class="no">${String(i+1).padStart(2,'0')}</span><div class="li-txt"><a href="article.html?i=${a.idx}">${a.title}</a><span>${a.colName} · 出海知识库</span></div></div>`).join('');
+}
+function pickLearn(c){learnCur=c;renderLearn()}
+renderLearn();
+
+/* 彩虹报告推荐：每日随机推荐 6 册（白/绿/红/蓝/金/银各一），名称下方一行简介 */
+(function(){
+  const seed0=new Date().toISOString().slice(0,10);
+  let salt=0;
+  function renderRecs(){
+  const seed=salt?seed0+'#'+salt+Math.random():seed0;
+  const n=COUNTRIES.length,i0=gfH(seed+'bw')%n;
+  const cw=[COUNTRIES[i0],COUNTRIES[(i0+17)%n],COUNTRIES[(i0+31)%n],COUNTRIES[(i0+47)%n]];
+  const ob=OWNERS[gfH(seed+'bo')%OWNERS.length];
+  const cb=CONTRACTORS[gfH(seed+'bc')%CONTRACTORS.length];
+  const ind=IND20[gfH(seed+'bi')%IND20.length];
+  const items=[
+    {c:'#16324F',name:`《${cw[0].zh}国别工程全景白皮书》`,d:'全景解析宏观环境与基建市场格局',href:`country.html?id=${cw[0].id}#countryReports`},
+    {c:'#3C6E5B',name:`《${cw[1].zh}国别准入与经营指南绿皮书》`,d:'落地施工、分包合规与履约实务',href:`country.html?id=${cw[1].id}#countryReports`},
+    {c:'#8C4A42',name:`《${cw[2].zh}国别风险防控红皮书》`,d:'六类风险排雷与对冲预案',href:`country.html?id=${cw[2].id}#countryReports`},
+    {c:'#2F5876',name:`《${cw[3].zh}${ind}行业蓝皮书》`,d:'细分行业容量、规则与竞争格局',href:`country.html?id=${cw[3].id}#countryReports`},
+    {c:'#A8894F',name:`《${ob.name}·业主画像金皮书》`,d:'发包偏好、招采规则与合作策略',href:`owner.html?id=${ob.id}`},
+    {c:'#8A939E',name:`《${cb.name}·承包商竞争力银皮书》`,d:'竞争力、项目履历与竞标策略拆解',href:`contractor.html?id=${cb.id}`}
+  ];
+  document.getElementById('sbRecs').innerHTML=items.map(t=>`<a class="sb-item" href="${t.href}"><span class="sb-t"><span class="dot" style="background:${t.c}"></span><b>${t.name}</b></span><span class="sb-d">${t.d}</span></a>`).join('');
+  }
+  document.getElementById('sbRefresh').onclick=()=>{salt++;renderRecs()};
+  renderRecs();
+})();
+
+/* ---- 区域/行业热点业主（原业主库模块：默认不受限制，选择标签后出现二级标签） ---- */
+(function(){
+  const O_PWR_SUBS=['太阳能','风电','输变电','其他'];
+  const pwrSub=o=>O_PWR_SUBS[gfH(o.id+'ps')%4];
+  const isHot=o=>rnd(o.id+'hot')<0.28;
+  const tp=t=>`<span class="tpill" style="color:${O_TYPE_COLORS[t]};border-color:${O_TYPE_COLORS[t]}55;background:${O_TYPE_COLORS[t]}0f">${t}</span>`;
+  const item=(o,i,showScore)=>`<a class="mini-item" href="owner.html?id=${o.id}">
+    <span class="rk ${i<3&&showScore?'top':''}">${i+1}</span>
+    <span class="nm">${o.name}</span>${isHot(o)?'<span class="hot-badge">热</span>':''}
+    <span class="tp">${tp(o.type)}</span>${showScore?`<span class="sc">${o.total}</span>`:''}
+  </a>`;
+  /* 区域卡：默认显示不受地理限制的随机业主（带序号、不打分），换一换换一批；选择区域后显示该区域Top10（打分） */
+  let regionCur='',subCur='',regOff=0;
+  function renderRegionBox(){
+    document.getElementById('oRegChips').innerHTML=REGIONS.map(r=>`<button class="chip ${r===regionCur?'on':''}" data-r="${r}">${r}</button>`).join('');
+    document.querySelectorAll('#oRegChips .chip').forEach(b=>b.onclick=()=>{regionCur=regionCur===b.dataset.r?'':b.dataset.r;subCur='';regOff=0;renderRegionBox()});
+    const st=document.getElementById('oSubTabs');
+    if(SUB_REGIONS[regionCur]){
+      st.style.display='flex';
+      st.innerHTML=`<span style="font-size:12px;color:#8A939E">${regionCur} · 次区域：</span>`+SUB_REGIONS[regionCur].map(s=>`<button class="chip ${s===subCur?'sub-on':''}" data-s="${s}">${s}</button>`).join('');
+      st.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{subCur=subCur===b.dataset.s?'':b.dataset.s;renderRegionBox()});
+    }else st.style.display='none';
+    const picked=!!regionCur;
+    let pool;
+    if(picked){
+      const cs=COUNTRIES.filter(c=>c.region===regionCur&&(!subCur||c.sub===subCur)).map(c=>c.zh);
+      pool=OWNERS.filter(o=>cs.includes(o.country)).sort((a,b)=>b.total-a.total);
+    }else{
+      pool=OWNERS.slice().sort((a,b)=>gfH(a.id+'oRnd')-gfH(b.id+'oRnd'));
+      regOff=regOff%Math.max(1,pool.length);
+      const rot=[];for(let i=0;i<pool.length;i++)rot.push(pool[(regOff+i)%pool.length]);pool=rot;
+    }
+    const list=pool.slice(0,10);
+    document.getElementById('oRegList').innerHTML=list.length?list.map((o,i)=>item(o,i,picked)).join(''):'<div style="padding:18px;color:#8A939E;font-size:13px;grid-column:1/-1">该子区域暂无业主数据</div>';
+    window._oShown=list;if(window._feedsReady)renderGold();
+  }
+  document.getElementById('oRegSwap').onclick=()=>{regOff+=10;renderRegionBox()};
+  renderRegionBox();
+  /* 行业卡：默认不受行业限制，换一换换一批；选择行业后出现二级标签 */
+  let indCur='',indSubCur='',indOff=0;
+  function renderIndBox(){
+    document.getElementById('oIndChips').innerHTML=INDUSTRIES.map(d=>`<button class="chip ${d===indCur?'on':''}">${d}</button>`).join('');
+    document.querySelectorAll('#oIndChips .chip').forEach(b=>b.onclick=()=>{indCur=indCur===b.textContent?'':b.textContent;indSubCur='';indOff=0;renderIndBox()});
+    const st=document.getElementById('oIndSubTabs');
+    if(indCur==='电力'){
+      st.style.display='flex';
+      st.innerHTML=O_PWR_SUBS.map(s=>`<button class="chip ${s===indSubCur?'sub-on':''}" data-s="${s}">${s}</button>`).join('');
+      st.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{indSubCur=indSubCur===b.dataset.s?'':b.dataset.s;indOff=0;renderIndBox()});
+    }else st.style.display='none';
+    const picked=!!indCur;
+    const pool=OWNERS.filter(o=>(!picked||o.industry===indCur)&&(!indSubCur||pwrSub(o)===indSubCur)).sort((a,b)=>b.total-a.total);
+    indOff=picked?0:indOff%Math.max(1,pool.length);
+    const list=[];for(let i=0;i<Math.min(10,pool.length);i++)list.push(pool[(indOff+i)%pool.length]);
+    document.getElementById('oIndList').innerHTML=list.length?list.map((o,i)=>item(o,i,picked)).join(''):'<div style="padding:18px;color:#8A939E;font-size:13px;grid-column:1/-1">该分类暂无业主数据</div>';
+    window._oShown=list;if(window._feedsReady)renderGold();
+  }
+  document.getElementById('oIndSwap').onclick=()=>{indOff+=10;renderIndBox()};
+  renderIndBox();
+})();
+
+/* ---- 区域Top10/行业热点承包商（原承包商库模块：每项带序号+打分） ---- */
+(function(){
+  const IND_MAP={'能源基建':'电力','风电':'电力','输变电':'电力','能源化工工程':'电力','水电施工':'电力','电力施工':'电力',
+  '路桥工程':'交通','铁路施工':'交通','公路施工':'交通','隧道工程':'交通','轨交装备+工程':'交通',
+  '区域房建':'房建','房建施工':'房建','高端建筑':'房建',
+  '水泥工程':'油矿','炼化工程':'油矿','化工工程':'油矿','化工施工':'油矿','冶金施工':'油矿'};
+  const indOf=c=>IND_MAP[c.subtype]||'其他';
+  const K_PWR_SUBS=['太阳能','风电','输变电','其他'];
+  const pwrSub=c=>c.subtype==='风电'?'风电':(c.subtype==='输变电'?'输变电':(rnd(c.id+'ps')<0.3?'太阳能':'其他'));
+  const isHot=c=>rnd(c.id+'hot')<0.3;
+  const cRegion=c=>REGIONS[gfH(c.id+'rg')%REGIONS.length];
+  const tp=t=>`<span class="tpill" style="color:${K_TYPE_COLORS[t]};border-color:${K_TYPE_COLORS[t]}55;background:${K_TYPE_COLORS[t]}0f">${t.replace('承包商','')}</span>`;
+  const item=(c,i)=>`<a class="mini-item" href="contractor.html?id=${c.id}">
+    <span class="rk ${i<3?'top':''}">${i+1}</span>
+    <span class="nm">${c.name}</span>${isHot(c)?'<span class="hot-badge">热</span>':''}
+    <span class="tp">${tp(c.type)}</span><span class="sc">${c.total}</span>
+  </a>`;
+  /* 区域卡：默认不受区域限制，换一换换一批；选择区域/二级区域后展示该区域Top10 */
+  let regionCur='',subCur='',regOff=0;
+  function regionMatch(c){
+    if(!regionCur)return true;
+    if(regionCur==='中国')return c.country==='中国';
+    return cRegion(c)===regionCur;
+  }
+  function renderRegionBox(){
+    document.getElementById('kRegChips').innerHTML=REGIONS.map(r=>`<button class="chip ${r===regionCur?'on':''}" data-r="${r}">${r}</button>`).join('');
+    document.querySelectorAll('#kRegChips .chip').forEach(b=>b.onclick=()=>{regionCur=regionCur===b.dataset.r?'':b.dataset.r;subCur='';regOff=0;renderRegionBox()});
+    const st=document.getElementById('kSubTabs');
+    if(SUB_REGIONS[regionCur]){
+      st.style.display='flex';
+      st.innerHTML=`<span style="font-size:12px;color:#8A939E">${regionCur} · 次区域：</span>`+SUB_REGIONS[regionCur].map(s=>`<button class="chip ${s===subCur?'sub-on':''}" data-s="${s}">${s}</button>`).join('');
+      st.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{subCur=subCur===b.dataset.s?'':b.dataset.s;regOff=0;renderRegionBox()});
+    }else st.style.display='none';
+    const picked=!!regionCur;
+    let pool=CONTRACTORS.filter(regionMatch);
+    if(subCur){const subs=SUB_REGIONS[regionCur];pool=pool.filter(c=>subs[gfH(c.id+'sub'+regionCur)%subs.length]===subCur)}
+    pool=pool.sort((a,b)=>b.total-a.total);
+    regOff=picked?0:regOff%Math.max(1,pool.length);
+    const list=[];for(let i=0;i<Math.min(10,pool.length);i++)list.push(pool[(regOff+i)%pool.length]);
+    document.getElementById('kRegList').innerHTML=list.length?list.map((c,i)=>item(c,i)).join(''):'<div style="padding:18px;color:#8A939E;font-size:13px;grid-column:1/-1">该子区域暂无承包商数据</div>';
+    window._kShown=list;if(window._feedsReady)renderSilver();
+  }
+  document.getElementById('kRegSwap').onclick=()=>{regOff+=10;renderRegionBox()};
+  renderRegionBox();
+  /* 行业卡：默认不受行业限制，换一换换一批；选择行业后出现二级标签 */
+  let indCur='',indSubCur='',indOff=0;
+  function renderIndBox(){
+    document.getElementById('kIndChips').innerHTML=INDUSTRIES.map(d=>`<button class="chip ${d===indCur?'on':''}">${d}</button>`).join('');
+    document.querySelectorAll('#kIndChips .chip').forEach(b=>b.onclick=()=>{indCur=indCur===b.textContent?'':b.textContent;indSubCur='';indOff=0;renderIndBox()});
+    const st=document.getElementById('kIndSubTabs');
+    if(indCur==='电力'){
+      st.style.display='flex';
+      st.innerHTML=K_PWR_SUBS.map(s=>`<button class="chip ${s===indSubCur?'sub-on':''}" data-s="${s}">${s}</button>`).join('');
+      st.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{indSubCur=indSubCur===b.dataset.s?'':b.dataset.s;indOff=0;renderIndBox()});
+    }else st.style.display='none';
+    const pool=CONTRACTORS.filter(c=>(!indCur||indOf(c)===indCur)&&(!indSubCur||pwrSub(c)===indSubCur)).sort((a,b)=>b.total-a.total);
+    indOff=indCur?0:indOff%Math.max(1,pool.length);
+    const list=[];for(let i=0;i<Math.min(10,pool.length);i++)list.push(pool[(indOff+i)%pool.length]);
+    document.getElementById('kIndList').innerHTML=list.length?list.map((c,i)=>item(c,i)).join(''):'<div style="padding:18px;color:#8A939E;font-size:13px;grid-column:1/-1">该分类暂无承包商数据</div>';
+    window._kShown=list;if(window._feedsReady)renderSilver();
+  }
+  document.getElementById('kIndSwap').onclick=()=>{indOff+=10;renderIndBox()};
+  renderIndBox();
+})();
+
+/* 热点国别（与国别库一致：区域标签+换一换） */
+let hotRegion='',hotSub='',hotOffset=0;
+function renderHotC(){
+  document.getElementById('hotRegionChips').innerHTML=['全部',...REGIONS].map(r=>{
+    const v=r==='全部'?'':r;
+    return `<button class="chip ${v===hotRegion?'on':''}" data-r="${v}">${r}</button>`;
+  }).join('');
+  document.querySelectorAll('#hotRegionChips .chip').forEach(b=>b.onclick=()=>{hotRegion=b.dataset.r;hotSub='';hotOffset=0;renderHotC()});
+  const st=document.getElementById('hotSubTabs');
+  if(SUB_REGIONS[hotRegion]){
+    st.style.display='flex';
+    st.innerHTML=`<span style="font-size:12px;color:#8A939E">${hotRegion} · 次区域：</span>`+['全部',...SUB_REGIONS[hotRegion]].map(s=>{
+      const v=s==='全部'?'':s;
+      return `<button class="chip ${v===hotSub?'sub-on':''}" data-s="${v}">${s}</button>`;
+    }).join('');
+    st.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{hotSub=b.dataset.s;hotOffset=0;renderHotC()});
+  }else st.style.display='none';
+  let pool=COUNTRIES.filter(c=>(!hotRegion||c.region===hotRegion)&&(!hotSub||c.sub===hotSub)).sort((a,b)=>b.total-a.total);
+  if(!pool.length){document.getElementById('hotGrid').innerHTML='<div style="padding:18px;color:#8A939E;font-size:13px;grid-column:1/-1">该子区域暂无国别数据</div>';return}
+  hotOffset=hotOffset%pool.length;
+  const show=[];for(let i=0;i<Math.min(6,pool.length);i++)show.push(pool[(hotOffset+i)%pool.length]);
+  document.getElementById('hotGrid').innerHTML=show.map(c=>{
+    const rep=`country.html?id=${c.id}#countryReports`;
+    return `<div class="hotc-card" onclick="location.href='country.html?id=${c.id}'">
+      <div class="tt"><b>${c.zh}</b><span class="tt-pills"><span class="tpill t1">${c.type}</span><span class="tpill">重点业主 ${c.nOwners} 家</span></span><span class="sc">${c.total}</span></div>
+      <div class="meta">${c.en} · ${c.region}${c.sub?' · '+c.sub:''}</div>
+      <div class="pills metrics"><span class="mp"><i>市场容量</i><b>${c.scores[0].toFixed(1)}</b></span><span class="mp"><i>进入难度</i><b>${c.scores[1].toFixed(1)}</b></span><span class="mp"><i>竞争程度</i><b>${c.scores[2].toFixed(1)}</b></span><span class="mp"><i>盈利概率</i><b>${c.scores[4].toFixed(1)}</b></span></div>
+      <div class="pills books"><a class="bp" style="color:#16324F" href="${rep}" onclick="event.stopPropagation()">工程全景白皮书</a><a class="bp" style="color:#2F5876" href="${rep}" onclick="event.stopPropagation()">行业分析蓝皮书</a><a class="bp" style="color:#3C6E5B" href="${rep}" onclick="event.stopPropagation()">准入与经营绿皮书</a><a class="bp" style="color:#8C4A42" href="${rep}" onclick="event.stopPropagation()">风险防控红皮书</a></div>
+    </div>`}).join('');
+}
+document.getElementById('refreshHot').onclick=()=>{hotOffset+=6;renderHotC()};
+renderHotC();
+
+/* 金皮书 / 银皮书：跟随上方"区域热点"榜单变化，每行3张紧凑卡片 */
+const GOLD_OUTLINE=['第一章 业主背景与股权结构','第二章 发包行为与项目管线','第三章 招采规则与评标偏好','第四章 合同条款与付款记录','第五章 合作策略与切入建议','附录 历史项目复盘'];
+const SILVER_OUTLINE=['第一章 企业发展概况','第二章 六维能力评分拆解','第三章 区域与行业布局分析','第四章 同类企业对标','第五章 竞争力提升路径建议'];
+const bfMeta=seed=>({pages:40+gfH(seed+'pg')%81,aud:['市场开发人员','商务与投标团队','企业管理层','风险合规团队','项目执行团队','投资与金融机构'][gfH(seed+'au')%6]});
+function renderGold(){
+  const pool=(window._oShown||OWNERS).slice(0,6);
+  if(!pool.length){document.getElementById('goldGrid').innerHTML='<div style="padding:18px;color:#8A939E;font-size:13px;grid-column:1/-1">该分类暂无业主画像报告</div>';return}
+  document.getElementById('goldGrid').innerHTML=pool.map((o,i)=>{
+    const nm=`《${o.name}·业主画像金皮书》`;const m=bfMeta('g'+o.id);
+    return `<div class="bf-card" style="--bc:#A8894F">
+      <b class="bf-name" title="${o.name}">${o.name}</b>
+      <span class="bf-meta">金皮书 · ${m.pages} 页 · ${o.country}</span>
+      <span class="bf-btns"><button class="bf-read" data-i="${i}">阅读</button><button class="bf-dl" onclick="download('${nm.replace(/'/g,'')}')">下载 ↓</button></span>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('#goldGrid .bf-read').forEach(b=>b.onclick=()=>{const o=pool[+b.dataset.i];showListModal(`《${o.name}·业主画像金皮书》 · 大纲`,GOLD_OUTLINE)});
+}
+function renderSilver(){
+  const pool=(window._kShown||CONTRACTORS).slice(0,6);
+  if(!pool.length){document.getElementById('silverGrid').innerHTML='<div style="padding:18px;color:#8A939E;font-size:13px;grid-column:1/-1">该分类暂无承包商竞争力报告</div>';return}
+  document.getElementById('silverGrid').innerHTML=pool.map((k,i)=>{
+    const nm=`《${k.name}·承包商海外竞争力分析银皮书》`;const m=bfMeta('s'+k.id);
+    return `<div class="bf-card" style="--bc:#8A939E">
+      <b class="bf-name" title="${k.name}">${k.name}</b>
+      <span class="bf-meta">银皮书 · ${m.pages} 页 · ${k.group}</span>
+      <span class="bf-btns"><button class="bf-read" data-i="${i}">阅读</button><button class="bf-dl" onclick="download('${nm.replace(/'/g,'')}')">下载 ↓</button></span>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('#silverGrid .bf-read').forEach(b=>b.onclick=()=>{const k=pool[+b.dataset.i];showListModal(`《${k.name}·承包商海外竞争力分析银皮书》 · 大纲`,SILVER_OUTLINE)});
+}
+window._feedsReady=true;
+renderGold();renderSilver();
+
+</script>
+
+
+</body></html>

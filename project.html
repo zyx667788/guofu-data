@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>项目详情 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="pagehead"><div class="wrap">
+  <div>
+    <div class="crumb" style="margin:0;padding-top:0"><a href="projects.html">项目库</a> / <span id="crumbCountry"></span></div>
+    <h1 style="font-size:22px" id="dName"></h1>
+  </div>
+</div></div>
+
+<div class="wrap pj-grid">
+  <div>
+    <!-- 项目简介 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px">
+      <div class="sec-h"><div><div class="tag-en">OVERVIEW</div><h2 style="font-size:17px">项目简介</h2></div></div>
+      <p style="font-size:13.5px;color:#46505C;line-height:1.9" id="overview"></p>
+      <div class="ckpi-row" id="kpiRow" style="margin-top:16px"></div>
+    </div>
+
+    <!-- 相关项目：左 同国别 / 右 同行业 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 22px">
+        <div>
+          <div style="font-size:15.5px;font-weight:700;color:#123f86;margin-bottom:10px">同国别相关项目</div>
+          <div id="relList"></div>
+          <a class="rel-more" data-for="relList" href="javascript:void(0)" style="display:none;font-size:12.5px;color:var(--blue);padding:8px 0 2px">看更多 ▾</a>
+        </div>
+        <div>
+          <div style="font-size:15.5px;font-weight:700;color:#123f86;margin-bottom:10px">同行业相关项目</div>
+          <div id="relIndList"></div>
+          <a class="rel-more" data-for="relIndList" href="javascript:void(0)" style="display:none;font-size:12.5px;color:var(--blue);padding:8px 0 2px">看更多 ▾</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 相关项目：左 同业主 / 右 同承包商 -->
+    <div class="card" style="padding:20px 24px;margin-bottom:18px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 22px">
+        <div>
+          <div style="font-size:15.5px;font-weight:700;color:#123f86;margin-bottom:10px">同业主相关项目</div>
+          <div id="relOwList"></div>
+          <a class="rel-more" data-for="relOwList" href="javascript:void(0)" style="display:none;font-size:12.5px;color:var(--blue);padding:8px 0 2px">看更多 ▾</a>
+        </div>
+        <div>
+          <div style="font-size:15.5px;font-weight:700;color:#123f86;margin-bottom:10px">同承包商相关项目</div>
+          <div id="relCtList"></div>
+          <a class="rel-more" data-for="relCtList" href="javascript:void(0)" style="display:none;font-size:12.5px;color:var(--blue);padding:8px 0 2px">看更多 ▾</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右侧栏 -->
+  <aside>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">关联方</div>
+      <div id="relParties"></div>
+    </div></div>
+    <div class="side-card"><div class="pad">
+      <div class="sc-t">国别概况速览</div>
+      <p style="font-size:12.5px;color:#46505C;line-height:1.8" id="cSnapshot"></p>
+      <a class="chip on" id="goCountry" style="margin-top:10px;display:inline-block">进入国别详情 →</a>
+    </div></div>
+  </aside>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('projects');renderFooter();
+const id=new URLSearchParams(location.search).get('id');
+const p=poolById(id)||PROJECT_POOL[0];
+document.title=p.name+' · 项目详情 · 国复咨询';
+const ctry=countryById(p.cc);
+const czh=p.czh;
+
+document.getElementById('crumbCountry').innerHTML=ctry?`<a href="country.html?id=${ctry.id}">${czh}</a>`:czh;
+document.getElementById('dName').textContent=p.name;
+
+/* ---- 简介 + KPI ---- */
+document.getElementById('overview').textContent=`${p.name}位于${czh}，是该国${p.industry}领域的重点工程，采用${p.mode}模式实施，合同额${p.value}亿美元，目前状态为${p.status}。项目由${p.owner}担任业主，${p.contractor}承建。`;
+document.getElementById('kpiRow').innerHTML=[['合同金额',p.value+' 亿$'],['承包模式',p.mode],['项目状态',p.status],['所属行业',p.industry],['所在国别',czh],['跟踪年份',p.year]]
+  .map(k=>`<div class="ckpi"><span>${k[0]}</span><b>${k[1]}</b></div>`).join('');
+
+/* ---- 相关项目（每列默认 3 条，看更多展开） ---- */
+const sameC=poolByCountry(czh).filter(x=>x.id!==p.id).sort((a,b)=>b.value-a.value);
+const relRow=(x,badge)=>`
+  <a class="nrow" href="project.html?id=${x.id}">
+    <div class="abbr" style="background:#16324F">${badge}</div>
+    <div style="flex:1"><h4>${x.name}</h4><div class="m">${x.mode} · ${x.value} 亿$ · ${x.year} · ${x.status}</div></div>
+  </a>`;
+const relEmpty=t=>`<div style="padding:14px;color:#8A939E;font-size:13px">${t}</div>`;
+function fillRel(elId,list,badge,empty){
+  const el=document.getElementById(elId);
+  el.innerHTML=list.length?list.map(x=>relRow(x,badge(x))).join(''):relEmpty(empty);
+  el.querySelectorAll('.nrow').forEach((r,i)=>{if(i>=3)r.style.display='none'});
+  const btn=document.querySelector(`.rel-more[data-for="${elId}"]`);
+  if(btn&&list.length>3){
+    btn.style.display='inline-block';
+    btn.onclick=()=>{
+      const open=btn.dataset.open==='1';
+      el.querySelectorAll('.nrow').forEach((r,i)=>{if(i>=3)r.style.display=open?'none':''});
+      btn.dataset.open=open?'0':'1';
+      btn.textContent=open?'看更多 ▾':'收起 ▴';
+    };
+  }
+}
+fillRel('relList',sameC,x=>x.industry.slice(0,2),'同国别无其他跟踪项目');
+fillRel('relIndList',PROJECT_POOL.filter(x=>x.id!==p.id&&x.industry===p.industry).sort((a,b)=>b.value-a.value),x=>x.czh.slice(0,2),'同行业暂无其他跟踪项目');
+fillRel('relOwList',PROJECT_POOL.filter(x=>x.id!==p.id&&x.owner===p.owner).sort((a,b)=>b.value-a.value),x=>x.czh.slice(0,2),'同业主暂无其他跟踪项目');
+fillRel('relCtList',PROJECT_POOL.filter(x=>x.id!==p.id&&x.contractor===p.contractor).sort((a,b)=>b.value-a.value),x=>x.czh.slice(0,2),'同承包商暂无其他跟踪项目');
+
+/* ---- 关联方 ---- */
+const ow=ownerByName(p.owner),ct=contractorByName(p.contractor);
+const party=(lb,name,href)=>`<div style="margin-bottom:12px"><div style="font-size:11.5px;color:#8A939E;margin-bottom:4px">${lb}</div>
+  ${href?`<a class="chip" href="${href}">${name}</a>`:`<span class="chip">${name}</span>`}</div>`;
+document.getElementById('relParties').innerHTML=
+  party('业主',p.owner,ow?'owner.html?id='+ow.id:'')+
+  party('承包商',p.contractor,ct?'contractor.html?id='+ct.id:'');
+
+/* ---- 国别概况速览 ---- */
+if(ctry){
+  const m=countryMacro(ctry);
+  document.getElementById('cSnapshot').textContent=`${czh}为 ${m.diff==='高'?'高难度':m.diff==='中等'?'中难度':'低难度'} ${m.profit==='高'?'高回报':m.profit==='中等'?'中回报':'低回报'} ${ctry.type==='陷阱国别'||ctry.type==='丛林国别'?'高风险':ctry.type==='深耕国别'?'中风险':'低风险'} 的 ${ctry.type}，市场容量评分 ${ctry.scores[0]}，进入难度 ${m.diff}，营商环境 ${m.biz}。`;
+  document.getElementById('goCountry').href='country.html?id='+ctry.id;
+}else{
+  document.getElementById('cSnapshot').textContent=`${czh}暂未收录进国别市场库，相关信息持续跟踪中。`;
+  document.getElementById('goCountry').style.display='none';
+}
+</script>
+
+
+</body></html>

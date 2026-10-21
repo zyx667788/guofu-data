@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>资讯频道 · 国复咨询</title>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="stylesheet" href="assets/theme.css"/></head>
+<body>
+<header id="topnav"></header>
+<div class="pagehead"><div class="wrap">
+  <div>
+    <div class="en">NEWS &amp; UPDATES</div>
+    <h1>资讯频道</h1>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <!-- 三维度筛选：区域（可细分国别）/ 行业（可细分细分行业）/ 类型 -->
+  <div class="nfilter">
+    <div class="nf-row d-region"><span class="nf-label">区域</span><div class="nf-chips" id="nfRegion"></div><button class="nf-reset" onclick="resetNf()">全部重置</button></div>
+    <div class="nf-sub d-region" id="nfSubRegionWrap" style="display:none"><span class="nf-label">次区域</span><div class="nf-chips" id="nfSubRegion"></div></div>
+    <div class="nf-sub d-region" id="nfCountryWrap" style="display:none"><span class="nf-label">国别</span><div class="nf-chips" id="nfCountry"></div></div>
+    <div class="nf-row d-ind"><span class="nf-label">行业</span><div class="nf-chips" id="nfInd"></div></div>
+    <div class="nf-sub d-ind" id="nfSubIndWrap" style="display:none"><span class="nf-label">细分</span><div class="nf-chips" id="nfSubInd"></div></div>
+    <div class="nf-row d-type"><span class="nf-label">类型</span><div class="nf-chips" id="nfType"></div></div>
+  </div>
+
+  <div class="resp-grid" style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start">
+    <!-- 左：筛选结果 / 四大频道 -->
+    <div>
+      <div id="nfResult" style="display:none"></div>
+      <div id="channels"></div>
+    </div>
+
+    <!-- 右：7×24快讯 / 我的关注动态（tab 切换，与左侧频道上下齐平） -->
+    <aside style="display:flex;flex-direction:column">
+      <div class="side-card anchor-fix" id="flash724" style="height:780px;display:flex;flex-direction:column;margin-bottom:0">
+        <div class="sc-head" style="gap:12px">
+          <i style="width:8px;height:8px;border-radius:50%;background:#ff5b5b;animation:blink 1.2s infinite"></i><b class="rail-tab on" id="rtFlash" onclick="pickRailTab(&#39;flash&#39;)">7×24 快讯</b><b class="rail-tab rail-fav" id="rtFav" onclick="pickRailTab(&#39;fav&#39;)">我的关注动态</b><span class="live-badge" id="liveBadge">实时滚动</span>
+        </div>
+        <div class="flash-scroll" id="flashWrap" style="flex:1;height:auto;min-height:0"><div class="flash-track" id="flashTrack"></div></div>
+        <div id="favWrap" style="display:none;flex:1;overflow:auto;padding:12px 16px"><div id="favList"></div></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+renderHeader('news');renderFooter();
+
+const ABR_C=['#8C6F3C','#2F5876','#16324F','#3C6E5B','#4A5A6E'];
+const abbrOf=n=>{
+  if(n.country){const c=countryById(n.country);if(c)return c.zh.slice(0,2)}
+  if(n.contractor){const k=contractorById(n.contractor);if(k)return k.name.slice(0,2)}
+  if(n.owner){const o=ownerById(n.owner);if(o)return o.name.slice(0,2)}
+  return n.ch.slice(0,2);
+};
+const rowHTML=n=>`
+  <a class="nrow" href="news-article.html?id=${n.id}">
+    <div class="abbr" style="background:${ABR_C[gfH(n.id)%5]}">${abbrOf(n)}</div>
+    <div style="flex:1"><h4>${n.title}</h4><p>${n.sum}</p><div class="m">${n.src} · ${n.date}</div></div>
+  </a>`;
+
+const CH_COLORS={'签约中标':'#8C6F3C','国别政策':'#16324F','业主动态':'#2F5876','管理经营':'#3C6E5B'};
+
+/* ---- 四大频道（每行两个栏目） ---- */
+const CH_EN={'签约中标':'DEALS','国别政策':'POLICY','业主动态':'OWNERS','管理经营':'MANAGEMENT'};
+document.getElementById('channels').innerHTML='<div class="nsec-grid">'+NEWS_CHANNELS.map((ch,ci)=>{
+  const items=NEWS.filter(n=>n.ch===ch).slice(0,4);
+  return `<div class="nsec anchor-fix" id="ch-${ci}">
+    <div class="nsec-h"><b>${ch}</b><span class="en2">${CH_EN[ch]}</span><a class="more" href="news.html#ch-${ci}">更多 →</a></div>
+    ${items.length?items.map(rowHTML).join(''):'<div style="padding:16px;color:#8A939E;font-size:13px">该频道暂无资讯</div>'}
+  </div>`;
+}).join('')+'</div>';
+
+/* ---- 三维度筛选：区域（细分到国别）/ 行业（细分到细分行业）/ 类型 ---- */
+const IND_GROUPS={'电力':['光伏','风电','输变电','水电','核电','电力设计'],'交通':['道桥','轨道交通','港口航道'],'房建':['住宅','商业建筑','公共建筑'],'能矿':['油气','矿产','冶金','化工'],'其他':['水务','生态环保','通讯','水泥建材']};
+const IND_KW={'光伏':['光伏','太阳能'],'风电':['风电','风机'],'输变电':['输变电','输电','电网','变电站','调度'],'水电':['水电'],'核电':['核电'],'道桥':['公路','快速路','桥梁','隧道','高速'],'轨道交通':['铁路','地铁','轨交','高铁'],'港口航道':['港口','深水港','航道','码头'],'住宅':['住宅','住房','保障房'],'商业建筑':['商业','酒店','中央商务区'],'公共建筑':['会展中心','机场','医院','学校','体育','新城'],'油气':['油气','气田','油田','LNG','绿氢','FEED'],'矿产':['锂矿','铜矿','矿产','矿山','采矿'],'冶金':['冶金','钢铁'],'化工':['化工','炼化','石化','炼油'],'水务':['水务','供水','污水','海水淡化','灌溉'],'生态环保':['环保','生态','垃圾','固废'],'通讯':['通讯','通信','数据中心','5G'],'电力设计':['电力设计','勘测设计'],'水泥建材':['水泥','建材','混凝土']};
+const newsInd=n=>{
+  const t=n.title+n.sum;
+  for(const d of IND20){if(IND_KW[d]&&IND_KW[d].some(k=>t.includes(k)))return d}
+  return IND20[gfH(n.id+'ind')%IND20.length];
+};
+const indGroupOf=d=>Object.keys(IND_GROUPS).find(g=>IND_GROUPS[g].includes(d));
+/* 有二级维度的区域：非洲 / 欧洲（顺序按标注：全部、北非、东非、中西非、南部非洲；全部、中东欧、西欧、北欧） */
+const NF_SUBREGIONS={'非洲':['北非','东非','中西非','南部非洲'],'欧洲':['中东欧','西欧','北欧']};
+const nf={region:'',subRegion:'',country:'',ind:'',subInd:'',type:''};
+
+const chipRow=(box,names,cur,onPick)=>{
+  document.getElementById(box).innerHTML=names.map(v=>`<button class="chip ${v===cur?'on':''}">${v}</button>`).join('');
+  document.querySelectorAll('#'+box+' .chip').forEach(b=>b.onclick=()=>onPick(b.textContent));
+};
+function renderNf(){
+  chipRow('nfRegion',['全部区域',...REGIONS],nf.region||'全部区域',v=>{
+    nf.region=v==='全部区域'?'':v;nf.subRegion='';nf.country='';renderNf();applyNf();
+  });
+  /* 二级维度（次区域）：非洲/欧洲先选次区域，再选国别 */
+  const srw=document.getElementById('nfSubRegionWrap');
+  if(nf.region&&NF_SUBREGIONS[nf.region]){
+    srw.style.display='';
+    chipRow('nfSubRegion',['全部',...NF_SUBREGIONS[nf.region]],nf.subRegion||'全部',v=>{nf.subRegion=v==='全部'?'':v;nf.country='';renderNf();applyNf()});
+  }else srw.style.display='none';
+  const cw=document.getElementById('nfCountryWrap');
+  if(nf.region){
+    cw.style.display='';
+    const czs=COUNTRIES.filter(c=>c.region===nf.region&&(!nf.subRegion||c.sub===nf.subRegion)).map(c=>c.zh);
+    chipRow('nfCountry',['全部国别',...czs],nf.country||'全部国别',v=>{nf.country=v==='全部国别'?'':v;renderNf();applyNf()});
+  }else cw.style.display='none';
+  chipRow('nfInd',['全部行业',...Object.keys(IND_GROUPS)],nf.ind||'全部行业',v=>{
+    nf.ind=v==='全部行业'?'':v;nf.subInd='';renderNf();applyNf();
+  });
+  const sw=document.getElementById('nfSubIndWrap');
+  if(nf.ind){
+    sw.style.display='';
+    chipRow('nfSubInd',['全部细分',...IND_GROUPS[nf.ind]],nf.subInd||'全部细分',v=>{nf.subInd=v==='全部细分'?'':v;renderNf();applyNf()});
+  }else sw.style.display='none';
+  chipRow('nfType',['全部类型',...NEWS_CHANNELS],nf.type||'全部类型',v=>{nf.type=v==='全部类型'?'':v;renderNf();applyNf()});
+}
+function resetNf(){nf.region=nf.subRegion=nf.country=nf.ind=nf.subInd=nf.type='';renderNf();applyNf()}
+function applyNf(){
+  const active=nf.region||nf.subRegion||nf.country||nf.ind||nf.subInd||nf.type;
+  document.getElementById('channels').style.display=active?'none':'';
+  const box=document.getElementById('nfResult');
+  box.style.display=active?'':'none';
+  if(!active)return;
+  const list=NEWS.filter(n=>{
+    const c=n.country?countryById(n.country):null;
+    if(nf.region&&(!c||c.region!==nf.region))return false;
+    if(nf.subRegion&&(!c||c.sub!==nf.subRegion))return false;
+    if(nf.country&&(!c||c.zh!==nf.country))return false;
+    if(nf.type&&n.ch!==nf.type)return false;
+    if(nf.ind||nf.subInd){
+      const ind=newsInd(n);
+      if(nf.subInd&&ind!==nf.subInd)return false;
+      if(nf.ind&&!nf.subInd&&indGroupOf(ind)!==nf.ind)return false;
+    }
+    return true;
+  });
+  const tags=[nf.region,nf.subRegion,nf.country,nf.ind,nf.subInd,nf.type].filter(Boolean).map(t=>`<span class="chip on" style="cursor:default">${t}</span>`).join(' ');
+  box.innerHTML=`<div class="nsec" style="margin-bottom:0">
+    <div class="nsec-h"><b>筛选结果</b><span class="en2" style="margin-right:8px">FILTERED</span><span style="font-size:12.5px;color:#8A939E;margin-right:10px">共 ${list.length} 条</span>${tags}<a class="more" href="javascript:void(0)" onclick="resetNf()">清除筛选 ×</a></div>
+    ${list.length?list.map(rowHTML).join(''):'<div style="padding:26px 16px;color:#8A939E;font-size:13px;text-align:center">没有符合当前筛选条件的资讯，试试放宽条件</div>'}
+  </div>`;
+}
+renderNf();
+
+/* ---- 7×24 快讯（从下到上持续滚动 · 只显示时间） ---- */
+(function(){
+  const items=FLASH.map(x=>`<a class="nat-flash" href="${x.news?'news-article.html?id='+x.news:'news.html'}"><span style="color:var(--blue);font-weight:700">${x.time}</span><b>${x.title}</b></a>`).join('');
+  document.getElementById('flashTrack').innerHTML=items+items;
+})();
+
+/* ---- 右栏 tab 切换：7×24 快讯 / 我的关注动态 ---- */
+function pickRailTab(t){
+  document.getElementById('rtFlash').classList.toggle('on',t==='flash');
+  document.getElementById('rtFav').classList.toggle('on',t==='fav');
+  document.getElementById('flashWrap').style.display=t==='flash'?'':'none';
+  document.getElementById('favWrap').style.display=t==='fav'?'':'none';
+  document.getElementById('liveBadge').style.display=t==='flash'?'':'none';
+}
+
+/* ---- 我的关注动态（展示已关注国别/承包商/业主的动态；无关注则提示） ---- */
+(function(){
+  const f=getFavs();
+  const list=NEWS.filter(n=>
+    (n.country&&f.countries.includes(n.country))||
+    (n.contractor&&f.contractors.includes(n.contractor))||
+    (n.owner&&f.owners.includes(n.owner))
+  );
+  const el=document.getElementById('favList');
+  if(!list.length){
+    el.innerHTML=`<div style="padding:28px 12px;text-align:center;color:#8A939E;font-size:12.5px;line-height:2">
+      暂无关注动态<br>在国别 / 承包商 / 业主详情页点击「＋ 关注」<br>这里将展示它们的最新动态</div>`;
+    return;
+  }
+  el.innerHTML=list.slice(0,8).map(n=>`
+    <a class="pop-li" href="news-article.html?id=${n.id}" style="border-left:3px solid ${CH_COLORS[n.ch]};padding-left:8px">
+      <div><b>${n.title}</b><span>${n.ch} · ${n.date}</span></div>
+    </a>`).join('');
+})();
+</script>
+
+
+</body></html>
